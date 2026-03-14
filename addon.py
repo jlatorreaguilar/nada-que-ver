@@ -5,8 +5,10 @@
 import sys
 import os
 import json
+import re
+import datetime
 
-from urllib.parse import urlencode, parse_qsl, unquote_plus
+from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
 from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
 
@@ -46,6 +48,12 @@ ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
 ACESTREAM_PATH   = _get_setting('acestream_path', '')   # ruta de instalación en PC (opcional)
 DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/jodeteTebas/data/canales.json'
 DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/jodeteTebas/data/agenda.json'
+
+AGENDA_URLS = [
+    'https://ciriaco.netlify.app/',
+    'https://eventos-eight-dun.vercel.app/',
+    'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
+]
 
 
 # ---------------------------------------------------------------------------
@@ -224,57 +232,210 @@ def show_categoria(cat_nombre):
 
 
 # ---------------------------------------------------------------------------
+# Agenda deportiva — helpers de scraping
+# ---------------------------------------------------------------------------
+
+def _strip_html(raw):
+    """Elimina tags HTML y normaliza espacios."""
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', raw)).strip()
+
+
+def _fetch_agenda_html(url):
+    """
+    Intenta obtener el HTML de url.
+    Prueba en orden: directo → allorigins.win → corsproxy.io
+    Devuelve el HTML como texto o None si todo falla (sin mostrar notificaciones).
+    """
+    ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+
+    # 1 — Directo
+    try:
+        req      = Request(url, headers={'User-Agent': ua})
+        response = urlopen(req, timeout=10)
+        html     = response.read().decode('utf-8', errors='ignore')
+        response.close()
+        if html:
+            return html
+    except Exception:
+        pass
+
+    # 2 — allorigins.win
+    try:
+        proxy_url = 'https://api.allorigins.win/get?url={}'.format(quote(url))
+        req       = Request(proxy_url, headers={'User-Agent': ua})
+        response  = urlopen(req, timeout=10)
+        data      = json.loads(response.read().decode('utf-8', errors='ignore'))
+        response.close()
+        if data.get('contents'):
+            return data['contents']
+    except Exception:
+        pass
+
+    # 3 — corsproxy.io
+    try:
+        proxy_url = 'https://corsproxy.io/?{}'.format(quote(url))
+        req       = Request(proxy_url, headers={'User-Agent': ua})
+        response  = urlopen(req, timeout=10)
+        html      = response.read().decode('utf-8', errors='ignore')
+        response.close()
+        if html:
+            return html
+    except Exception:
+        pass
+
+    return None
+
+
+def _parse_agenda_events(html):
+    """
+    Extrae eventos del HTML del servidor de agenda.
+    - Si hay <h2 class="fecha"> con la fecha de hoy, usa la tabla inmediatamente siguiente.
+    - Si no, usa la primera tabla del documento.
+    Devuelve lista de dicts: {time, sport, competition, event_name, links:[{id, name}]}
+    """
+    today = datetime.datetime.now().strftime('%d/%m/%Y')
+    html  = re.sub(r'\r\n|\r', '\n', html)
+
+    # Tabla de hoy: h2.fecha con fecha actual → siguiente <table>
+    m = re.search(
+        r'<h2[^>]+class=["\']fecha["\'][^>]*>[^<]*{today}[^<]*</h2>[\s\S]*?(<table[\s\S]*?</table>)'.format(
+            today=re.escape(today)
+        ),
+        html, re.IGNORECASE
+    )
+    table_html = m.group(1) if m else None
+
+    # Fallback: primera tabla del documento
+    if not table_html:
+        m = re.search(r'<table[\s\S]*?</table>', html, re.IGNORECASE)
+        table_html = m.group(0) if m else None
+
+    if not table_html:
+        return []
+
+    link_re = re.compile(
+        r'<a[^>]+href=["\']?acestream://([a-f0-9]{40})["\']?[^>]*>([\s\S]*?)</a>',
+        re.IGNORECASE
+    )
+
+    events = []
+    for row_m in re.finditer(r'<tr[^>]*>([\s\S]*?)</tr>', table_html, re.IGNORECASE):
+        cells = re.findall(r'<td[^>]*>([\s\S]*?)</td>', row_m.group(1), re.IGNORECASE)
+        if len(cells) < 5:
+            continue
+
+        if len(cells) == 5:
+            time_val    = _strip_html(cells[0])
+            sport       = _strip_html(cells[1])
+            competition = _strip_html(cells[2])
+            event_name  = _strip_html(cells[3])
+            links_html  = cells[4]
+        else:
+            time_val    = _strip_html(cells[1])
+            sport       = _strip_html(cells[2])
+            competition = _strip_html(cells[3])
+            event_name  = _strip_html(cells[4])
+            links_html  = cells[5]
+
+        links = []
+        for lm in link_re.finditer(links_html):
+            ace_id = lm.group(1)
+            name   = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', lm.group(2))).strip()
+            name   = name.replace('\u25b6', '').strip() or 'Ver'
+            links.append({'id': ace_id, 'name': name})
+
+        if links:
+            events.append({
+                'time'        : time_val,
+                'sport'       : sport,
+                'competition' : competition,
+                'event_name'  : event_name,
+                'links'       : links,
+            })
+
+    return events
+
+
+# ---------------------------------------------------------------------------
 # Sección AGENDA
 # ---------------------------------------------------------------------------
 def show_agenda():
     xbmcplugin.setPluginCategory(HANDLE, 'Agenda')
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    data_text = fetch_url(DATA_URL_AGENDA)
-    if not data_text:
+    events = []
+    for i, url in enumerate(AGENDA_URLS):
+        log('Agenda: probando servidor {} ({})'.format(i + 1, url))
+        html = _fetch_agenda_html(url)
+        if not html:
+            continue
+        events = _parse_agenda_events(html)
+        if events:
+            log('Agenda: {} eventos cargados desde servidor {}'.format(len(events), i + 1))
+            break
+
+    if not events:
+        xbmcgui.Dialog().ok(
+            ADDON_NAME,
+            'No se ha podido cargar la agenda deportiva.\n\nComprueba tu conexión o inténtalo más tarde.'
+        )
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
-    try:
-        data    = json.loads(data_text)
-        eventos = data.get('eventos', [])
+    for ev in events:
+        time_val    = ev['time']
+        sport       = ev['sport']
+        competition = ev['competition']
+        event_name  = ev['event_name']
+        links       = ev['links']
 
-        if not eventos:
-            xbmcgui.Dialog().notification(ADDON_NAME, 'No hay eventos en la agenda', ICON, 4000)
-            xbmcplugin.endOfDirectory(HANDLE)
-            return
+        label = '[COLOR FFFFFF00][{}][/COLOR] [COLOR FF32CD32][{}][/COLOR] {} [I]({})[/I]'.format(
+            time_val, sport, event_name, competition
+        )
 
-        for evento in eventos:
-            titulo       = evento.get('titulo', 'Evento')
-            acestream_id = evento.get('acestream_id', '')
-            fecha        = evento.get('fecha', '')
-            hora         = evento.get('hora', '')
-
-            if not acestream_id:
-                continue
-
-            if hora:
-                label = '[COLOR FFFFFF00]{}[/COLOR]  {}'.format(hora, titulo)
-            elif fecha:
-                label = '[COLOR FFFFFF00]{}[/COLOR]  {}'.format(fecha, titulo)
-            else:
-                label = titulo
-
+        if len(links) == 1:
             li = xbmcgui.ListItem(label)
             li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
-            li.setInfo('video', {
-                'title'    : titulo,
-                'plot'     : '{} {}'.format(fecha, hora).strip(),
-                'mediatype': 'video'
-            })
+            li.setInfo('video', {'title': event_name, 'plot': competition, 'mediatype': 'video'})
             li.setProperty('IsPlayable', 'true')
+            url_item = build_url({'mode': 'play', 'acestream_id': links[0]['id'], 'title': label})
+            xbmcplugin.addDirectoryItem(HANDLE, url_item, li, False)
+        else:
+            label_multi = label + ' [COLOR FFFFFF00]({} canales)[/COLOR]'.format(len(links))
+            li = xbmcgui.ListItem(label_multi)
+            li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+            li.setInfo('video', {'title': event_name, 'plot': competition})
+            url_item = build_url({
+                'mode'  : 'event_links',
+                'links' : json.dumps(links),
+                'title' : event_name,
+            })
+            xbmcplugin.addDirectoryItem(HANDLE, url_item, li, True)
 
-            ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': titulo})
-            xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
+    xbmcplugin.endOfDirectory(HANDLE)
 
-    except (ValueError, KeyError) as e:
-        log('Error parsing agenda.json: {}'.format(str(e)), xbmc.LOGERROR)
-        xbmcgui.Dialog().notification(ADDON_NAME, 'Error al cargar la agenda', ICON, 5000)
+
+def show_event_links(links_json, title):
+    """Muestra los canales disponibles para un evento con múltiples enlaces."""
+    xbmcplugin.setPluginCategory(HANDLE, title)
+    xbmcplugin.setContent(HANDLE, 'videos')
+
+    try:
+        links = json.loads(links_json)
+    except (ValueError, TypeError):
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
+
+    for link in links:
+        name   = link.get('name', 'Ver')
+        ace_id = link.get('id', '')
+        label  = '[COLOR FF00FF00]Ver en:[/COLOR] {}'.format(name)
+        li = xbmcgui.ListItem(label)
+        li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+        li.setInfo('video', {'title': title, 'mediatype': 'video'})
+        li.setProperty('IsPlayable', 'true')
+        url_item = build_url({'mode': 'play', 'acestream_id': ace_id, 'title': title})
+        xbmcplugin.addDirectoryItem(HANDLE, url_item, li, False)
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -301,6 +462,8 @@ def router():
         show_categoria(PARAMS.get('cat', ''))
     elif mode == 'agenda':
         show_agenda()
+    elif mode == 'event_links':
+        show_event_links(PARAMS.get('links', '[]'), PARAMS.get('title', ''))
     elif mode == 'play':
         acestream_id = PARAMS.get('acestream_id', '')
         title        = unquote_plus(PARAMS.get('title', ''))
