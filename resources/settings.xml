@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
   <category label="General">
-    <setting id="source_url"     type="text"  label="URL de la fuente de datos"         default="https://eventos-eight-dun.vercel.app/"/>
-    <setting id="playback_mode" type="enum"  label="Modo de reproducción"               default="0" values="HTTP Engine (PC/Linux)|Horus (Android TV)"/>
-    <setting id="acestream_port" type="text" label="Puerto de Ace Stream Engine (PC)"   default="6878" enable="eq(-1,0)"/>
+    <setting id="source_url"     type="text"  label="URL de la fuente de datos"          default="https://eventos-eight-dun.vercel.app/"/>
+    <setting id="acestream_port" type="text"  label="Puerto de Ace Stream Engine (PC)"   default="6878"  visible="!System.Platform.Android"/>
+    <setting id="acestream_path" type="text"  label="Ruta de instalación de Acestream"   default=""      visible="!System.Platform.Android"
+             help="Opcional: carpeta donde está ace_engine.exe (Windows) o acestream.start (Linux). Si se indica, el motor arrancará automáticamente."/>
   </category>
 </settings>
