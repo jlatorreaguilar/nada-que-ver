@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+
+    <addon id="plugin.video.jodete_tebas" name="[COLOR FF00FF00]Jodete[/COLOR] [COLOR FFFF0000]Tebas[/COLOR]" version="1.0.0" provider-name="Gunter25">
+        <requires>
+            <import addon="xbmc.python" version="2.25.0"/>
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="addon.py">
+            <provides>video</provides>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>Canales y Agenda de fútbol vía Acestream</summary>
+            <description>
+                Reproduce canales Acestream y consulta la agenda de partidos directamente en Kodi.
+                Requiere la instalación de Ace Stream Engine en tu dispositivo.
+                Este addon solo muestra y organiza enlaces disponibles públicamente en internet.
+                No aloja, distribuye ni es responsable del contenido enlazado.
+                El uso del addon es responsabilidad del usuario.
+            </description>
+            <platform>all</platform>
+            <assets>
+                <icon>icon.png</icon>
+            </assets>
+        </extension>
+    </addon>
+
+    <addon id="repository.jodete_tebas" name="[COLOR FF00FF00]Jodete[/COLOR] [COLOR FFFF0000]Tebas[/COLOR] Repo" version="1.0.0" provider-name="Gunter25">
+        <extension point="xbmc.addon.repository" name="Jodete Tebas Repo">
+            <dir>
+                <info compressed="false">https://jlatorreaguilar.github.io/jodeteTebas/addons.xml</info>
+                <checksum>https://jlatorreaguilar.github.io/jodeteTebas/addons.xml.md5</checksum>
+                <datadir zip="true">https://jlatorreaguilar.github.io/jodeteTebas/repo/</datadir>
+            </dir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>Repositorio oficial de Jodete Tebas</summary>
+            <description>
+                Repositorio oficial del addon Jodete Tebas creado y mantenido por Gunter25.
+                Canales y Agenda de fútbol vía Acestream.
+            </description>
+            <platform>all</platform>
+            <assets>
+                <icon>icon.png</icon>
+            </assets>
+        </extension>
+    </addon>
+
+</addons>
