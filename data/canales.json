@@ -1,0 +1,145 @@
+{
+  "canales": [
+    {
+      "nombre": "DAZN 1",
+      "acestream_id": "dddff67edfa7061f643ec5ae0be110169850363d",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN 2",
+      "acestream_id": "13a16a0630ae87bd97d6ba4165963c201c9a2e9c",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN 3",
+      "acestream_id": "908bc5e7ae52afc06e40793b6db749dba11a1780",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN 4",
+      "acestream_id": "d669c6cee7173a1c8994075f7050a6526655b1dc",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN F1",
+      "acestream_id": "895d08633bb22c2573281655cf3ca44de476cc73",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN LaLiga",
+      "acestream_id": "cc108ae39f92c48f6c946763047bd1c9b7b7d889",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "DAZN LaLiga 2",
+      "acestream_id": "b63fcadc2390455d8a328f6c16b8b0a9adec21a3",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "Dazn MotoGP",
+      "acestream_id": "e18b79bce27f6ee8eef9a1fc811bb5f80e4b558c",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "NBA DAZN",
+      "acestream_id": "3bc122425f49648689cb8fd81de33cb19b848d20",
+      "categoria": "DAZN"
+    },
+    {
+      "nombre": "M+ LaLiga",
+      "acestream_id": "0febfb5cac3384f487d55c559bbfc877db2d0357",
+      "categoria": "Movistar"
+    },
+    {
+      "nombre": "M+ LaLiga 2",
+      "acestream_id": "51b363b1c4d42724e05240ad068ad219df8042ec",
+      "categoria": "Movistar"
+    },
+    {
+      "nombre": "M+ LaLiga 4",
+      "acestream_id": "2a6b1fd8a24b23747db1ea534a51457708523602",
+      "categoria": "Movistar"
+    },
+    {
+      "nombre": "LaLiga TV Hypermotion",
+      "acestream_id": "4636ed75106cb00e9c70cc2029edf0a4df7ad73f",
+      "categoria": "LaLiga"
+    },
+    {
+      "nombre": "LaLiga TV Hypermotion 2",
+      "acestream_id": "a5b9d834ad92bfb80fe01bf89cc20bd68be199fb",
+      "categoria": "LaLiga"
+    },
+    {
+      "nombre": "LaLiga TV Hypermotion 3",
+      "acestream_id": "1fdb405a6942da0941266f24cdd1c71b11552f1f",
+      "categoria": "LaLiga"
+    },
+    {
+      "nombre": "M+ Liga de Campeones",
+      "acestream_id": "91b2a1fe85f5bb4a6cf9ef6d01cc65883d986920",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "M+ Liga de Campeones 2",
+      "acestream_id": "bb26037a253866d341778181eff5c8637240d615",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "M+ Liga de Campeones 3",
+      "acestream_id": "320bee0fbdf2a168d47810236985a7c40b4f85c9",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "M+ Liga de Campeones 4",
+      "acestream_id": "91ac4585368992720ec17ffa5b4389368c6dcac1",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "M+ Liga de Campeones 5",
+      "acestream_id": "5620c0ce3dcbf14a6375cb2c2d681207f45eb97d",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "M+ Liga de Campeones 6",
+      "acestream_id": "14bedc2ff054ae16c0fae99cfeb9dcda21ac68a0",
+      "categoria": "Champions"
+    },
+    {
+      "nombre": "Eurosport 1",
+      "acestream_id": "0db68ab752b50e6bb257eef22d102c1d29cd92ea",
+      "categoria": "General"
+    },
+    {
+      "nombre": "Eurosport 2",
+      "acestream_id": "24f940fef7e270b6b3ae5d9dc713a80c8345cfba",
+      "categoria": "General"
+    },
+    {
+      "nombre": "SKY SPORTS MAIN EVENT",
+      "acestream_id": "e4b259b6dedb674283ab124117ce793360d3a1c0",
+      "categoria": "General"
+    },
+    {
+      "nombre": "SKY Sports LaLiga",
+      "acestream_id": "e9975d38aaa4475ac0b1fa0faa541bbadd85a662",
+      "categoria": "General"
+    },
+    {
+      "nombre": "SKY Sports LaLiga SD",
+      "acestream_id": "a9bddffdff085cdc18b34218d5dc1093b88e3c0a",
+      "categoria": "General"
+    },
+    {
+      "nombre": "Telecinco",
+      "acestream_id": "3840043b15fd7ac7846004d151ea7b51800fffc0",
+      "categoria": "General"
+    },
+    {
+      "nombre": "Teledeporte",
+      "acestream_id": "b35b3eb8e22365bf3469efd6d1f3b82618a6e18a",
+      "categoria": "General"
+    }
+  ],
+  "total": 28
+}

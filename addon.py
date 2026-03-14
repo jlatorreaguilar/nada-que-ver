@@ -36,8 +36,9 @@ def _get_setting(key, default=''):
     return val if val else default
 
 
-SOURCE_URL     = _get_setting('source_url', 'https://eventos-eight-dun.vercel.app/')
-ACESTREAM_PORT = _get_setting('acestream_port', '6878')
+ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
+DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/jodeteTebas/data/canales.json'
+DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/jodeteTebas/data/agenda.json'
 
 
 # ---------------------------------------------------------------------------
@@ -159,7 +160,17 @@ def show_canales():
     xbmcplugin.setPluginCategory(HANDLE, 'Canales')
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    for canal in CANALES_HARDCODED:
+    canales = []
+    data_text = fetch_url(DATA_URL_CANALES)
+    if data_text:
+        try:
+            canales = json.loads(data_text).get('canales', [])
+        except (ValueError, KeyError) as e:
+            log('Error parsing canales.json: {}'.format(str(e)), xbmc.LOGERROR)
+    if not canales:
+        canales = CANALES_HARDCODED
+
+    for canal in canales:
         nombre       = canal['nombre']
         acestream_id = canal['acestream_id']
         categoria    = canal.get('categoria', '')
@@ -187,14 +198,14 @@ def show_agenda():
     xbmcplugin.setPluginCategory(HANDLE, 'Agenda')
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    data_text = fetch_url(SOURCE_URL)
+    data_text = fetch_url(DATA_URL_AGENDA)
     if not data_text:
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
     try:
         data    = json.loads(data_text)
-        eventos = data.get('agenda', data.get('eventos', data.get('events', [])))
+        eventos = data.get('eventos', [])
 
         if not eventos:
             xbmcgui.Dialog().notification(ADDON_NAME, 'No hay eventos en la agenda', ICON, 4000)
@@ -202,13 +213,10 @@ def show_agenda():
             return
 
         for evento in eventos:
-            titulo       = evento.get('titulo', evento.get('title', 'Evento'))
-            acestream_id = evento.get('acestream_id', evento.get('id', ''))
-            fecha        = evento.get('fecha', evento.get('date', ''))
-            hora         = evento.get('hora', evento.get('time', ''))
-            categoria    = evento.get('categoria', evento.get('category', ''))
-            descripcion  = evento.get('descripcion', evento.get('description', ''))
-            logo         = evento.get('logo', evento.get('icon', evento.get('thumbnail', ICON)))
+            titulo       = evento.get('titulo', 'Evento')
+            acestream_id = evento.get('acestream_id', '')
+            fecha        = evento.get('fecha', '')
+            hora         = evento.get('hora', '')
 
             if not acestream_id:
                 continue
@@ -222,12 +230,10 @@ def show_agenda():
                 label = titulo
 
             li = xbmcgui.ListItem(label)
-            li.setArt({'icon': logo, 'thumb': logo, 'fanart': FANART})
+            li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
             li.setInfo('video', {
                 'title'     : titulo,
-                'genre'     : categoria,
-                'plot'      : descripcion or '{} - {}'.format(fecha, hora).strip(' -'),
-                'aired'     : fecha,
+                'plot'      : '{} {}'.format(fecha, hora).strip(),
                 'mediatype' : 'video'
             })
             li.setProperty('IsPlayable', 'true')
@@ -236,7 +242,7 @@ def show_agenda():
             xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
 
     except (ValueError, KeyError) as e:
-        log('Error parsing agenda: {}'.format(str(e)), xbmc.LOGERROR)
+        log('Error parsing agenda.json: {}'.format(str(e)), xbmc.LOGERROR)
         xbmcgui.Dialog().notification(ADDON_NAME, 'Error al cargar la agenda', ICON, 5000)
 
     xbmcplugin.endOfDirectory(HANDLE)
