@@ -280,75 +280,11 @@ def show_agenda():
 
 
 # ---------------------------------------------------------------------------
-# Reproducción vía Acestream — sin dependencias externas
+# Reproducción vía Acestream — delegado en horus_player embebido
 # ---------------------------------------------------------------------------
-def _engine_start_and_wait(server):
-    """Intenta arrancar el Acestream Engine local y espera hasta 30 s."""
-    import time
-    from acestream.engine import Engine
-
-    ace_path = ACESTREAM_PATH
-    if not ace_path:
-        return
-
-    if xbmc.getCondVisibility('System.Platform.Windows'):
-        executable = os.path.join(ace_path, 'ace_engine.exe')
-    else:
-        executable = os.path.join(ace_path, 'acestream.start')
-
-    if not os.path.isfile(executable):
-        log('Ejecutable de Acestream no encontrado: {}'.format(executable), xbmc.LOGWARNING)
-        return
-
-    engine = Engine(executable)
-    engine.start()
-
-    d = xbmcgui.DialogProgress()
-    d.create(ADDON_NAME, 'Iniciando Acestream Engine...')
-    timeout = 30
-    for i in range(timeout):
-        if d.iscanceled() or server.available:
-            break
-        remaining = timeout - i
-        try:
-            d.update(int(i * 100 / timeout), 'Iniciando Acestream Engine...', '{} seg restantes'.format(remaining))
-        except Exception:
-            d.update(int(i * 100 / timeout))
-        time.sleep(1)
-    d.close()
-
-
 def play_acestream(acestream_id, title=''):
-    # --- Android TV: lanza la app Acestream instalada externamente via Intent ---
-    if xbmc.getCondVisibility('System.Platform.Android'):
-        android_activity = (
-            'StartAndroidActivity("","org.acestream.action.start_content","",'
-            '"acestream:?content_id={}")'.format(acestream_id)
-        )
-        log('Reproduciendo en Android via StartAndroidActivity')
-        xbmc.executebuiltin(android_activity)
-        return
-
-    # --- PC (Windows / Linux): HTTP Engine local ---
-    from acestream.server import Server
-    server = Server('127.0.0.1', int(ACESTREAM_PORT))
-
-    if not server.available:
-        if ACESTREAM_PATH:
-            _engine_start_and_wait(server)
-        if not server.available:
-            xbmcgui.Dialog().notification(
-                ADDON_NAME,
-                'Acestream Engine no disponible en el puerto {}'.format(ACESTREAM_PORT),
-                ICON, 5000
-            )
-
-    stream_url = 'http://127.0.0.1:{}/ace/getstream?id={}'.format(ACESTREAM_PORT, acestream_id)
-    log('Reproduciendo via HTTP Engine: {}'.format(stream_url))
-    li = xbmcgui.ListItem(label=title, path=stream_url)
-    li.setMimeType('video/mp4')
-    li.setContentLookup(False)
-    xbmcplugin.setResolvedUrl(HANDLE, True, li)
+    from horus_player import play
+    play(acestream_id, title=title, port=int(ACESTREAM_PORT), ace_path=ACESTREAM_PATH)
 
 
 # ---------------------------------------------------------------------------
