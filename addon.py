@@ -116,6 +116,11 @@ def main_menu():
         mode        = 'canales',
         description = 'Canales de televisión en directo'
     )
+    add_menu_item(
+        label       = '[COLOR FFFF7700]Buscar canal[/COLOR]',
+        mode        = 'buscar',
+        description = 'Busca un canal por sus 4 dígitos (ej: dda5)'
+    )
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -357,6 +362,55 @@ def _parse_agenda_events(html):
 
 
 # ---------------------------------------------------------------------------
+# Sección BUSCAR
+# ---------------------------------------------------------------------------
+def show_buscar():
+    query = xbmcgui.Dialog().input('Buscar canal (4 dígitos)', type=xbmcgui.INPUT_ALPHANUM)
+    if not query:
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
+
+    query = query.strip().lower()
+    xbmcplugin.setPluginCategory(HANDLE, 'Buscar: {}'.format(query))
+    xbmcplugin.setContent(HANDLE, 'videos')
+
+    categorias = _get_categorias()
+    resultados = []
+    for cat in categorias:
+        for canal in cat.get('canales', []):
+            short_id = canal.get('short_id', canal.get('acestream_id', '')[:4]).lower()
+            if query in short_id:
+                resultados.append((cat['nombre'], canal))
+
+    if not resultados:
+        xbmcgui.Dialog().notification(
+            ADDON_NAME, 'No se encontró ningún canal con "{}"'.format(query), ICON, 3000
+        )
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
+
+    for cat_nombre, canal in resultados:
+        nombre       = canal.get('nombre', '')
+        acestream_id = canal.get('acestream_id', '')
+        short_id     = canal.get('short_id', acestream_id[:4] if acestream_id else '')
+        fuente       = canal.get('fuente', 'ELCANO')
+
+        label = '{} {} --> {}  [COLOR FF888888][{}][/COLOR]'.format(
+            nombre, short_id, fuente, cat_nombre
+        )
+
+        li = xbmcgui.ListItem(label)
+        li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+        li.setInfo('video', {'title': label, 'genre': cat_nombre, 'mediatype': 'video'})
+        li.setProperty('IsPlayable', 'true')
+
+        ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
+        xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+# ---------------------------------------------------------------------------
 # Sección AGENDA
 # ---------------------------------------------------------------------------
 def show_agenda():
@@ -462,6 +516,8 @@ def router():
         show_categoria(PARAMS.get('cat', ''))
     elif mode == 'agenda':
         show_agenda()
+    elif mode == 'buscar':
+        show_buscar()
     elif mode == 'event_links':
         show_event_links(PARAMS.get('links', '[]'), PARAMS.get('title', ''))
     elif mode == 'play':
