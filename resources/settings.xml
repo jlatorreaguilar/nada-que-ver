@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings>
+  <category label="General">
+    <setting id="source_url"     type="text"  label="URL de la fuente de datos"         default="https://eventos-eight-dun.vercel.app/"/>
+    <setting id="acestream_port" type="text"  label="Puerto de Ace Stream Engine"        default="6878"/>
+  </category>
+</settings>

@@ -1,0 +1,17 @@
+# Kodi / Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de usuario de Kodi
+*.db
+*.log
+special://
+
+# VS Code
+.vscode/
+
+# Sistema
+Thumbs.db
+.DS_Store
