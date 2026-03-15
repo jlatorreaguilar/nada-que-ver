@@ -126,18 +126,8 @@ def main_menu():
 
 
 # ---------------------------------------------------------------------------
-# Fallback: canales hardcodeados (ELCANO) usados si GitHub Pages no responde
-# ---------------------------------------------------------------------------
-CANALES_FALLBACK = [
-    {'categoria': 'DAZN',      'nombre': 'DAZN 1',           'acestream_id': '9afc89481b721ce6c326c85e47148676077b8e62', 'fuente': 'ELCANO'},
-    {'categoria': 'DAZN',      'nombre': 'DAZN 2 1080p',     'acestream_id': '13a16a0630ae87bd97d6ba4165963c201c9a2e9c', 'fuente': 'ELCANO'},
-    {'categoria': 'DAZN',      'nombre': 'DAZN 3',           'acestream_id': 'e1ccce973c71547a8acda770885cb1c30a9cf3e1', 'fuente': 'ELCANO'},
-    {'categoria': 'LA LIGA',   'nombre': 'DAZN LaLiga 1080p','acestream_id': 'cc108ae39f92c48f6c946763047bd1c9b7b7d889', 'fuente': 'ELCANO'},
-    {'categoria': 'LA LIGA',   'nombre': 'M+ LaLiga 1080p',  'acestream_id': '0febfb5cac3384f487d55c559bbfc877db2d0357', 'fuente': 'ELCANO'},
-    {'categoria': 'HYPERMOTION','nombre': 'LaLiga TV Hypermotion 1080p','acestream_id': '4636ed75106cb00e9c70cc2029edf0a4df7ad73f','fuente':'ELCANO'},
-    {'categoria': 'LIGA DE CAMPEONES','nombre': 'M+ Liga de Campeones 1080p','acestream_id': '91b2a1fe85f5bb4a6cf9ef6d01cc65883d986920','fuente':'ELCANO'},
-    {'categoria': 'EUROSPORT', 'nombre': 'Eurosport 1 1080p','acestream_id': '48a589dbeab3544662fafd79888aada7d834cfe9', 'fuente': 'ELCANO'},
-]
+# Ruta del canales.json local empaquetado en el addon (copia de seguridad)
+_CANALES_LOCAL = os.path.join(ADDON_PATH, 'resources', 'data', 'canales.json')
 
 
 # ---------------------------------------------------------------------------
@@ -163,15 +153,18 @@ def _get_categorias():
         except (ValueError, KeyError) as e:
             log('Error parsing canales.json: {}'.format(str(e)), xbmc.LOGERROR)
 
-    # Fallback: convertir la lista plana en [{"nombre": cat, "canales": [...]}]
-    log('Usando canales fallback', xbmc.LOGWARNING)
-    grupos = {}
-    for c in CANALES_FALLBACK:
-        cat = c['categoria']
-        if cat not in grupos:
-            grupos[cat] = []
-        grupos[cat].append(c)
-    return [{'nombre': k, 'canales': v} for k, v in grupos.items()]
+    # Fallback: leer el canales.json local empaquetado con el addon
+    log('Descarga remota fallida, usando canales.json local', xbmc.LOGWARNING)
+    try:
+        with open(_CANALES_LOCAL, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        cats = data.get('categorias', [])
+        if cats:
+            _canales_cache = cats
+            return cats
+    except Exception as e:
+        log('Error leyendo canales.json local: {}'.format(str(e)), xbmc.LOGERROR)
+    return []
 
 
 # ---------------------------------------------------------------------------
