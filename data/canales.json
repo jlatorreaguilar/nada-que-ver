@@ -17,14 +17,19 @@
         },
         {
           "nombre": "PRIMERA FEDERACIÓN FHD --> NEW ERA",
-          "acestream_id": "599a2fda91aa55703e2c5a51562d9dbf5d3d31d9",
-          "short_id": "599a",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "PRIMERA FEDERACIÓN FHD --> NEW ERA",
           "acestream_id": "a2ed6f2ca3f804481131c41ce64d4286a5820476",
           "short_id": "a2ed",
+          "fuente": "NEW ERA"
+        }
+      ]
+    },
+    {
+      "nombre": "COPA DEL REY",
+      "canales": [
+        {
+          "nombre": "COPA DEL REY --> NEW ERA",
+          "acestream_id": "4b9f813f30b4345fe555f9e218d828d76cd6ee88",
+          "short_id": "4b9f",
           "fuente": "NEW ERA"
         }
       ]
@@ -75,12 +80,6 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "DAZN 1 --> NEW LOOP",
-          "acestream_id": "0560234787945a17522e284c4c22bb4df29f33b0",
-          "short_id": "0560",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "DAZN 1 --> SPORT TV",
           "acestream_id": "d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151",
           "short_id": "d5b2",
@@ -123,22 +122,10 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "DAZN 2 --> NEW LOOP",
-          "acestream_id": "c93a0d4914713db942fbb210bac467b0224c63a6",
-          "short_id": "c93a",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "DAZN 2 --> SPORT TV",
           "acestream_id": "b0eabe0fdd02fdd165896236765a9b753a2ff516",
           "short_id": "b0ea",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "DAZN 2 BAR FHD --> NEW ERA",
-          "acestream_id": "2f9211669499f413dab1a490198afab2a9b4b57c",
-          "short_id": "2f92",
-          "fuente": "NEW ERA"
         },
         {
           "nombre": "DAZN 3 FHD --> NEW ERA",
@@ -154,15 +141,15 @@
         },
         {
           "nombre": "DAZN 3 --> ELCANO",
-          "acestream_id": "e1ccce973c71547a8acda770885cb1c30a9cf3e1",
-          "short_id": "e1cc",
+          "acestream_id": "908bc5e7ae52afc06e40793b6db749dba11a1780",
+          "short_id": "908b",
           "fuente": "ELCANO"
         },
         {
-          "nombre": "DAZN 3 --> NEW LOOP",
-          "acestream_id": "98fba924421aa1e4bd28e74d74a2726d0459b594",
-          "short_id": "98fb",
-          "fuente": "NEW LOOP"
+          "nombre": "DAZN 3 --> ELCANO",
+          "acestream_id": "e1ccce973c71547a8acda770885cb1c30a9cf3e1",
+          "short_id": "e1cc",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN 3 --> SPORT TV",
@@ -183,10 +170,16 @@
           "fuente": "NEW ERA"
         },
         {
-          "nombre": "DAZN 4 --> NEW LOOP",
-          "acestream_id": "c21a2524a8de3e1e5b126f2677a3e993d9aa07c4",
-          "short_id": "c21a",
-          "fuente": "NEW LOOP"
+          "nombre": "DAZN 4 --> ELCANO",
+          "acestream_id": "d669c6cee7173a1c8994075f7050a6526655b1dc",
+          "short_id": "d669",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "DAZN 4 --> ELCANO",
+          "acestream_id": "9ced16b2055c99bf89c26e678e315e1b01d3734c",
+          "short_id": "9ced",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN 4 --> SPORT TV",
@@ -230,22 +223,10 @@
           "fuente": "NEW ERA"
         },
         {
-          "nombre": "SKY SPORTS ARENA --> NEW LOOP",
-          "acestream_id": "37796ca47026bc190c7dc26827c0dfb6b61d137b",
-          "short_id": "3779",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "SKY SPORTS ARENA --> SPORT TV",
           "acestream_id": "d317a003e8047da2c36a2a2bb2289578c9a3b79c",
           "short_id": "d317",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "SKY SPORTS CRICKET --> NEW LOOP",
-          "acestream_id": "610eefafd6602c094e8e89c249a11d635cb6fe29",
-          "short_id": "610e",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "SKY SPORTS CRICKET --> SPORT TV",
@@ -258,12 +239,6 @@
           "acestream_id": "e4b259b6dedb674283ab124117ce793360d3a1c0",
           "short_id": "e4b2",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "SKY SPORTS MAIN EVENT --> NEW LOOP",
-          "acestream_id": "78266c15035d0ad8cbc58f821733931e1de434ab",
-          "short_id": "7826",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "SKY SPORTS MAIN EVENT --> SPORT TV",
@@ -338,26 +313,8 @@
         },
         {
           "nombre": "EUROSPORT 1 HD --> NEW LOOP",
-          "acestream_id": "40e91bfde34cc036571cb6999cdbd9870a4a7577",
-          "short_id": "40e9",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "EUROSPORT 1 HD --> NEW LOOP",
-          "acestream_id": "4a67d5f9f7aba0f9735813f0034380cd48424671",
-          "short_id": "4a67",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "EUROSPORT 1 HD --> NEW LOOP",
-          "acestream_id": "e541a954465df29ccce4d829529d983ffb2803d4",
-          "short_id": "e541",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "EUROSPORT 1 HD --> NEW LOOP",
-          "acestream_id": "37f5d22ee578b0cdbc715b8971175bdc91eebb5d",
-          "short_id": "37f5",
+          "acestream_id": "5378c95e982e496a3dafbc4fda57ca37da669321",
+          "short_id": "5378",
           "fuente": "NEW LOOP"
         },
         {
@@ -385,10 +342,10 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "EUROSPORT 2 HD --> NEW LOOP",
-          "acestream_id": "088aea0c1509c5324f5ec6b9b6ff17ef2c231420",
-          "short_id": "088a",
-          "fuente": "NEW LOOP"
+          "nombre": "EUROSPORT 2 --> ELCANO",
+          "acestream_id": "d01d255aaaf2fb91c0a8c98a826b4bd4769d81c1",
+          "short_id": "d01d",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "EUROSPORT 2 HD --> SPORT TV",
@@ -407,17 +364,6 @@
           "acestream_id": "ac675c82d6dfd4a201532c18b42e48dacb7c32c6",
           "short_id": "ac67",
           "fuente": "SPORT TV"
-        }
-      ]
-    },
-    {
-      "nombre": "EVENTOS",
-      "canales": [
-        {
-          "nombre": "DAZN EVENTOS 2 --> NEW ERA",
-          "acestream_id": "8bdeb6055da0be3bd1e1977dbf3640408f7d0267",
-          "short_id": "8bde",
-          "fuente": "NEW ERA"
         }
       ]
     },
@@ -486,6 +432,12 @@
         },
         {
           "nombre": "DAZN F1 --> ELCANO",
+          "acestream_id": "ed6188dcbb491efeb2092c1a6199226c27f61727",
+          "short_id": "ed61",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "DAZN F1 --> ELCANO",
           "acestream_id": "d719181097d256073844390b3e094fbcb1bceaa4",
           "short_id": "d719",
           "fuente": "ELCANO"
@@ -498,26 +450,26 @@
         },
         {
           "nombre": "DAZN F1 --> ELCANO",
-          "acestream_id": "fd53cfa7055fe458d4f5c0ff59a06cd43723be55",
-          "short_id": "fd53",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "DAZN F1 --> ELCANO",
           "acestream_id": "bcf9dc38f92e90a71b87bd54b3bac91b76d09a69",
           "short_id": "bcf9",
           "fuente": "ELCANO"
         },
         {
-          "nombre": "DAZN F1 --> NEW LOOP",
-          "acestream_id": "fc1bb10b16292d2ac88306d9c75466278fcf16f2",
-          "short_id": "fc1b",
-          "fuente": "NEW LOOP"
+          "nombre": "DAZN F1 --> ELCANO",
+          "acestream_id": "b08e158ea3f5c72084f5ff8e3c30ca2e4d1ff6d1",
+          "short_id": "b08e",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "DAZN F1 --> ELCANO",
+          "acestream_id": "fd53cfa7055fe458d4f5c0ff59a06cd43723be55",
+          "short_id": "fd53",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN F1 HD --> NEW LOOP",
-          "acestream_id": "75f5611ddc9aecb23de4cded1fd199ebb9d7463f",
-          "short_id": "75f5",
+          "acestream_id": "6d325cda6ed591647ef5e91edd043147bce8be30",
+          "short_id": "6d32",
           "fuente": "NEW LOOP"
         },
         {
@@ -538,12 +490,6 @@
       "nombre": "FUTBOL INT",
       "canales": [
         {
-          "nombre": "BEIN SPORTS 1 --> NEW LOOP",
-          "acestream_id": "58e454d067b9e25e40f3c62b3430b55ef6fead09",
-          "short_id": "58e4",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "BEIN SPORTS 1 --> SPORT TV",
           "acestream_id": "bba1905fcd1c4975aec544047bf8e4cd23ce3fe0",
           "short_id": "bba1",
@@ -556,52 +502,16 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "BEIN SPORTS 2 --> NEW LOOP",
-          "acestream_id": "fa0a5dd9ecc3febbda8b6e1805c539a93fe515ac",
-          "short_id": "fa0a",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "BEIN SPORTS 2 --> SPORT TV",
           "acestream_id": "edb507e38394d614c9ff55805c9d354ae13210bc",
           "short_id": "edb5",
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "BEIN SPORTS 3 --> NEW LOOP",
-          "acestream_id": "519c2159e9228bfe2f94911dfa111b01d0a896e2",
-          "short_id": "519c",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "BEIN SPORTS 3 --> SPORT TV",
           "acestream_id": "731bd3336ec0986ff9100efe40dbaf1473a22cf8",
           "short_id": "731b",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "BEIN SPORTS Ñ --> NEW LOOP",
-          "acestream_id": "ac033bf7bf6eb4efa5ca3f8070742093eab47685",
-          "short_id": "ac03",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "BEIN SPORTS Ñ --> NEW LOOP",
-          "acestream_id": "33aa6331066d7796fcab74bed23206f16bded398",
-          "short_id": "33aa",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "BT Sport 1 [UK] --> NEW LOOP",
-          "acestream_id": "2605c201c8c9cf6684ee1de562d3b4c7e17ac915",
-          "short_id": "2605",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "BT Sport 1 [UK] --> NEW LOOP",
-          "acestream_id": "19c5c13a8e7273d78d53fdaea3deaf1b80e938fa",
-          "short_id": "19c5",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "BT Sport 1 [UK] --> SPORT TV",
@@ -616,22 +526,10 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "BT Sport 2 [UK] --> NEW LOOP",
-          "acestream_id": "01dcc1ea3387c2b73953efe3f52286a770737d7c",
-          "short_id": "01dc",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "BT Sport 2 [UK] --> SPORT TV",
           "acestream_id": "d63d8a57cf471394bfa9f619bbd68b01ae27a801",
           "short_id": "d63d",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "BT Sport 3 [UK] --> NEW LOOP",
-          "acestream_id": "d57ebd44296b0c92c0661cc964e737a54b852cec",
-          "short_id": "d57e",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "BT Sport 3 [UK] --> SPORT TV",
@@ -644,12 +542,6 @@
           "acestream_id": "246d487d1087fbb9dc74c821b0d87ad306f16591",
           "short_id": "246d",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "ELEVEN DAZN 1 --> NEW LOOP",
-          "acestream_id": "969e14989a98c62518a7640741dbf15d90212d1a",
-          "short_id": "969e",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ELEVEN DAZN 1 --> SPORT TV",
@@ -670,12 +562,6 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ELEVEN DAZN 2 --> NEW LOOP",
-          "acestream_id": "27573fb01690fd55b25c07ae2180ee44b1ad8a7c",
-          "short_id": "2757",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ELEVEN DAZN 2 --> SPORT TV",
           "acestream_id": "d08013df6e437a1fdf1e0c34f573fdf6a40c7fce",
           "short_id": "d080",
@@ -686,12 +572,6 @@
           "acestream_id": "54a4a28882d3cae1ca19de5d4b022ebea40351f9",
           "short_id": "54a4",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "ELEVEN DAZN 3 --> NEW LOOP",
-          "acestream_id": "33246d7ad41db9ad7654f0d553b5e7500363d1b8",
-          "short_id": "3324",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ELEVEN DAZN 3 --> SPORT TV",
@@ -706,12 +586,6 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ELEVEN DAZN 4 --> NEW LOOP",
-          "acestream_id": "3c0cfbeb4075be58baa32e41dabee3c75b8a80e6",
-          "short_id": "3c0c",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ELEVEN DAZN 4 --> SPORT TV",
           "acestream_id": "0f32c0131a2d9444996410801f4e18b04384db98",
           "short_id": "0f32",
@@ -724,22 +598,10 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ELEVEN DAZN 5 --> NEW LOOP",
-          "acestream_id": "2c9a996c060d157ff63109c5b999d55bbc2ffd95",
-          "short_id": "2c9a",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ELEVEN DAZN 5 --> SPORT TV",
           "acestream_id": "4dbe63b44fc4f439f5b634c0d2aa7e0cccad808a",
           "short_id": "4dbe",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "ELEVEN DAZN 6 --> NEW LOOP",
-          "acestream_id": "471f21a1eb3453e9b70e90228f016ad1142d581d",
-          "short_id": "471f",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ELEVEN DAZN 6 --> SPORT TV",
@@ -748,40 +610,16 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ESPN2 [US] --> NEW LOOP",
-          "acestream_id": "437692bc0dedcf1c27c2ab2c1c7e58b0806244fe",
-          "short_id": "4376",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ESPN2 [US] --> SPORT TV",
           "acestream_id": "664eb5fe460b96941aed633959a845b185cd8394",
           "short_id": "664e",
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ESPN 2 [BE] --> NEW LOOP",
-          "acestream_id": "1114c803ee0f7dd7b5af5be42e49b5cdc64db2b5",
-          "short_id": "1114",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ESPN 2 [BE] --> SPORT TV",
           "acestream_id": "3e0ba6867173f345d482d80c771f1a5dc3b37e63",
           "short_id": "3e0b",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "ESPN 3 [BE] --> NEW LOOP",
-          "acestream_id": "7ae7a8ae390bbc5bdad5383aa10ebb201b0141dc",
-          "short_id": "7ae7",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "ESPN 4 [BE] --> NEW LOOP",
-          "acestream_id": "d18e752ade97d8be74a99887fec550472335b99f",
-          "short_id": "d18e",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ESPN 4 [BE] --> SPORT TV",
@@ -796,22 +634,10 @@
           "fuente": "NEW ERA"
         },
         {
-          "nombre": "ESPN [BE] --> NEW LOOP",
-          "acestream_id": "dda76be0877ee2b4e5619a88f878ca47978cc09d",
-          "short_id": "dda7",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ESPN [BE] --> SPORT TV",
           "acestream_id": "79f10c6c6168e42bfc606f3f7b9e5f3ca79dedab",
           "short_id": "79f1",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "ESPN HD [US] --> NEW LOOP",
-          "acestream_id": "0dca83a7cc9184893ff96ee2355874342fc8fd45",
-          "short_id": "0dca",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ESPN HD [US] --> SPORT TV",
@@ -820,22 +646,10 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "PREMIER SPORTS 1 --> NEW LOOP",
-          "acestream_id": "13ddaf59c0f2d760fd3775acc254e13825206eac",
-          "short_id": "13dd",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "PREMIER SPORTS 1 --> SPORT TV",
           "acestream_id": "75a56863b6fe0407ad4305b4d7ee5643c3923565",
           "short_id": "75a5",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "PREMIER SPORTS 2 --> NEW LOOP",
-          "acestream_id": "086e4c7ccc0b80e2960a553d04dac1024c7787b9",
-          "short_id": "086e",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "PREMIER SPORTS 2 --> SPORT TV",
@@ -844,52 +658,16 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "SKY SPORTS FOOTBALL --> NEW LOOP",
-          "acestream_id": "54de746f7823812312b4000422618465f7d58f87",
-          "short_id": "54de",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "SKY SPORTS FOOTBALL --> SPORT TV",
           "acestream_id": "8dbe2d515e9131fa311353537736f8c94be9b26d",
           "short_id": "8dbe",
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "ZIGGO SPORT --> NEW LOOP",
-          "acestream_id": "8e475c8b9f12270c524f88f5659cc6811fc1399c",
-          "short_id": "8e47",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "ZIGGO SPORT 2 --> NEW LOOP",
-          "acestream_id": "fca28f51d5500d131770230b033c5da2b36ebf9c",
-          "short_id": "fca2",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "ZIGGO SPORT 2 --> SPORT TV",
           "acestream_id": "868a6187d6aeec65ded84bd777814c9f7b7a9027",
           "short_id": "868a",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "ZIGGO SPORT 3 --> NEW LOOP",
-          "acestream_id": "3ff91ece4152cfb102f1b515eeecf044052592a4",
-          "short_id": "3ff9",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "ZIGGO SPORT 4 --> NEW LOOP",
-          "acestream_id": "56fd40904b16813476c592e877f3b0168cd42781",
-          "short_id": "56fd",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "ZIGGO SPORT 6 --> NEW LOOP",
-          "acestream_id": "c81fe6504175b77b4345a3e8b740aba1e3bf60dc",
-          "short_id": "c81f",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "ZIGGO SPORT 6 --> SPORT TV",
@@ -902,6 +680,12 @@
     {
       "nombre": "HYPERMOTION",
       "canales": [
+        {
+          "nombre": "HYPERMOTION FHD --> NEW ERA",
+          "acestream_id": "c457b5614df986a6e6a24ffd9547964820ca65fb",
+          "short_id": "c457",
+          "fuente": "NEW ERA"
+        },
         {
           "nombre": "HYPERMOTION FHD --> NEW ERA",
           "acestream_id": "58b1c4b8cb65d648505b035a04e879672fcd8e3f",
@@ -1005,14 +789,14 @@
         },
         {
           "nombre": "DAZN LA LIGA 1 --> ELCANO",
-          "acestream_id": "e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05",
-          "short_id": "e2b8",
+          "acestream_id": "4955867fad3bc92e5b4c36045699fc277800fb18",
+          "short_id": "4955",
           "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN LA LIGA 1 --> ELCANO",
-          "acestream_id": "4955867fad3bc92e5b4c36045699fc277800fb18",
-          "short_id": "4955",
+          "acestream_id": "e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05",
+          "short_id": "e2b8",
           "fuente": "ELCANO"
         },
         {
@@ -1020,18 +804,6 @@
           "acestream_id": "9c75f1d190c518cfe0f236415b8dccc1f676ef3b",
           "short_id": "9c75",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "DAZN LA LIGA 1 --> NEW LOOP",
-          "acestream_id": "8a25653a2f774f4ae1062d38a30dcd714d304a3a",
-          "short_id": "8a25",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "DAZN LA LIGA 1 --> NEW LOOP",
-          "acestream_id": "c7158b32d513258252b49d21b5e200f31d30c017",
-          "short_id": "c715",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "DAZN LA LIGA 1 --> SPORT TV",
@@ -1059,6 +831,12 @@
         },
         {
           "nombre": "DAZN LA LIGA 2 --> ELCANO",
+          "acestream_id": "b63fcadc2390455d8a328f6c16b8b0a9adec21a3",
+          "short_id": "b63f",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "DAZN LA LIGA 2 --> ELCANO",
           "acestream_id": "a231b2fa1f7754433efeb8bb8d69d7b9096dcba8",
           "short_id": "a231",
           "fuente": "ELCANO"
@@ -1073,12 +851,6 @@
           "nombre": "M+ LALIGA FHD --> NEW ERA",
           "acestream_id": "af468a318ad209b29a042a9080b519c6b40cec79",
           "short_id": "af46",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "M+ LALIGA FHD --> NEW ERA",
-          "acestream_id": "af458073c3096293a4dea9f369d4f308e7125bd6",
-          "short_id": "af45",
           "fuente": "NEW ERA"
         },
         {
@@ -1113,14 +885,14 @@
         },
         {
           "nombre": "M+ LALIGA --> ELCANO",
-          "acestream_id": "00c9bc9c5d7d87680a5a6bed349edfa775a89947",
-          "short_id": "00c9",
+          "acestream_id": "4b528d10eaad747ddf52251206177573ee3e9f74",
+          "short_id": "4b52",
           "fuente": "ELCANO"
         },
         {
           "nombre": "M+ LALIGA --> ELCANO",
-          "acestream_id": "4b528d10eaad747ddf52251206177573ee3e9f74",
-          "short_id": "4b52",
+          "acestream_id": "00c9bc9c5d7d87680a5a6bed349edfa775a89947",
+          "short_id": "00c9",
           "fuente": "ELCANO"
         },
         {
@@ -1128,12 +900,6 @@
           "acestream_id": "c9321006921967d6258df6945f1d598a5c0cbf1e",
           "short_id": "c932",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "M+ LALIGA FHD --> NEW LOOP",
-          "acestream_id": "0bd70b57127c5e466f8f997617ba0389b7446e4a",
-          "short_id": "0bd7",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "M+ LALIGA --> SPORT TV",
@@ -1146,12 +912,6 @@
           "acestream_id": "caa631e8850e3eb5e7c039063dd8a339ccef1176",
           "short_id": "caa6",
           "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "M+ LALIGA 2 --> ELCANO",
-          "acestream_id": "ad42faa399df66dcd62a1cbc9d1c99ed4512d3b8",
-          "short_id": "ad42",
-          "fuente": "ELCANO"
         },
         {
           "nombre": "M+ LALIGA 2 --> ELCANO",
@@ -1225,12 +985,6 @@
           "fuente": "NEW ERA"
         },
         {
-          "nombre": "LIGA DE CAMPEONES FHD --> NEW ERA",
-          "acestream_id": "afbf2a479c5a5072698139f0f556ef3e77a99bd0",
-          "short_id": "afbf",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "LIGA DE CAMPEONES FHD --> NEW ERA II",
           "acestream_id": "afbf1ef8812e7b0a0977fa3a0a2d3a6d3cbd6c6f",
           "short_id": "afbf",
@@ -1244,26 +998,8 @@
         },
         {
           "nombre": "LIGA DE CAMPEONES --> ELCANO",
-          "acestream_id": "43249349740032bee068b5bbff7b078f642812db",
-          "short_id": "4324",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES --> ELCANO",
           "acestream_id": "91b2a1fe85f5bb4a6cf9ef6d01cc65883d986920",
           "short_id": "91b2",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES --> ELCANO",
-          "acestream_id": "2b51710cee513e8939785fa3e7980f32d4e0415f",
-          "short_id": "2b51",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES --> ELCANO",
-          "acestream_id": "9db029dff6a9c637d1f670e78dbc1a479b9b406e",
-          "short_id": "9db0",
           "fuente": "ELCANO"
         },
         {
@@ -1271,12 +1007,6 @@
           "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9",
           "short_id": "97df",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES FHD --> NEW LOOP",
-          "acestream_id": "d2b681aae903a3a278c25bae2d94d7609617766b",
-          "short_id": "d2b6",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "LIGA DE CAMPEONES --> SPORT TV",
@@ -1316,21 +1046,21 @@
         },
         {
           "nombre": "LIGA DE CAMPEONES 2 --> ELCANO",
-          "acestream_id": "bb26037a253866d341778181eff5c8637240d615",
-          "short_id": "bb26",
+          "acestream_id": "47188da7d2e4beaee82cff174f223fdd23f78fa6",
+          "short_id": "4718",
           "fuente": "ELCANO"
         },
         {
           "nombre": "LIGA DE CAMPEONES 2 --> ELCANO",
-          "acestream_id": "74ab4e4ec7e2da001f473ca40893b7307b8029c5",
-          "short_id": "74ab",
+          "acestream_id": "8156912ae14f6174a19c8a4efcf36a06e847f632",
+          "short_id": "8156",
           "fuente": "ELCANO"
         },
         {
-          "nombre": "LIGA DE CAMPEONES 2 FHD --> NEW LOOP",
-          "acestream_id": "67048981e2718a1d5905fd9c04a707be71643fa2",
-          "short_id": "6704",
-          "fuente": "NEW LOOP"
+          "nombre": "LIGA DE CAMPEONES 2 --> ELCANO",
+          "acestream_id": "bb26037a253866d341778181eff5c8637240d615",
+          "short_id": "bb26",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "LIGA DE CAMPEONES 2 --> SPORT TV",
@@ -1364,12 +1094,6 @@
         },
         {
           "nombre": "LIGA DE CAMPEONES 3 --> ELCANO",
-          "acestream_id": "5b7f54b12e0f96ceba1299f44eac4b0f97403e4e",
-          "short_id": "5b7f",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 3 --> ELCANO",
           "acestream_id": "cfc371890bfb502737a26de5215e50929c52d0f9",
           "short_id": "cfc3",
           "fuente": "ELCANO"
@@ -1381,28 +1105,10 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "LIGA DE CAMPEONES 3 --> ELCANO",
-          "acestream_id": "4416843c96b7f7a1bc55c476091a60fff0922bc7",
-          "short_id": "4416",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 3 FHD --> NEW LOOP",
-          "acestream_id": "68dfc2d81b9c0d13f643c5e5dc2e0e8e245ff6cc",
-          "short_id": "68df",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "LIGA DE CAMPEONES 3 --> SPORT TV",
           "acestream_id": "90f7941c6bf7ca4b18084a1dca7bc15b9b179373",
           "short_id": "90f7",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 4 FHD --> NEW ERA",
-          "acestream_id": "77998f8161373611ff6b348e7eda5b4e97d3ec29",
-          "short_id": "7799",
-          "fuente": "NEW ERA"
         },
         {
           "nombre": "LIGA DE CAMPEONES 4 FHD --> NEW ERA",
@@ -1412,27 +1118,9 @@
         },
         {
           "nombre": "LIGA DE CAMPEONES 4 --> ELCANO",
-          "acestream_id": "5ba9368d80d2f87ac1c6d71df4e7e6e26e6911f2",
-          "short_id": "5ba9",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 4 --> ELCANO",
           "acestream_id": "91ac4585368992720ec17ffa5b4389368c6dcac1",
           "short_id": "91ac",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 4 --> ELCANO",
-          "acestream_id": "e9f4493d2d851f4636720f639113e05b4a21a74c",
-          "short_id": "e9f4",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 4 FHD --> NEW LOOP",
-          "acestream_id": "28a7a0e04e8e43d3cd99d67f31304feedef60baa",
-          "short_id": "28a7",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "LIGA DE CAMPEONES 4 --> SPORT TV",
@@ -1448,44 +1136,8 @@
         },
         {
           "nombre": "LIGA DE CAMPEONES 5 --> ELCANO",
-          "acestream_id": "5620c0ce3dcbf14a6375cb2c2d681207f45eb97d",
-          "short_id": "5620",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 5 --> ELCANO",
           "acestream_id": "5bed693c6a22de55f1061c509bba5e3aeb2ea2aa",
           "short_id": "5bed",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 6 FHD --> NEW ERA",
-          "acestream_id": "976983697790ab8a07b764b08843529d38bc6444",
-          "short_id": "9769",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 6 FHD --> NEW ERA",
-          "acestream_id": "85421919c34bb222ec6363f66c1eb88e999d4ff3",
-          "short_id": "8542",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 6 --> ELCANO",
-          "acestream_id": "54e971e70ed1e79a073a3aae410aed7818799112",
-          "short_id": "54e9",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 6 --> ELCANO",
-          "acestream_id": "497e2d0301fc289ccbd43080a580f63b718770e2",
-          "short_id": "497e",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LIGA DE CAMPEONES 6 --> ELCANO",
-          "acestream_id": "a3e8b1eac4866685ed52eb448b0891d0cb0ed031",
-          "short_id": "a3e8",
           "fuente": "ELCANO"
         },
         {
@@ -1501,10 +1153,10 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "LIGA DE CAMPEONES 7 --> ELCANO",
-          "acestream_id": "95ced66c1268717c19c1e3e020e3b23b0f02e504",
-          "short_id": "95ce",
-          "fuente": "ELCANO"
+          "nombre": "LIGA DE CAMPEONES 10 FHD --> NEW ERA",
+          "acestream_id": "0103373118989085dd0d02667c629ee36d462cb1",
+          "short_id": "0103",
+          "fuente": "NEW ERA"
         }
       ]
     },
@@ -1535,21 +1187,9 @@
           "fuente": "NEW LOOP"
         },
         {
-          "nombre": "CANAL MOTOR --> NEW LOOP",
-          "acestream_id": "22b250ce7a16dce785b2e1ee6d4e13bdfa7354cc",
-          "short_id": "22b2",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "MOTORS TV HD --> NEW LOOP",
           "acestream_id": "442aeb6643b8836f9d00361c9e48eeb0841ddf98",
           "short_id": "442a",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "MOTORS TV HD --> NEW LOOP",
-          "acestream_id": "a6044ffdb11c0349253f35386c23e994c28cf997",
-          "short_id": "a604",
           "fuente": "NEW LOOP"
         },
         {
@@ -1559,28 +1199,10 @@
           "fuente": "NEW LOOP"
         },
         {
-          "nombre": "MOTORVISION --> NEW LOOP",
-          "acestream_id": "3a9f3c8b5ff1ef9cbdff95e171b36ff9affe03cd",
-          "short_id": "3a9f",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "RALLY TV FHD --> NEW ERA",
-          "acestream_id": "651dd1e689a9a7d3b0695191dcf44b4d6e7541eb",
-          "short_id": "651d",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "RALLY TV --> NEW ERA III",
           "acestream_id": "8e96e35afd910d1a056dc7bf25139b8e2849b2ea",
           "short_id": "8e96",
           "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "RALLY TV --> ELCANO",
-          "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9",
-          "short_id": "1240",
-          "fuente": "ELCANO"
         },
         {
           "nombre": "RALLY TV --> ELCANO",
@@ -1589,15 +1211,15 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "RETROVISION MOTOR --> NEW LOOP",
-          "acestream_id": "b8b8c4470d3d27c75302cf49ab6c4b52a660bff3",
-          "short_id": "b8b8",
-          "fuente": "NEW LOOP"
+          "nombre": "RALLY TV --> ELCANO",
+          "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9",
+          "short_id": "1240",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "RETROVISION MOTOR --> NEW LOOP",
-          "acestream_id": "825a5b77c23a5f96df6fd096d5391f7de2653fcf",
-          "short_id": "825a",
+          "acestream_id": "b8b8c4470d3d27c75302cf49ab6c4b52a660bff3",
+          "short_id": "b8b8",
           "fuente": "NEW LOOP"
         }
       ]
@@ -1636,16 +1258,16 @@
           "fuente": "NEW ERA"
         },
         {
-          "nombre": "MOVISTAR PLUS FHD --> NEW ERA",
-          "acestream_id": "b6ffbbc72a5b6b579faf79ebac229af7a25b933b",
-          "short_id": "b6ff",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "MOVISTAR PLUS FHD --> NEW ERA VI",
           "acestream_id": "c1b7f54af0de256d1ac0fcac4c130e62660089f4",
           "short_id": "c1b7",
           "fuente": "NEW ERA"
+        },
+        {
+          "nombre": "MOVISTAR PLUS FHD --> ELCANO",
+          "acestream_id": "d23497596720b47b096ec0f850d6d26a19d1a336",
+          "short_id": "d234",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "MOVISTAR PLUS FHD --> ELCANO",
@@ -1660,12 +1282,6 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "MOVISTAR PLUS 2 FHD --> NEW ERA",
-          "acestream_id": "fbc39d8a9e5d7c9ac6a1438d440104620f54e09c",
-          "short_id": "fbc3",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "ONETORO FHD --> NEW ERA",
           "acestream_id": "cd0188292b6b3876ff66c99bd3d25eab88b41079",
           "short_id": "cd01",
@@ -1676,30 +1292,12 @@
           "acestream_id": "877eceeaf9f3bd9b392359323d03d0ac3bb27312",
           "short_id": "877e",
           "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "TOROLE TV FHD --> NEW ERA",
-          "acestream_id": "56457cde219abe22cdc3f6c2083a37b0324b3b0c",
-          "short_id": "5645",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "TVG EUROPA HD --> NEW ERA",
-          "acestream_id": "d48b299bbcd811cfd14159224bf5012a305021c1",
-          "short_id": "d48b",
-          "fuente": "NEW ERA"
         }
       ]
     },
     {
       "nombre": "MOVISTAR DEPORTES",
       "canales": [
-        {
-          "nombre": "MOVISTAR DEPORTES FHD --> NEW ERA",
-          "acestream_id": "ef9dcc4eaac36a0f608b52a31f8ab237859e071a",
-          "short_id": "ef9d",
-          "fuente": "NEW ERA"
-        },
         {
           "nombre": "MOVISTAR DEPORTES FHD --> NEW ERA",
           "acestream_id": "332d8fdeb9c51385230b8c9448e047ccc4a6355d",
@@ -1786,6 +1384,12 @@
         },
         {
           "nombre": "MOVISTAR DEPORTES 2 --> ELCANO",
+          "acestream_id": "890901fa742b19d8808cf49f19db2d3016437c56",
+          "short_id": "8909",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "MOVISTAR DEPORTES 2 --> ELCANO",
           "acestream_id": "f0ee7a2b43c1df5ea9e4fac5bf876d5bef4372b0",
           "short_id": "f0ee",
           "fuente": "ELCANO"
@@ -1795,12 +1399,6 @@
           "acestream_id": "3afe1af18f8ff78e9946856911b00c67477052b5",
           "short_id": "3afe",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "MOVISTAR DEPORTES 3 FHD --> NEW ERA",
-          "acestream_id": "753d4b1f7c4ef43238b5cf23b05572b550a44eee",
-          "short_id": "753d",
-          "fuente": "NEW ERA"
         },
         {
           "nombre": "MOVISTAR DEPORTES 3 --> ELCANO",
@@ -1869,12 +1467,6 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "MOVISTAR DEPORTES 5 FHD --> NEW ERA",
-          "acestream_id": "5913205fb6d6d162a50222709aab6129eb7cf916",
-          "short_id": "5913",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "MOVISTAR DEPORTES 5 --> ELCANO",
           "acestream_id": "646a1ed4ece843de1979f7888cbdd4d937506a28",
           "short_id": "646a",
@@ -1893,12 +1485,6 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "MOVISTAR DEPORTES 6 FHD --> NEW ERA",
-          "acestream_id": "e4124b2143ed75e5ce902bed61be08cc5e5c3c03",
-          "short_id": "e412",
-          "fuente": "NEW ERA"
-        },
-        {
           "nombre": "MOVISTAR DEPORTES 6 --> ELCANO",
           "acestream_id": "e6cd9205e26b3b6680f607030c702e911272524a",
           "short_id": "e6cd",
@@ -1909,12 +1495,6 @@
           "acestream_id": "8f982a0d6e3196c12d0034142b65008321150f7c",
           "short_id": "8f98",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "MOVISTAR DEPORTES 7 --> ELCANO",
-          "acestream_id": "2d549bbcd898b09c4b736e6e3e83e8e8c19fcbda",
-          "short_id": "2d54",
-          "fuente": "ELCANO"
         },
         {
           "nombre": "MOVISTAR DEPORTES 8 --> ELCANO",
@@ -1945,12 +1525,6 @@
           "acestream_id": "872608e734992db636eb79426802cd08f4029afb",
           "short_id": "8726",
           "fuente": "SPORT TV"
-        },
-        {
-          "nombre": "MOVISTAR GOLF 2 FHD --> NEW ERA",
-          "acestream_id": "96e82321c731e41768a806992ee4d3b9b7a0e7d7",
-          "short_id": "96e8",
-          "fuente": "NEW ERA"
         },
         {
           "nombre": "MOVISTAR VAMOS FHD --> NEW ERA",
@@ -2020,14 +1594,14 @@
         },
         {
           "nombre": "MOVISTAR VAMOS --> ELCANO",
-          "acestream_id": "b46a524780cf0ac5e533491fe79389d6198acf2c",
-          "short_id": "b46a",
+          "acestream_id": "a9299052e9a16e5e2924e1fdd00b877c374f9e96",
+          "short_id": "a929",
           "fuente": "ELCANO"
         },
         {
           "nombre": "MOVISTAR VAMOS --> ELCANO",
-          "acestream_id": "a9299052e9a16e5e2924e1fdd00b877c374f9e96",
-          "short_id": "a929",
+          "acestream_id": "b46a524780cf0ac5e533491fe79389d6198acf2c",
+          "short_id": "b46a",
           "fuente": "ELCANO"
         }
       ]
@@ -2039,12 +1613,6 @@
           "nombre": "NBA EVENTOS 1 --> NEW ERA",
           "acestream_id": "3cd63bd01b6443c715467730a489f1ece7c1a306",
           "short_id": "3cd6",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "NBA EVENTOS 2 --> NEW ERA",
-          "acestream_id": "540101712b991557b00973af27027812f99b6458",
-          "short_id": "5401",
           "fuente": "NEW ERA"
         },
         {
@@ -2352,10 +1920,22 @@
           "fuente": "NEW ERA"
         },
         {
+          "nombre": "ARAGON TV HD --> NEW ERA",
+          "acestream_id": "ba4597903f099695e7d6bcc5938f91cb0798006b",
+          "short_id": "ba45",
+          "fuente": "NEW ERA"
+        },
+        {
           "nombre": "CUATRO FHD --> NEW ERA",
           "acestream_id": "8d66979e705a8b532b9243bbc0862c0f1c734ef0",
           "short_id": "8d66",
           "fuente": "NEW ERA"
+        },
+        {
+          "nombre": "CUATRO --> ELCANO",
+          "acestream_id": "03f24ddb1f1451b308fd0d5f72ec6d353ffd8e41",
+          "short_id": "03f2",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "LA 1 FHD --> NEW ERA",
@@ -2367,12 +1947,6 @@
           "nombre": "LA 1 --> ELCANO",
           "acestream_id": "02622fa2fab63847d88dc14fd9fa5c2fc35de8a8",
           "short_id": "0262",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "LA 1 --> ELCANO",
-          "acestream_id": "1fddc49dd11ae7bb16f2b94648a9b4f0efc80349",
-          "short_id": "1fdd",
           "fuente": "ELCANO"
         },
         {
@@ -2421,35 +1995,6 @@
           "acestream_id": "8091334c82e8720fc6aa05ff0bd6d343c5bfecbf",
           "short_id": "8091",
           "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "TENNIS CHANNEL --> NEW LOOP",
-          "acestream_id": "8941762ddb41ff774d02431b7973f759d7c74157",
-          "short_id": "8941",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "TENNIS CHANNEL HD --> NEW LOOP",
-          "acestream_id": "1b348443efc7f0cf4cdf349ac35bbe5d41be6220",
-          "short_id": "1b34",
-          "fuente": "NEW LOOP"
-        }
-      ]
-    },
-    {
-      "nombre": "UFC",
-      "canales": [
-        {
-          "nombre": "UFC Fight Pass --> NEW ERA",
-          "acestream_id": "108aebe20efc826e56f3a1cb01117a124a6b89ad",
-          "short_id": "108a",
-          "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "UFC Fight Pass FHD --> NEW ERA",
-          "acestream_id": "96537527b2d5e858b2e6c863a00dec304254091d",
-          "short_id": "9653",
-          "fuente": "NEW ERA"
         }
       ]
     },
@@ -2466,6 +2011,12 @@
           "nombre": "ACB EVENTO 01 ** --> ELCANO",
           "acestream_id": "53962d7fb865aff73b34a3afb2905cd492f60d75",
           "short_id": "5396",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "ACB EVENTO 01 SDp * --> ELCANO",
+          "acestream_id": "8faa686a99697b99261346e479ead172b1d9d5d2",
+          "short_id": "8faa",
           "fuente": "ELCANO"
         },
         {
@@ -2499,18 +2050,6 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "Auto Motor und Sport Channel --> NEW LOOP",
-          "acestream_id": "a211931dace9e4d8975a036b60836fac753e33de",
-          "short_id": "a211",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "BeIN Sport 1 HD --> NEW LOOP",
-          "acestream_id": "069ac307d62d69bc28aabf1fa5a2e93cac34194b",
-          "short_id": "069a",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "Bein Sports TR FHDp * --> ELCANO",
           "acestream_id": "e7ddca738693a902ce34fb80788b220676c15801",
           "short_id": "e7dd",
@@ -2521,24 +2060,6 @@
           "acestream_id": "1e045b7e16a5c2c3e5a8c0c0176efa26b63d7955",
           "short_id": "1e04",
           "fuente": "NEW ERA"
-        },
-        {
-          "nombre": "Canal+ action --> NEW LOOP",
-          "acestream_id": "5268a2b348aa53e325f99054a9da7cf1a2179ec9",
-          "short_id": "5268",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "CANAL+ SPORT --> NEW LOOP",
-          "acestream_id": "108b33a44b6ab295f6301d0a2c433a1ef330d5a4",
-          "short_id": "108b",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "Canal+ Sport 3 PL --> NEW LOOP",
-          "acestream_id": "b3f2b59e44fe70f45dca643107f88b6fcff80672",
-          "short_id": "b3f2",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "DAZN MOTOGP FHD --> NEW ERA VI",
@@ -2554,6 +2075,12 @@
         },
         {
           "nombre": "Dazn MotoGP FHDp * --> ELCANO",
+          "acestream_id": "e18b79bce27f6ee8eef9a1fc811bb5f80e4b558c",
+          "short_id": "e18b",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "Dazn MotoGP FHDp * --> ELCANO",
           "acestream_id": "20d4b3586bb822c3618cf8fb665a304869c5e1a5",
           "short_id": "20d4",
           "fuente": "ELCANO"
@@ -2562,24 +2089,6 @@
           "nombre": "Dazn MotoGP SDp * --> ELCANO",
           "acestream_id": "ac33342ccf7d40d46174229085461d95000b9137",
           "short_id": "ac33",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "Dazn MotoGP FHDp ** --> ELCANO",
-          "acestream_id": "342ca6975a4884d81f9fec5c4085a47060bd2028",
-          "short_id": "342c",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "Dazn MotoGP FHDp ** --> ELCANO",
-          "acestream_id": "c53bdb3be55d12c5188d25085f1bb16911c15cea",
-          "short_id": "c53b",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "Dazn MotoGP SDp ** --> ELCANO",
-          "acestream_id": "129c707eb4854171d178a566f36d90b7f2b5e624",
-          "short_id": "129c",
           "fuente": "ELCANO"
         },
         {
@@ -2613,12 +2122,6 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "Film+ HD --> NEW LOOP",
-          "acestream_id": "ec7aeef5723f654ee705a192bdcf4eff2fc7c311",
-          "short_id": "ec7a",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "Gol Peru * --> ELCANO",
           "acestream_id": "e5cb8a4284eadd0f8c5905cc7b5a899da7101312",
           "short_id": "e5cb",
@@ -2631,9 +2134,9 @@
           "fuente": "ELCANO"
         },
         {
-          "nombre": "M+ Golf 2 FHDp ** --> ELCANO",
-          "acestream_id": "882074140fca664e119a43294afa2fb4a64917ef",
-          "short_id": "8820",
+          "nombre": "M+ Golf 2 * --> ELCANO",
+          "acestream_id": "ac321484243571f59e077f2a2521e648dc0c7b03",
+          "short_id": "ac32",
           "fuente": "ELCANO"
         },
         {
@@ -2721,45 +2224,21 @@
           "fuente": "SPORT TV"
         },
         {
-          "nombre": "NBA DAZN SDp * --> ELCANO",
-          "acestream_id": "3bc122425f49648689cb8fd81de33cb19b848d20",
-          "short_id": "3bc1",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "noa4 Hamburg FHD --> NEW LOOP",
-          "acestream_id": "d6914c08d198edcfbac7562e3db75303bd8fde48",
-          "short_id": "d691",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "Orange TV --> NEW LOOP",
-          "acestream_id": "cfb04bd3d4ca8d661eee02ed734ac767d04a00f6",
-          "short_id": "cfb0",
-          "fuente": "NEW LOOP"
-        },
-        {
           "nombre": "Pluto TV Auto Motor Sport (720p) --> NEW LOOP",
           "acestream_id": "ffa09e597804001f634dd1829f031823411a2595",
           "short_id": "ffa0",
           "fuente": "NEW LOOP"
         },
         {
-          "nombre": "Pluto TV Auto Motor Sport (720p) --> NEW LOOP",
-          "acestream_id": "93780e4164ed775a9a7cd67c44716de58463fa0a",
-          "short_id": "9378",
-          "fuente": "NEW LOOP"
+          "nombre": "RFEF TV FHDp * --> ELCANO",
+          "acestream_id": "177796041773be99b489dd3ce86144f243e7355f",
+          "short_id": "1777",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "RFEF TV FHDp * --> ELCANO",
           "acestream_id": "7b742628b9f7e82902bdbc1ff92eba1988875cfc",
           "short_id": "7b74",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "RFEF TV FHDp * --> ELCANO",
-          "acestream_id": "177796041773be99b489dd3ce86144f243e7355f",
-          "short_id": "1777",
           "fuente": "ELCANO"
         },
         {
@@ -2863,18 +2342,6 @@
           "acestream_id": "e9975d38aaa4475ac0b1fa0faa541bbadd85a662",
           "short_id": "e997",
           "fuente": "ELCANO"
-        },
-        {
-          "nombre": "Star Cinema FHD UA --> NEW LOOP",
-          "acestream_id": "8499569a8a8977d6dfea59cd83e78d594ae8b06f",
-          "short_id": "8499",
-          "fuente": "NEW LOOP"
-        },
-        {
-          "nombre": "SuperTennis HD --> NEW LOOP",
-          "acestream_id": "7a57543cb6061648dc44c5d4321bd100bc8a47ca",
-          "short_id": "7a57",
-          "fuente": "NEW LOOP"
         },
         {
           "nombre": "VIASAT SPORT HD (RU) --> SPORT TV",
