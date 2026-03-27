@@ -37,12 +37,6 @@
       "acestream_id": "22b702984a0db43fd371c30e2df150b2336551cd"
     },
     {
-      "titulo": "ACB EVENTO 03 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "119087e842ea8857124b9405b10bb6cfffd2900c"
-    },
-    {
       "titulo": "ACB EVENTO 03 **",
       "fecha": "",
       "hora": "",
@@ -53,12 +47,6 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "a116ce3ff95c41c60e987e2b1aa247007f707884"
-    },
-    {
-      "titulo": "DAZN 1 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "dddff67edfa7061f643ec5ae0be110169850363d"
     },
     {
       "titulo": "DAZN 1 **",
@@ -175,12 +163,6 @@
       "acestream_id": "87bb542f974b6b9e89d0f2e20ed6dc93426f4be0"
     },
     {
-      "titulo": "LaLiga TV Hypermotion 2 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "3a21e651c0bffe810cfc8537065cb81f5ed68a55"
-    },
-    {
       "titulo": "DAZN LaLiga 1080p **",
       "fecha": "",
       "hora": "",
@@ -217,28 +199,10 @@
       "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9"
     },
     {
-      "titulo": "M+ Liga de Campeones 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "2b51710cee513e8939785fa3e7980f32d4e0415f"
-    },
-    {
-      "titulo": "M+ Liga de Campeones 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "9db029dff6a9c637d1f670e78dbc1a479b9b406e"
-    },
-    {
       "titulo": "M+ Deportes 720p *",
       "fecha": "",
       "hora": "",
       "acestream_id": "6e031aed136bf97d8667fcd5fc49c73256928281"
-    },
-    {
-      "titulo": "M+ Deportes 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "2f3cfd199a49819cbd129689a840dc3d23ab93aa"
     },
     {
       "titulo": "M+ Deportes 1080p *",
@@ -268,13 +232,13 @@
       "titulo": "M+ Deportes 2 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "890901fa742b19d8808cf49f19db2d3016437c56"
+      "acestream_id": "f0ee7a2b43c1df5ea9e4fac5bf876d5bef4372b0"
     },
     {
       "titulo": "M+ Deportes 2 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "f0ee7a2b43c1df5ea9e4fac5bf876d5bef4372b0"
+      "acestream_id": "890901fa742b19d8808cf49f19db2d3016437c56"
     },
     {
       "titulo": "M+ Deportes 3 720p *",
@@ -317,12 +281,6 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "7b361369a40046ad3011086f9d4ae2982fb4d5aa"
-    },
-    {
-      "titulo": "M+ Deportes 6 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "e6cd9205e26b3b6680f607030c702e911272524a"
     },
     {
       "titulo": "M+ Deportes 7 1080p **",
@@ -409,12 +367,6 @@
       "acestream_id": "ed6524f8f73c30cf102fde66f2cb520f4b5842e3"
     },
     {
-      "titulo": "Esport3 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "8f59ce96e4c902ba2f5193af07546d7ff17fc3bc"
-    },
-    {
       "titulo": "Teledeporte 720p **",
       "fecha": "",
       "hora": "",
@@ -430,13 +382,13 @@
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6"
+      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     },
     {
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
+      "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6"
     },
     {
       "titulo": "Dazn MotoGP 1080p *",
@@ -451,5 +403,5 @@
       "acestream_id": "342ca6975a4884d81f9fec5c4085a47060bd2028"
     }
   ],
-  "total": 75
+  "total": 67
 }
