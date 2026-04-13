@@ -584,6 +584,12 @@
         },
         {
           "nombre": "DAZN LA LIGA 1 --> ELCANO",
+          "acestream_id": "eb4975702ceadca7ed74f8707e17a9f55569dbb9",
+          "short_id": "eb49",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "DAZN LA LIGA 1 --> ELCANO",
           "acestream_id": "4e6d9cf7d177366045d33cd8311d8b1d7f4bed1f",
           "short_id": "4e6d",
           "fuente": "ELCANO"
@@ -596,14 +602,14 @@
         },
         {
           "nombre": "DAZN LA LIGA 1 --> ELCANO",
-          "acestream_id": "4955867fad3bc92e5b4c36045699fc277800fb18",
-          "short_id": "4955",
+          "acestream_id": "e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05",
+          "short_id": "e2b8",
           "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN LA LIGA 1 --> ELCANO",
-          "acestream_id": "e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05",
-          "short_id": "e2b8",
+          "acestream_id": "4955867fad3bc92e5b4c36045699fc277800fb18",
+          "short_id": "4955",
           "fuente": "ELCANO"
         },
         {
@@ -650,12 +656,6 @@
         },
         {
           "nombre": "M+ LALIGA --> ELCANO",
-          "acestream_id": "c9321006921967d6258df6945f1d598a5c0cbf1e",
-          "short_id": "c932",
-          "fuente": "ELCANO"
-        },
-        {
-          "nombre": "M+ LALIGA --> ELCANO",
           "acestream_id": "00c9bc9c5d7d87680a5a6bed349edfa775a89947",
           "short_id": "00c9",
           "fuente": "ELCANO"
@@ -664,6 +664,12 @@
           "nombre": "M+ LALIGA --> ELCANO",
           "acestream_id": "4b528d10eaad747ddf52251206177573ee3e9f74",
           "short_id": "4b52",
+          "fuente": "ELCANO"
+        },
+        {
+          "nombre": "M+ LALIGA --> ELCANO",
+          "acestream_id": "c9321006921967d6258df6945f1d598a5c0cbf1e",
+          "short_id": "c932",
           "fuente": "ELCANO"
         },
         {
@@ -894,14 +900,14 @@
         },
         {
           "nombre": "RALLY TV --> ELCANO",
-          "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9",
-          "short_id": "1240",
+          "acestream_id": "b6ca8e022947548af61d76660b6b6f799a778d31",
+          "short_id": "b6ca",
           "fuente": "ELCANO"
         },
         {
           "nombre": "RALLY TV --> ELCANO",
-          "acestream_id": "b6ca8e022947548af61d76660b6b6f799a778d31",
-          "short_id": "b6ca",
+          "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9",
+          "short_id": "1240",
           "fuente": "ELCANO"
         },
         {
@@ -1066,14 +1072,14 @@
         },
         {
           "nombre": "MOVISTAR DEPORTES --> ELCANO",
-          "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05",
-          "short_id": "77cf",
+          "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6",
+          "short_id": "3b50",
           "fuente": "ELCANO"
         },
         {
           "nombre": "MOVISTAR DEPORTES --> ELCANO",
-          "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6",
-          "short_id": "3b50",
+          "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05",
+          "short_id": "77cf",
           "fuente": "ELCANO"
         },
         {
@@ -1629,6 +1635,12 @@
           "acestream_id": "cd243637855e2c5b2ce926f86032dfc430c79ebb",
           "short_id": "cd24",
           "fuente": "NEW LOOP"
+        },
+        {
+          "nombre": "Bein Sports TR FHDp * --> ELCANO",
+          "acestream_id": "e7ddca738693a902ce34fb80788b220676c15801",
+          "short_id": "e7dd",
+          "fuente": "ELCANO"
         },
         {
           "nombre": "DAZN MOTOGP --> NEW ERA",
