@@ -64,12 +64,12 @@ def play(acestream_id, title='', port=6878, ace_path='', timeout=30):
 def _play_android(acestream_id):
     """Lanza la app Acestream de Android mediante StartAndroidActivity.
 
-    Usa android.intent.action.VIEW con acestream://HASH y paquete vacío,
-    dejando que Android resuelva qué app maneja el esquema acestream://.
-    Funciona con cualquier versión y nombre de paquete de la app Acestream.
+    Formato: StartAndroidActivity(package, action, mime, data)
+    - mime = 'video/*' es obligatorio para que Android despache el intent.
+    - package vacio = Android resuelve automaticamente que app maneja acestream://
     """
     builtin = (
-        'StartAndroidActivity("","android.intent.action.VIEW","",'
+        'StartAndroidActivity("","android.intent.action.VIEW","video/*",'
         '"acestream://{}")'.format(acestream_id)
     )
     xbmc.log('[AcestreamPlayer] Android Intent: ' + builtin, xbmc.LOGDEBUG)

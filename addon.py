@@ -82,9 +82,21 @@ def _check_and_install_libraries():
 
     xbmcgui.Dialog().notification(ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000)
     try:
+        import ssl
         if not os.path.exists(PROFILE_PATH):
             os.makedirs(PROFILE_PATH)
-        urllib.request.urlretrieve(LIBRARIES_ZIP_URL, LIBRARIES_ZIP_PATH)
+        # urlretrieve falla en Android TV por SSL; usamos urlopen con contexto permisivo
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        req = urllib.request.Request(
+            LIBRARIES_ZIP_URL,
+            headers={'User-Agent': 'Mozilla/5.0'}
+        )
+        with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
+            zip_data = resp.read()
+        with open(LIBRARIES_ZIP_PATH, 'wb') as f:
+            f.write(zip_data)
         with zipfile.ZipFile(LIBRARIES_ZIP_PATH, 'r') as z:
             z.extractall(LIBRARIES_PATH)
         os.remove(LIBRARIES_ZIP_PATH)
