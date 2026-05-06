@@ -1,0 +1,3 @@
+# Forzar LF para archivos que GitHub Pages sirve directamente
+addons.xml      text eol=lf
+addons.xml.md5  text eol=lf
