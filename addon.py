@@ -7,8 +7,6 @@ import os
 import json
 import re
 import datetime
-import zipfile
-import urllib.request
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
 
@@ -33,95 +31,13 @@ HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
 PARAMS   = dict(parse_qsl(sys.argv[2][1:]))
 
-PROFILE_PATH      = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
-LIBRARIES_PATH    = os.path.join(PROFILE_PATH, 'lib')
-LIBRARIES_ZIP_URL = 'https://raw.githubusercontent.com/jlatorreaguilar/nada-que-ver/master/bibliotecas.zip'
-LIBRARIES_ZIP_PATH = os.path.join(PROFILE_PATH, 'bibliotecas.zip')
-
-# Añadir resources/lib (acestream) y LIBRARIES_PATH al sys.path
+# Añadir resources/lib al sys.path (contiene acestream, requests, bs4, etc.)
 _LIB_PATH = os.path.join(ADDON_PATH, 'resources', 'lib')
-for _p in (_LIB_PATH, LIBRARIES_PATH):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+if _LIB_PATH not in sys.path:
+    sys.path.insert(0, _LIB_PATH)
 
-
-def _get_setting(key, default=''):
-    val = ADDON.getSetting(key)
-    return val if val else default
-
-
-ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
-ACESTREAM_PATH   = _get_setting('acestream_path', '')
-DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/nada-que-ver/data/canales.json'
-DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/nada-que-ver/data/agenda.json'
-
-AGENDA_URLS = [
-    'https://deportes-live.vercel.app/index.html',
-    'https://ciriaco.netlify.app/',
-    'https://eventos-eight-dun.vercel.app/',
-    'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
-]
-
-# ---------------------------------------------------------------------------
-# Descarga de librerías en tiempo de ejecución (primera vez)
-# ---------------------------------------------------------------------------
-def _check_and_install_libraries():
-    import shutil
-
-    # Primero comprobamos si requests ya es importable (caso normal)
-    try:
-        import requests  # noqa: F401
-        return True
-    except ImportError:
-        pass
-
-    # El directorio existe pero el import falló → extracción incompleta/corrupta
-    if os.path.isdir(LIBRARIES_PATH):
-        log('LIBRARIES_PATH existe pero requests no es importable; eliminando para reinstalar', xbmc.LOGWARNING)
-        shutil.rmtree(LIBRARIES_PATH, ignore_errors=True)
-
-    xbmcgui.Dialog().notification(ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000)
-    try:
-        import ssl
-        if not os.path.exists(PROFILE_PATH):
-            os.makedirs(PROFILE_PATH)
-        # urlretrieve falla en Android TV por SSL; usamos urlopen con contexto permisivo
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        req = urllib.request.Request(
-            LIBRARIES_ZIP_URL,
-            headers={'User-Agent': 'Mozilla/5.0'}
-        )
-        with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
-            zip_data = resp.read()
-        with open(LIBRARIES_ZIP_PATH, 'wb') as f:
-            f.write(zip_data)
-        with zipfile.ZipFile(LIBRARIES_ZIP_PATH, 'r') as z:
-            z.extractall(LIBRARIES_PATH)
-        os.remove(LIBRARIES_ZIP_PATH)
-
-        # Asegurarnos de que la ruta está en sys.path antes de verificar
-        if LIBRARIES_PATH not in sys.path:
-            sys.path.insert(0, LIBRARIES_PATH)
-
-        # Verificar que el import funciona realmente tras la extracción
-        import requests  # noqa: F401
-        xbmcgui.Dialog().notification(ADDON_NAME, 'Componentes instalados.', xbmcgui.NOTIFICATION_INFO, 3000)
-        return True
-    except ImportError:
-        log('Extraccion completada pero requests sigue sin importarse; revisar estructura del ZIP', xbmc.LOGERROR)
-        xbmcgui.Dialog().notification(ADDON_NAME, 'Error: estructura del ZIP incorrecta. Contacta al autor.', xbmcgui.NOTIFICATION_ERROR, 6000)
-        return False
-    except Exception as e:
-        xbmc.log('[{}] ERROR instalando librerias: {}'.format(ADDON_ID, e), xbmc.LOGERROR)
-        xbmcgui.Dialog().notification(ADDON_NAME, 'Error al descargar componentes: {}'.format(e), xbmcgui.NOTIFICATION_ERROR, 5000)
-        return False
-
-
-# Las librerías (requests, bs4) se instalan la primera vez que se accede
-# a la Agenda o a los Canales. La reproducción (mode=play) no requiere
-# ninguna librería externa y funciona siempre sin descargar nada.
+import requests
+from bs4 import BeautifulSoup
 
 
 # ---------------------------------------------------------------------------
@@ -137,9 +53,7 @@ def build_url(params):
 
 def fetch_url(url):
     """Realiza una petición HTTP y devuelve el contenido como texto."""
-    _check_and_install_libraries()
     try:
-        import requests
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
         r = requests.get(url, headers=headers, timeout=15)
         if r.status_code == 200:
@@ -303,13 +217,6 @@ def _strip_html(raw):
 
 
 def _fetch_agenda_html(url, index):
-    try:
-        import requests
-    except ImportError:
-        xbmcgui.Dialog().ok(ADDON_NAME,
-            'Componentes no disponibles.\nVe a la Agenda para instalarlos.')
-        return None
-
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
@@ -358,7 +265,6 @@ def _parse_agenda_events(html):
 
 def _parse_agenda_bs4(html):
     """Parseo robusto con BeautifulSoup."""
-    from bs4 import BeautifulSoup
     today = datetime.datetime.now().strftime('%d/%m/%Y')
     soup  = BeautifulSoup(html, 'html.parser')
 
@@ -539,12 +445,6 @@ def show_agenda():
     xbmcplugin.setPluginCategory(HANDLE, 'Agenda')
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    if not _check_and_install_libraries():
-        xbmcgui.Dialog().ok(ADDON_NAME,
-            'No se pudieron descargar los componentes necesarios.\n'
-            'Comprueba la conexión a internet e inténtalo de nuevo.')
-        xbmcplugin.endOfDirectory(HANDLE)
-        return
     events = []
     failed_urls = []
     for i, url in enumerate(AGENDA_URLS):
