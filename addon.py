@@ -66,8 +66,20 @@ AGENDA_URLS = [
 # Descarga de librerías en tiempo de ejecución (primera vez)
 # ---------------------------------------------------------------------------
 def _check_and_install_libraries():
-    if os.path.isdir(LIBRARIES_PATH):
+    import shutil
+
+    # Primero comprobamos si requests ya es importable (caso normal)
+    try:
+        import requests  # noqa: F401
         return True
+    except ImportError:
+        pass
+
+    # El directorio existe pero el import falló → extracción incompleta/corrupta
+    if os.path.isdir(LIBRARIES_PATH):
+        log('LIBRARIES_PATH existe pero requests no es importable; eliminando para reinstalar', xbmc.LOGWARNING)
+        shutil.rmtree(LIBRARIES_PATH, ignore_errors=True)
+
     xbmcgui.Dialog().notification(ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000)
     try:
         if not os.path.exists(PROFILE_PATH):
@@ -76,8 +88,19 @@ def _check_and_install_libraries():
         with zipfile.ZipFile(LIBRARIES_ZIP_PATH, 'r') as z:
             z.extractall(LIBRARIES_PATH)
         os.remove(LIBRARIES_ZIP_PATH)
+
+        # Asegurarnos de que la ruta está en sys.path antes de verificar
+        if LIBRARIES_PATH not in sys.path:
+            sys.path.insert(0, LIBRARIES_PATH)
+
+        # Verificar que el import funciona realmente tras la extracción
+        import requests  # noqa: F401
         xbmcgui.Dialog().notification(ADDON_NAME, 'Componentes instalados.', xbmcgui.NOTIFICATION_INFO, 3000)
         return True
+    except ImportError:
+        log('Extraccion completada pero requests sigue sin importarse; revisar estructura del ZIP', xbmc.LOGERROR)
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Error: estructura del ZIP incorrecta. Contacta al autor.', xbmcgui.NOTIFICATION_ERROR, 6000)
+        return False
     except Exception as e:
         xbmc.log('[{}] ERROR instalando librerias: {}'.format(ADDON_ID, e), xbmc.LOGERROR)
         xbmcgui.Dialog().notification(ADDON_NAME, 'Error al descargar componentes: {}'.format(e), xbmcgui.NOTIFICATION_ERROR, 5000)
