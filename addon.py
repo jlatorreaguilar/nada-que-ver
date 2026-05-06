@@ -7,20 +7,8 @@ import os
 import json
 import re
 import datetime
-import ssl
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
-from urllib.request import urlopen, Request
-from urllib.error import URLError, HTTPError
-
-# Contexto SSL que acepta certs no verificados
-# (necesario en Android TV donde Kodi puede rechazar ciertos CDNs)
-try:
-    _SSL_CTX = ssl.create_default_context()
-    _SSL_CTX.check_hostname = False
-    _SSL_CTX.verify_mode = ssl.CERT_NONE
-except Exception:
-    _SSL_CTX = None
 
 import xbmc
 import xbmcgui
@@ -73,18 +61,7 @@ except ImportError:
     _BS4_AVAILABLE = False
     xbmc.log('[{}] BeautifulSoup no disponible, usando parseo regex'.format(ADDON_ID), xbmc.LOGWARNING)
 
-try:
-    import requests as _requests
-    # Suprimir warnings de SSL (verify=False) en el log de Kodi
-    try:
-        import urllib3
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    except Exception:
-        pass
-    _REQUESTS_AVAILABLE = True
-except ImportError:
-    _REQUESTS_AVAILABLE = False
-    xbmc.log('[{}] requests no disponible, usando urllib'.format(ADDON_ID), xbmc.LOGWARNING)
+import requests
 
 
 # ---------------------------------------------------------------------------
@@ -101,19 +78,13 @@ def build_url(params):
 def fetch_url(url):
     """Realiza una petición HTTP y devuelve el contenido como texto."""
     try:
-        headers = {
-            'User-Agent': (
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                'AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/120.0.0.0 Safari/537.36'
-            )
-        }
-        req      = Request(url, headers=headers)
-        response = urlopen(req, timeout=15)
-        data     = response.read().decode('utf-8', errors='ignore')
-        response.close()
-        return data
-    except (URLError, HTTPError) as e:
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        r = requests.get(url, headers=headers, timeout=15)
+        if r.status_code == 200:
+            return r.text
+        log('fetch_url HTTP {}: {}'.format(r.status_code, url), xbmc.LOGERROR)
+        return None
+    except Exception as e:
         log('Error fetching {}: {}'.format(url, str(e)), xbmc.LOGERROR)
         xbmcgui.Dialog().notification(
             ADDON_NAME, 'Error de conexión: {}'.format(str(e)), ICON, 5000
@@ -270,70 +241,33 @@ def _strip_html(raw):
 
 
 def _fetch_agenda_html(url, index):
-    """
-    Intenta obtener el HTML de url mostrando notificación de progreso.
-    Usa requests si está disponible (mejor compatibilidad en Android TV),
-    con fallback a urllib. Prueba: directo → allorigins.win → corsproxy.io
-    """
-    headers = {
-        'User-Agent'     : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0',
-        'Accept'         : 'text/html,application/xhtml+xml,*/*',
-        'Accept-Language': 'es-ES,es;q=0.9',
-    }
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
         xbmcgui.NOTIFICATION_INFO, 1000
     )
 
-    def _get(target, timeout=15):
-        """Realiza GET usando requests o urllib según disponibilidad."""
-        if _REQUESTS_AVAILABLE:
-            try:
-                r = _requests.get(target, headers=headers, timeout=timeout, verify=False)
-                if r.status_code == 200:
-                    return r.text
-            except Exception as e:
-                log('fetch requests fallido {}: {}'.format(target, e), xbmc.LOGWARNING)
-        else:
-            # fallback urllib con SSL bypass
-            try:
-                req      = Request(target, headers=headers)
-                kwargs   = {'timeout': timeout}
-                if _SSL_CTX:
-                    kwargs['context'] = _SSL_CTX
-                response = urlopen(req, **kwargs)
-                html     = response.read().decode('utf-8', errors='ignore')
-                response.close()
-                if html and len(html) > 200:
-                    return html
-            except Exception as e:
-                log('fetch urllib fallido {}: {}'.format(target, e), xbmc.LOGWARNING)
-        return None
-
-    # 1 — Directo
-    html = _get(url)
-    if html and len(html) > 200:
-        log('Agenda: OK directo ({})'.format(url))
-        return html
-
-    # 2 — allorigins.win
     try:
-        data = _get('https://api.allorigins.win/get?url={}'.format(quote(url)), timeout=20)
-        if data:
-            parsed = json.loads(data)
-            if parsed.get('contents') and len(parsed['contents']) > 200:
-                log('Agenda: OK allorigins ({})'.format(url))
-                return parsed['contents']
-    except Exception as e:
-        log('Agenda allorigins fallido {}: {}'.format(url, e), xbmc.LOGWARNING)
+        r = requests.get(url, headers=headers, timeout=10)
+        if r.status_code == 200:
+            return r.text
+    except Exception:
+        pass
 
-    # 3 — corsproxy.io
-    html = _get('https://corsproxy.io/?{}'.format(quote(url)), timeout=20)
-    if html and len(html) > 200:
-        log('Agenda: OK corsproxy ({})'.format(url))
-        return html
+    try:
+        r = requests.get('https://api.allorigins.win/get?url={}'.format(quote(url)), headers=headers, timeout=10)
+        if r.status_code == 200 and 'contents' in r.json():
+            return r.json()['contents']
+    except Exception:
+        pass
 
-    log('Agenda: TODOS los metodos fallaron para {}'.format(url), xbmc.LOGERROR)
+    try:
+        r = requests.get('https://corsproxy.io/?{}'.format(quote(url)), headers=headers, timeout=10)
+        if r.status_code == 200:
+            return r.text
+    except Exception:
+        pass
+
     return None
 
 

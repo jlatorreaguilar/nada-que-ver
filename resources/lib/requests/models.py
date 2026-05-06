@@ -34,11 +34,9 @@ from .compat import (
     builtin_str,
     chardet,
     cookielib,
-    urlencode,
-    urlsplit,
-    urlunparse,
 )
 from .compat import json as complexjson
+from .compat import urlencode, urlsplit, urlunparse
 from .cookies import _copy_cookie_jar, cookiejar_from_dict, get_cookie_header
 from .exceptions import (
     ChunkedEncodingError,
@@ -47,11 +45,11 @@ from .exceptions import (
     HTTPError,
     InvalidJSONError,
     InvalidURL,
-    MissingSchema,
-    StreamConsumedError,
 )
 from .exceptions import JSONDecodeError as RequestsJSONDecodeError
+from .exceptions import MissingSchema
 from .exceptions import SSLError as RequestsSSLError
+from .exceptions import StreamConsumedError
 from .hooks import default_hooks
 from .status_codes import codes
 from .structures import CaseInsensitiveDict
@@ -947,9 +945,7 @@ class Response:
         return content
 
     def json(self, **kwargs):
-        r"""Decodes the JSON response body (if any) as a Python object.
-
-        This may return a dictionary, list, etc. depending on what is in the response.
+        r"""Returns the json-encoded content of a response, if any.
 
         :param \*\*kwargs: Optional arguments that ``json.loads`` takes.
         :raises requests.exceptions.JSONDecodeError: If the response body does not

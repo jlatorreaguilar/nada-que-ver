@@ -1,18 +1,19 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 from warnings import warn
 
 from .api import from_bytes
-from .constant import CHARDET_CORRESPONDENCE, TOO_SMALL_SEQUENCE
+from .constant import CHARDET_CORRESPONDENCE
 
+# TODO: remove this check when dropping Python 3.7 support
 if TYPE_CHECKING:
-    from typing import TypedDict
+    from typing_extensions import TypedDict
 
     class ResultDict(TypedDict):
-        encoding: str | None
+        encoding: Optional[str]
         language: str
-        confidence: float | None
+        confidence: Optional[float]
 
 
 def detect(
@@ -36,7 +37,8 @@ def detect(
 
     if not isinstance(byte_str, (bytearray, bytes)):
         raise TypeError(  # pragma: nocover
-            f"Expected object of type bytes or bytearray, got: {type(byte_str)}"
+            "Expected object of type bytes or bytearray, got: "
+            "{0}".format(type(byte_str))
         )
 
     if isinstance(byte_str, bytearray):
@@ -47,22 +49,6 @@ def detect(
     encoding = r.encoding if r is not None else None
     language = r.language if r is not None and r.language != "Unknown" else ""
     confidence = 1.0 - r.chaos if r is not None else None
-
-    # automatically lower confidence
-    # on small bytes samples.
-    # https://github.com/jawah/charset_normalizer/issues/391
-    if (
-        confidence is not None
-        and confidence >= 0.9
-        and encoding
-        not in {
-            "utf_8",
-            "ascii",
-        }
-        and r.bom is False  # type: ignore[union-attr]
-        and len(byte_str) < TOO_SMALL_SEQUENCE
-    ):
-        confidence -= 0.2
 
     # Note: CharsetNormalizer does not return 'UTF-8-SIG' as the sig get stripped in the detection/normalization process
     # but chardet does return 'utf-8-sig' and it is a valid codec name.
