@@ -7,15 +7,17 @@ import os
 import json
 import re
 import datetime
+import zipfile as _zipfile
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
-from urllib.request import urlopen, Request
+from urllib.request import urlopen, Request, urlretrieve
 from urllib.error import URLError, HTTPError
 
 import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
+import xbmcvfs
 
 # Añadir resources/lib al path para las libs de acestream integradas
 _ADDON_PATH_EARLY = xbmcaddon.Addon().getAddonInfo('path')
@@ -38,6 +40,10 @@ HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
 PARAMS   = dict(parse_qsl(sys.argv[2][1:]))
 
+PROFILE_PATH     = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+LIBRARIES_PATH   = os.path.join(PROFILE_PATH, 'lib')
+LIBRARIES_ZIP_URL = 'https://github.com/Gunter259/repoachannels/raw/refs/heads/main/bibliotecas.zip'
+
 
 def _get_setting(key, default=''):
     val = ADDON.getSetting(key)
@@ -55,6 +61,48 @@ AGENDA_URLS = [
     'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
     'https://deportes-live.vercel.app/index.html',
 ]
+
+# ---------------------------------------------------------------------------
+# Carga de librerías externas (BeautifulSoup, requests…)
+# ---------------------------------------------------------------------------
+
+def _ensure_libraries():
+    """Descarga bibliotecas.zip la primera vez y lo extrae al perfil del addon."""
+    if os.path.isdir(LIBRARIES_PATH):
+        return True
+    xbmcgui.Dialog().notification(
+        ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000
+    )
+    try:
+        if not os.path.exists(PROFILE_PATH):
+            os.makedirs(PROFILE_PATH)
+        zip_tmp = os.path.join(PROFILE_PATH, 'bibliotecas.zip')
+        urlretrieve(LIBRARIES_ZIP_URL, zip_tmp)
+        with _zipfile.ZipFile(zip_tmp, 'r') as z:
+            z.extractall(LIBRARIES_PATH)
+        os.remove(zip_tmp)
+        xbmcgui.Dialog().notification(
+            ADDON_NAME, 'Componentes instalados.', xbmcgui.NOTIFICATION_INFO, 3000
+        )
+        return True
+    except Exception as e:
+        xbmc.log('[{}] ERROR al descargar librerías: {}'.format(ADDON_ID, e), xbmc.LOGERROR)
+        xbmcgui.Dialog().notification(
+            ADDON_NAME, 'Error al descargar componentes: {}'.format(e), xbmcgui.NOTIFICATION_ERROR, 5000
+        )
+        return False
+
+
+_libs_ok = _ensure_libraries()
+if _libs_ok and LIBRARIES_PATH not in sys.path:
+    sys.path.insert(0, LIBRARIES_PATH)
+
+try:
+    from bs4 import BeautifulSoup
+    _BS4_AVAILABLE = True
+except ImportError:
+    _BS4_AVAILABLE = False
+    xbmc.log('[{}] BeautifulSoup no disponible, usando parseo regex'.format(ADDON_ID), xbmc.LOGWARNING)
 
 
 # ---------------------------------------------------------------------------
@@ -291,41 +339,100 @@ def _fetch_agenda_html(url, index):
 def _parse_agenda_events(html):
     """
     Extrae eventos del HTML del servidor de agenda.
-    Usa parseo por tokens en lugar de regex anidados para mayor robustez.
+    Usa BeautifulSoup si está disponible, regex como fallback.
     """
+    if _BS4_AVAILABLE:
+        return _parse_agenda_bs4(html)
+    return _parse_agenda_regex(html)
+
+
+def _parse_agenda_bs4(html):
+    """Parseo robusto con BeautifulSoup."""
+    today = datetime.datetime.now().strftime('%d/%m/%Y')
+    soup  = BeautifulSoup(html, 'html.parser')
+
+    # Buscar tabla del día de hoy
+    table = None
+    for h2 in soup.find_all('h2', class_='fecha'):
+        if today in h2.get_text():
+            table = h2.find_next_sibling('table')
+            break
+    if not table:
+        table = soup.find('table')
+    if not table:
+        log('Agenda BS4: no se encontró tabla', xbmc.LOGWARNING)
+        return []
+
+    events = []
+    for row in table.find_all('tr'):
+        cols = row.find_all('td')
+        if len(cols) < 5:
+            continue
+
+        if len(cols) == 5:
+            time_val    = cols[0].get_text(strip=True)
+            sport       = cols[1].get_text(strip=True)
+            competition = cols[2].get_text(strip=True)
+            event_name  = cols[3].get_text(strip=True)
+            links_col   = cols[4]
+        else:
+            time_val    = cols[1].get_text(strip=True)
+            sport       = cols[2].get_text(strip=True)
+            competition = cols[3].get_text(strip=True)
+            event_name  = cols[4].get_text(strip=True)
+            links_col   = cols[5]
+
+        if not time_val and not event_name:
+            continue
+
+        links = []
+        for a in links_col.find_all('a'):
+            href = a.get('href', '')
+            m = re.search(r'acestream://([a-f0-9]{40})', href)
+            if m:
+                name = a.get_text(strip=True).replace('\u25b6', '').strip() or 'Ver'
+                links.append({'id': m.group(1), 'name': name})
+
+        if links:
+            events.append({
+                'time'        : time_val,
+                'sport'       : sport,
+                'competition' : competition,
+                'event_name'  : event_name,
+                'links'       : links,
+            })
+
+    log('Agenda BS4: {} eventos encontrados'.format(len(events)))
+    return events
+
+
+def _parse_agenda_regex(html):
+    """Parseo de fallback con regex."""
     today = datetime.datetime.now().strftime('%d/%m/%Y')
 
-    # Localizar la tabla: primero busca h2.fecha con hoy, si no la primera tabla
     table_html = None
-    h2_match = re.search(
-        r'<h2[^>]*class=["\'][^"\']*fecha[^"\']*["\'][^>]*>([^<]*)</h2>',
-        html, re.IGNORECASE
-    )
-    if h2_match:
-        # Buscar la h2 que contenga la fecha de hoy
-        for m in re.finditer(
-            r'<h2[^>]*class=["\'][^"\']*fecha[^"\']*["\'][^>]*>(.*?)</h2>',
-            html, re.IGNORECASE | re.DOTALL
-        ):
-            if today in m.group(1):
-                rest = html[m.end():]
-                t = re.search(r'<table[\s\S]*?</table>', rest, re.IGNORECASE)
-                if t:
-                    table_html = t.group(0)
-                break
+    for m in re.finditer(
+        r'<h2[^>]*class=["\'][^"\']*fecha[^"\']*["\'][^>]*>(.*?)</h2>',
+        html, re.IGNORECASE | re.DOTALL
+    ):
+        if today in m.group(1):
+            rest = html[m.end():]
+            t = re.search(r'<table[\s\S]*?</table>', rest, re.IGNORECASE)
+            if t:
+                table_html = t.group(0)
+            break
 
     if not table_html:
         t = re.search(r'<table[\s\S]*?</table>', html, re.IGNORECASE)
         table_html = t.group(0) if t else None
 
     if not table_html:
-        log('Agenda: no se encontró tabla en el HTML', xbmc.LOGWARNING)
+        log('Agenda regex: no se encontró tabla', xbmc.LOGWARNING)
         return []
 
-    ace_re  = re.compile(r'acestream://([a-f0-9]{40})', re.IGNORECASE)
     href_re = re.compile(r'href=["\']?acestream://([a-f0-9]{40})["\']?', re.IGNORECASE)
+    events  = []
 
-    events = []
     for row_m in re.finditer(r'<tr[^>]*>([\s\S]*?)</tr>', table_html, re.IGNORECASE):
         cells = re.findall(r'<td[^>]*>([\s\S]*?)</td>', row_m.group(1), re.IGNORECASE)
         if len(cells) < 5:
@@ -347,13 +454,10 @@ def _parse_agenda_events(html):
 
         links = []
         for a_m in re.finditer(r'<a[^>]*>([\s\S]*?)</a>', links_html, re.IGNORECASE):
-            tag   = a_m.group(0)
-            inner = a_m.group(1)
-            id_m  = href_re.search(tag) or ace_re.search(tag)
+            id_m = href_re.search(a_m.group(0))
             if id_m:
-                ace_id = id_m.group(1)
-                name   = _strip_html(inner).replace('\u25b6', '').strip() or 'Ver'
-                links.append({'id': ace_id, 'name': name})
+                name = _strip_html(a_m.group(1)).replace('\u25b6', '').strip() or 'Ver'
+                links.append({'id': id_m.group(1), 'name': name})
 
         if links:
             events.append({
@@ -364,7 +468,7 @@ def _parse_agenda_events(html):
                 'links'       : links,
             })
 
-    log('Agenda: {} eventos encontrados'.format(len(events)))
+    log('Agenda regex: {} eventos encontrados'.format(len(events)))
     return events
 
 
