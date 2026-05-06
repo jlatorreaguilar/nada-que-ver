@@ -88,8 +88,13 @@ if not _check_and_install_libraries():
     xbmcplugin.endOfDirectory(HANDLE)
     sys.exit()
 
-import requests
-from bs4 import BeautifulSoup
+try:
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError:
+    xbmcgui.Dialog().ok(ADDON_NAME, 'Componentes instalados.\nCierra y vuelve a abrir el addon.')
+    xbmcplugin.endOfDirectory(HANDLE)
+    sys.exit()
 
 
 # ---------------------------------------------------------------------------
@@ -275,27 +280,36 @@ def _fetch_agenda_html(url, index):
         xbmcgui.NOTIFICATION_INFO, 1000
     )
 
+    # 1 — Directo
     try:
         r = requests.get(url, headers=headers, timeout=10)
-        if r.status_code == 200:
+        log('Agenda servidor {}: HTTP {} ({} bytes)'.format(index + 1, r.status_code, len(r.text)))
+        if r.status_code == 200 and len(r.text) > 500:
             return r.text
-    except Exception:
-        pass
+    except Exception as e:
+        log('Agenda servidor {} directo fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
 
+    # 2 — allorigins.win
     try:
-        r = requests.get('https://api.allorigins.win/get?url={}'.format(quote(url)), headers=headers, timeout=10)
-        if r.status_code == 200 and 'contents' in r.json():
-            return r.json()['contents']
-    except Exception:
-        pass
-
-    try:
-        r = requests.get('https://corsproxy.io/?{}'.format(quote(url)), headers=headers, timeout=10)
+        r = requests.get('https://api.allorigins.win/get?url={}'.format(quote(url)), headers=headers, timeout=15)
+        log('Agenda allorigins servidor {}: HTTP {}'.format(index + 1, r.status_code))
         if r.status_code == 200:
-            return r.text
-    except Exception:
-        pass
+            data = r.json()
+            if data.get('contents') and len(data['contents']) > 500:
+                return data['contents']
+    except Exception as e:
+        log('Agenda allorigins servidor {} fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
 
+    # 3 — corsproxy.io
+    try:
+        r = requests.get('https://corsproxy.io/?{}'.format(quote(url)), headers=headers, timeout=15)
+        log('Agenda corsproxy servidor {}: HTTP {} ({} bytes)'.format(index + 1, r.status_code, len(r.text)))
+        if r.status_code == 200 and len(r.text) > 500:
+            return r.text
+    except Exception as e:
+        log('Agenda corsproxy servidor {} fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
+
+    log('Agenda: todos los metodos fallaron para servidor {} ({})'.format(index + 1, url), xbmc.LOGERROR)
     return None
 
 
