@@ -84,17 +84,9 @@ def _check_and_install_libraries():
         return False
 
 
-if not _check_and_install_libraries():
-    xbmcplugin.endOfDirectory(HANDLE)
-    sys.exit()
-
-try:
-    import requests
-    from bs4 import BeautifulSoup
-except ImportError:
-    xbmcgui.Dialog().ok(ADDON_NAME, 'Componentes instalados.\nCierra y vuelve a abrir el addon.')
-    xbmcplugin.endOfDirectory(HANDLE)
-    sys.exit()
+# Las librerías (requests, bs4) se instalan la primera vez que se accede
+# a la Agenda o a los Canales. La reproducción (mode=play) no requiere
+# ninguna librería externa y funciona siempre sin descargar nada.
 
 
 # ---------------------------------------------------------------------------
@@ -110,7 +102,9 @@ def build_url(params):
 
 def fetch_url(url):
     """Realiza una petición HTTP y devuelve el contenido como texto."""
+    _check_and_install_libraries()
     try:
+        import requests
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
         r = requests.get(url, headers=headers, timeout=15)
         if r.status_code == 200:
@@ -274,6 +268,13 @@ def _strip_html(raw):
 
 
 def _fetch_agenda_html(url, index):
+    try:
+        import requests
+    except ImportError:
+        xbmcgui.Dialog().ok(ADDON_NAME,
+            'Componentes no disponibles.\nVe a la Agenda para instalarlos.')
+        return None
+
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
@@ -322,6 +323,7 @@ def _parse_agenda_events(html):
 
 def _parse_agenda_bs4(html):
     """Parseo robusto con BeautifulSoup."""
+    from bs4 import BeautifulSoup
     today = datetime.datetime.now().strftime('%d/%m/%Y')
     soup  = BeautifulSoup(html, 'html.parser')
 
@@ -502,6 +504,12 @@ def show_agenda():
     xbmcplugin.setPluginCategory(HANDLE, 'Agenda')
     xbmcplugin.setContent(HANDLE, 'videos')
 
+    if not _check_and_install_libraries():
+        xbmcgui.Dialog().ok(ADDON_NAME,
+            'No se pudieron descargar los componentes necesarios.\n'
+            'Comprueba la conexión a internet e inténtalo de nuevo.')
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
     events = []
     failed_urls = []
     for i, url in enumerate(AGENDA_URLS):
