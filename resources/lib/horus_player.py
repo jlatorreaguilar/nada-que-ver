@@ -62,16 +62,10 @@ def play(acestream_id, title='', port=6878, ace_path='', timeout=30):
 # ---------------------------------------------------------------------------
 
 def _play_android(acestream_id):
-    """Lanza la app Acestream de Android mediante StartAndroidActivity.
-
-    Usa android.intent.action.VIEW + acestream://ID, que es el formato
-    compatible con las versiones modernas de la app Acestream (>= 3.1).
-    El formato antiguo org.acestream.action.start_content fue deprecado.
-    """
+    """Lanza la app Acestream de Android mediante StartAndroidActivity."""
     builtin = (
-        'StartAndroidActivity("org.acestream.engine",'
-        '"android.intent.action.VIEW","",'
-        '"acestream://{}")'.format(acestream_id)
+        'StartAndroidActivity("","org.acestream.action.start_content","",'
+        '"acestream:?content_id={}")'.format(acestream_id)
     )
     xbmc.log('[AcestreamPlayer] Android Intent: ' + builtin, xbmc.LOGDEBUG)
     xbmc.executebuiltin(builtin)
