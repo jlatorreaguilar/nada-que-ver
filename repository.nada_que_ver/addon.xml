@@ -2,9 +2,9 @@
 <addon id="repository.nada_que_ver" name="Nada que ver Repo" version="1.0.0" provider-name="jlatorreaguilar">
     <extension point="xbmc.addon.repository" name="Nada que ver Repo">
         <dir>
-            <info compressed="false">https://jlatorreaguilar.github.io/nada_que_ver/addons.xml</info>
-            <checksum>https://jlatorreaguilar.github.io/nada_que_ver/addons.xml.md5</checksum>
-            <datadir zip="true">https://jlatorreaguilar.github.io/nada_que_ver/repo/</datadir>
+            <info compressed="false">https://jlatorreaguilar.github.io/nada-que-ver/addons.xml</info>
+            <checksum>https://jlatorreaguilar.github.io/nada-que-ver/addons.xml.md5</checksum>
+            <datadir zip="true">https://jlatorreaguilar.github.io/nada-que-ver/repo/</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
