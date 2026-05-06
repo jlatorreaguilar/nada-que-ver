@@ -239,13 +239,7 @@ def _strip_html(raw):
 
 
 def _fetch_agenda_html(url, index):
-    try:
-        import requests
-    except ImportError:
-        xbmcgui.Dialog().ok(ADDON_NAME,
-            'Componentes no disponibles.\nVe a la Agenda para instalarlos.')
-        return None
-
+    """Descarga el HTML de una URL de agenda usando urllib (sin dependencias externas)."""
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
@@ -254,30 +248,39 @@ def _fetch_agenda_html(url, index):
 
     # 1 — Directo
     try:
-        r = requests.get(url, headers=headers, timeout=10)
-        log('Agenda servidor {}: HTTP {} ({} bytes)'.format(index + 1, r.status_code, len(r.text)))
-        if r.status_code == 200 and len(r.text) > 500:
-            return r.text
+        req = Request(url, headers=headers)
+        r = urlopen(req, timeout=10)
+        html = r.read().decode('utf-8', errors='ignore')
+        r.close()
+        log('Agenda servidor {}: {} bytes'.format(index + 1, len(html)))
+        if len(html) > 500:
+            return html
     except Exception as e:
         log('Agenda servidor {} directo fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
 
     # 2 — allorigins.win
     try:
-        r = requests.get('https://api.allorigins.win/get?url={}'.format(quote(url)), headers=headers, timeout=15)
-        log('Agenda allorigins servidor {}: HTTP {}'.format(index + 1, r.status_code))
-        if r.status_code == 200:
-            data = r.json()
-            if data.get('contents') and len(data['contents']) > 500:
-                return data['contents']
+        proxy_url = 'https://api.allorigins.win/get?url={}'.format(quote(url))
+        req = Request(proxy_url, headers=headers)
+        r = urlopen(req, timeout=15)
+        data = json.loads(r.read().decode('utf-8', errors='ignore'))
+        r.close()
+        if data.get('contents') and len(data['contents']) > 500:
+            log('Agenda allorigins servidor {}: {} bytes'.format(index + 1, len(data['contents'])))
+            return data['contents']
     except Exception as e:
         log('Agenda allorigins servidor {} fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
 
     # 3 — corsproxy.io
     try:
-        r = requests.get('https://corsproxy.io/?{}'.format(quote(url)), headers=headers, timeout=15)
-        log('Agenda corsproxy servidor {}: HTTP {} ({} bytes)'.format(index + 1, r.status_code, len(r.text)))
-        if r.status_code == 200 and len(r.text) > 500:
-            return r.text
+        proxy_url = 'https://corsproxy.io/?{}'.format(quote(url))
+        req = Request(proxy_url, headers=headers)
+        r = urlopen(req, timeout=15)
+        html = r.read().decode('utf-8', errors='ignore')
+        r.close()
+        log('Agenda corsproxy servidor {}: {} bytes'.format(index + 1, len(html)))
+        if len(html) > 500:
+            return html
     except Exception as e:
         log('Agenda corsproxy servidor {} fallido: {}'.format(index + 1, e), xbmc.LOGWARNING)
 
@@ -288,8 +291,9 @@ def _fetch_agenda_html(url, index):
 def _parse_agenda_events(html):
     """
     Extrae eventos del HTML del servidor de agenda.
+    Usa parser regex (sin dependencias externas).
     """
-    return _parse_agenda_bs4(html)
+    return _parse_agenda_regex(html)
 
 
 def _parse_agenda_bs4(html):
