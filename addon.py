@@ -53,6 +53,7 @@ AGENDA_URLS = [
     'https://ciriaco.netlify.app/',
     'https://eventos-eight-dun.vercel.app/',
     'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
+    'https://deportes-live.vercel.app/index.html',
 ]
 
 
