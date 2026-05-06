@@ -7,19 +7,17 @@ import os
 import json
 import re
 import datetime
-import zipfile as _zipfile
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
-from urllib.request import urlopen, Request, urlretrieve
+from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
 
 import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
-import xbmcvfs
 
-# Añadir resources/lib al path para las libs de acestream integradas
+# Añadir resources/lib al path (libs de acestream + bs4 + soupsieve bundleados)
 _ADDON_PATH_EARLY = xbmcaddon.Addon().getAddonInfo('path')
 _LIB_PATH = os.path.join(_ADDON_PATH_EARLY, 'resources', 'lib')
 if _LIB_PATH not in sys.path:
@@ -40,10 +38,6 @@ HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
 PARAMS   = dict(parse_qsl(sys.argv[2][1:]))
 
-PROFILE_PATH     = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
-LIBRARIES_PATH   = os.path.join(PROFILE_PATH, 'lib')
-LIBRARIES_ZIP_URL = 'https://github.com/Gunter259/repoachannels/raw/refs/heads/main/bibliotecas.zip'
-
 
 def _get_setting(key, default=''):
     val = ADDON.getSetting(key)
@@ -56,46 +50,11 @@ DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/nada-que-ver/data/canales.
 DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/nada-que-ver/data/agenda.json'
 
 AGENDA_URLS = [
+    'https://deportes-live.vercel.app/index.html',
     'https://ciriaco.netlify.app/',
     'https://eventos-eight-dun.vercel.app/',
     'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
-    'https://deportes-live.vercel.app/index.html',
 ]
-
-# ---------------------------------------------------------------------------
-# Carga de librerías externas (BeautifulSoup, requests…)
-# ---------------------------------------------------------------------------
-
-def _ensure_libraries():
-    """Descarga bibliotecas.zip la primera vez y lo extrae al perfil del addon."""
-    if os.path.isdir(LIBRARIES_PATH):
-        return True
-    xbmcgui.Dialog().notification(
-        ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000
-    )
-    try:
-        if not os.path.exists(PROFILE_PATH):
-            os.makedirs(PROFILE_PATH)
-        zip_tmp = os.path.join(PROFILE_PATH, 'bibliotecas.zip')
-        urlretrieve(LIBRARIES_ZIP_URL, zip_tmp)
-        with _zipfile.ZipFile(zip_tmp, 'r') as z:
-            z.extractall(LIBRARIES_PATH)
-        os.remove(zip_tmp)
-        xbmcgui.Dialog().notification(
-            ADDON_NAME, 'Componentes instalados.', xbmcgui.NOTIFICATION_INFO, 3000
-        )
-        return True
-    except Exception as e:
-        xbmc.log('[{}] ERROR al descargar librerías: {}'.format(ADDON_ID, e), xbmc.LOGERROR)
-        xbmcgui.Dialog().notification(
-            ADDON_NAME, 'Error al descargar componentes: {}'.format(e), xbmcgui.NOTIFICATION_ERROR, 5000
-        )
-        return False
-
-
-_libs_ok = _ensure_libraries()
-if _libs_ok and LIBRARIES_PATH not in sys.path:
-    sys.path.insert(0, LIBRARIES_PATH)
 
 try:
     from bs4 import BeautifulSoup
