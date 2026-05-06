@@ -7,10 +7,20 @@ import os
 import json
 import re
 import datetime
+import ssl
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
 from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
+
+# Contexto SSL que acepta certs no verificados
+# (necesario en Android TV donde Kodi puede rechazar ciertos CDNs)
+try:
+    _SSL_CTX = ssl.create_default_context()
+    _SSL_CTX.check_hostname = False
+    _SSL_CTX.verify_mode = ssl.CERT_NONE
+except Exception:
+    _SSL_CTX = None
 
 import xbmc
 import xbmcgui
@@ -249,49 +259,73 @@ def _strip_html(raw):
 def _fetch_agenda_html(url, index):
     """
     Intenta obtener el HTML de url mostrando notificación de progreso.
-    Prueba en orden: directo → allorigins.win → corsproxy.io
+    Prueba en orden: directo → directo sin SSL verify → allorigins.win → corsproxy.io
     """
-    ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+    ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0'
+    headers = {
+        'User-Agent'     : ua,
+        'Accept'         : 'text/html,application/xhtml+xml,*/*',
+        'Accept-Encoding': 'identity',  # evitar gzip que puede fallar en Android
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Connection'     : 'close',
+    }
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
         xbmcgui.NOTIFICATION_INFO, 1500
     )
 
-    # 1 — Directo
+    # 1 — Directo con SSL verificado
     try:
-        req      = Request(url, headers={'User-Agent': ua})
-        response = urlopen(req, timeout=10)
+        req      = Request(url, headers=headers)
+        response = urlopen(req, timeout=15)
         html     = response.read().decode('utf-8', errors='ignore')
         response.close()
-        if html and len(html) > 100:
+        if html and len(html) > 200:
+            log('Agenda: OK directo ({})'.format(url))
             return html
     except Exception as e:
-        log('Agenda directo fallido {}: {}'.format(url, e))
+        log('Agenda directo fallido {}: {}'.format(url, e), xbmc.LOGWARNING)
 
-    # 2 — allorigins.win
+    # 2 — Directo sin verificar SSL (Android TV puede rechazar ciertos CDNs)
+    if _SSL_CTX:
+        try:
+            req      = Request(url, headers=headers)
+            response = urlopen(req, context=_SSL_CTX, timeout=15)
+            html     = response.read().decode('utf-8', errors='ignore')
+            response.close()
+            if html and len(html) > 200:
+                log('Agenda: OK directo sin SSL verify ({})'.format(url))
+                return html
+        except Exception as e:
+            log('Agenda directo noSSL fallido {}: {}'.format(url, e), xbmc.LOGWARNING)
+
+    # 3 — allorigins.win
     try:
         proxy_url = 'https://api.allorigins.win/get?url={}'.format(quote(url))
-        req       = Request(proxy_url, headers={'User-Agent': ua})
-        response  = urlopen(req, timeout=15)
+        req       = Request(proxy_url, headers=headers)
+        response  = urlopen(req, timeout=20)
         data      = json.loads(response.read().decode('utf-8', errors='ignore'))
         response.close()
-        if data.get('contents') and len(data['contents']) > 100:
+        if data.get('contents') and len(data['contents']) > 200:
+            log('Agenda: OK allorigins ({})'.format(url))
             return data['contents']
     except Exception as e:
-        log('Agenda allorigins fallido {}: {}'.format(url, e))
+        log('Agenda allorigins fallido {}: {}'.format(url, e), xbmc.LOGWARNING)
 
-    # 3 — corsproxy.io
+    # 4 — corsproxy.io
     try:
         proxy_url = 'https://corsproxy.io/?{}'.format(quote(url))
-        req       = Request(proxy_url, headers={'User-Agent': ua})
-        response  = urlopen(req, timeout=15)
+        req       = Request(proxy_url, headers=headers)
+        response  = urlopen(req, timeout=20)
         html      = response.read().decode('utf-8', errors='ignore')
         response.close()
-        if html and len(html) > 100:
+        if html and len(html) > 200:
+            log('Agenda: OK corsproxy ({})'.format(url))
             return html
     except Exception as e:
-        log('Agenda corsproxy fallido {}: {}'.format(url, e))
+        log('Agenda corsproxy fallido {}: {}'.format(url, e), xbmc.LOGWARNING)
 
+    log('Agenda: TODOS los metodos fallaron para {}'.format(url), xbmc.LOGERROR)
     return None
 
 
@@ -488,20 +522,26 @@ def show_agenda():
     xbmcplugin.setContent(HANDLE, 'videos')
 
     events = []
+    failed_urls = []
     for i, url in enumerate(AGENDA_URLS):
         log('Agenda: probando servidor {} ({})'.format(i + 1, url))
         html = _fetch_agenda_html(url, i)
         if not html:
+            failed_urls.append(str(i + 1))
             continue
         events = _parse_agenda_events(html)
         if events:
             log('Agenda: {} eventos cargados desde servidor {}'.format(len(events), i + 1))
             break
+        else:
+            log('Agenda: HTML recibido pero 0 eventos parseados en servidor {}'.format(i + 1), xbmc.LOGWARNING)
 
     if not events:
+        detail = 'Servidores fallidos: {}'.format(', '.join(failed_urls)) if failed_urls else 'Parse fallido'
+        log('Agenda: FALLO TOTAL - {}'.format(detail), xbmc.LOGERROR)
         xbmcgui.Dialog().ok(
             ADDON_NAME,
-            'No se ha podido cargar la agenda deportiva.\n\nComprueba tu conexión o inténtalo más tarde.'
+            'No se ha podido cargar la agenda deportiva.\n\n{}\n\nRevisa el log de Kodi para más detalles.'.format(detail)
         )
         xbmcplugin.endOfDirectory(HANDLE)
         return
