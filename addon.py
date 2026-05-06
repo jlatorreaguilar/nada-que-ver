@@ -239,13 +239,16 @@ def _strip_html(raw):
     return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', raw)).strip()
 
 
-def _fetch_agenda_html(url):
+def _fetch_agenda_html(url, index):
     """
-    Intenta obtener el HTML de url.
+    Intenta obtener el HTML de url mostrando notificación de progreso.
     Prueba en orden: directo → allorigins.win → corsproxy.io
-    Devuelve el HTML como texto o None si todo falla (sin mostrar notificaciones).
     """
     ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+    xbmcgui.Dialog().notification(
+        'Agenda', 'Probando servidor {}...'.format(index + 1),
+        xbmcgui.NOTIFICATION_INFO, 1500
+    )
 
     # 1 — Directo
     try:
@@ -253,34 +256,34 @@ def _fetch_agenda_html(url):
         response = urlopen(req, timeout=10)
         html     = response.read().decode('utf-8', errors='ignore')
         response.close()
-        if html:
+        if html and len(html) > 100:
             return html
-    except Exception:
-        pass
+    except Exception as e:
+        log('Agenda directo fallido {}: {}'.format(url, e))
 
     # 2 — allorigins.win
     try:
         proxy_url = 'https://api.allorigins.win/get?url={}'.format(quote(url))
         req       = Request(proxy_url, headers={'User-Agent': ua})
-        response  = urlopen(req, timeout=10)
+        response  = urlopen(req, timeout=15)
         data      = json.loads(response.read().decode('utf-8', errors='ignore'))
         response.close()
-        if data.get('contents'):
+        if data.get('contents') and len(data['contents']) > 100:
             return data['contents']
-    except Exception:
-        pass
+    except Exception as e:
+        log('Agenda allorigins fallido {}: {}'.format(url, e))
 
     # 3 — corsproxy.io
     try:
         proxy_url = 'https://corsproxy.io/?{}'.format(quote(url))
         req       = Request(proxy_url, headers={'User-Agent': ua})
-        response  = urlopen(req, timeout=10)
+        response  = urlopen(req, timeout=15)
         html      = response.read().decode('utf-8', errors='ignore')
         response.close()
-        if html:
+        if html and len(html) > 100:
             return html
-    except Exception:
-        pass
+    except Exception as e:
+        log('Agenda corsproxy fallido {}: {}'.format(url, e))
 
     return None
 
@@ -288,34 +291,39 @@ def _fetch_agenda_html(url):
 def _parse_agenda_events(html):
     """
     Extrae eventos del HTML del servidor de agenda.
-    - Si hay <h2 class="fecha"> con la fecha de hoy, usa la tabla inmediatamente siguiente.
-    - Si no, usa la primera tabla del documento.
-    Devuelve lista de dicts: {time, sport, competition, event_name, links:[{id, name}]}
+    Usa parseo por tokens en lugar de regex anidados para mayor robustez.
     """
     today = datetime.datetime.now().strftime('%d/%m/%Y')
-    html  = re.sub(r'\r\n|\r', '\n', html)
 
-    # Tabla de hoy: h2.fecha con fecha actual → siguiente <table>
-    m = re.search(
-        r'<h2[^>]+class=["\']fecha["\'][^>]*>[^<]*{today}[^<]*</h2>[\s\S]*?(<table[\s\S]*?</table>)'.format(
-            today=re.escape(today)
-        ),
+    # Localizar la tabla: primero busca h2.fecha con hoy, si no la primera tabla
+    table_html = None
+    h2_match = re.search(
+        r'<h2[^>]*class=["\'][^"\']*fecha[^"\']*["\'][^>]*>([^<]*)</h2>',
         html, re.IGNORECASE
     )
-    table_html = m.group(1) if m else None
+    if h2_match:
+        # Buscar la h2 que contenga la fecha de hoy
+        for m in re.finditer(
+            r'<h2[^>]*class=["\'][^"\']*fecha[^"\']*["\'][^>]*>(.*?)</h2>',
+            html, re.IGNORECASE | re.DOTALL
+        ):
+            if today in m.group(1):
+                rest = html[m.end():]
+                t = re.search(r'<table[\s\S]*?</table>', rest, re.IGNORECASE)
+                if t:
+                    table_html = t.group(0)
+                break
 
-    # Fallback: primera tabla del documento
     if not table_html:
-        m = re.search(r'<table[\s\S]*?</table>', html, re.IGNORECASE)
-        table_html = m.group(0) if m else None
+        t = re.search(r'<table[\s\S]*?</table>', html, re.IGNORECASE)
+        table_html = t.group(0) if t else None
 
     if not table_html:
+        log('Agenda: no se encontró tabla en el HTML', xbmc.LOGWARNING)
         return []
 
-    link_re = re.compile(
-        r'<a[^>]+href=["\']?acestream://([a-f0-9]{40})["\']?[^>]*>([\s\S]*?)</a>',
-        re.IGNORECASE
-    )
+    ace_re  = re.compile(r'acestream://([a-f0-9]{40})', re.IGNORECASE)
+    href_re = re.compile(r'href=["\']?acestream://([a-f0-9]{40})["\']?', re.IGNORECASE)
 
     events = []
     for row_m in re.finditer(r'<tr[^>]*>([\s\S]*?)</tr>', table_html, re.IGNORECASE):
@@ -324,24 +332,28 @@ def _parse_agenda_events(html):
             continue
 
         if len(cells) == 5:
-            time_val    = _strip_html(cells[0])
-            sport       = _strip_html(cells[1])
-            competition = _strip_html(cells[2])
-            event_name  = _strip_html(cells[3])
-            links_html  = cells[4]
+            time_val, sport, competition, event_name, links_html = (
+                _strip_html(cells[0]), _strip_html(cells[1]),
+                _strip_html(cells[2]), _strip_html(cells[3]), cells[4]
+            )
         else:
-            time_val    = _strip_html(cells[1])
-            sport       = _strip_html(cells[2])
-            competition = _strip_html(cells[3])
-            event_name  = _strip_html(cells[4])
-            links_html  = cells[5]
+            time_val, sport, competition, event_name, links_html = (
+                _strip_html(cells[1]), _strip_html(cells[2]),
+                _strip_html(cells[3]), _strip_html(cells[4]), cells[5]
+            )
+
+        if not time_val and not event_name:
+            continue
 
         links = []
-        for lm in link_re.finditer(links_html):
-            ace_id = lm.group(1)
-            name   = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', lm.group(2))).strip()
-            name   = name.replace('\u25b6', '').strip() or 'Ver'
-            links.append({'id': ace_id, 'name': name})
+        for a_m in re.finditer(r'<a[^>]*>([\s\S]*?)</a>', links_html, re.IGNORECASE):
+            tag   = a_m.group(0)
+            inner = a_m.group(1)
+            id_m  = href_re.search(tag) or ace_re.search(tag)
+            if id_m:
+                ace_id = id_m.group(1)
+                name   = _strip_html(inner).replace('\u25b6', '').strip() or 'Ver'
+                links.append({'id': ace_id, 'name': name})
 
         if links:
             events.append({
@@ -352,6 +364,7 @@ def _parse_agenda_events(html):
                 'links'       : links,
             })
 
+    log('Agenda: {} eventos encontrados'.format(len(events)))
     return events
 
 
@@ -414,7 +427,7 @@ def show_agenda():
     events = []
     for i, url in enumerate(AGENDA_URLS):
         log('Agenda: probando servidor {} ({})'.format(i + 1, url))
-        html = _fetch_agenda_html(url)
+        html = _fetch_agenda_html(url, i)
         if not html:
             continue
         events = _parse_agenda_events(html)
