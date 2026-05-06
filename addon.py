@@ -7,6 +7,8 @@ import os
 import json
 import re
 import datetime
+import zipfile
+import urllib.request
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
 
@@ -14,12 +16,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
-
-# Añadir resources/lib al path (libs de acestream + bs4 + soupsieve bundleados)
-_ADDON_PATH_EARLY = xbmcaddon.Addon().getAddonInfo('path')
-_LIB_PATH = os.path.join(_ADDON_PATH_EARLY, 'resources', 'lib')
-if _LIB_PATH not in sys.path:
-    sys.path.insert(0, _LIB_PATH)
+import xbmcvfs
 
 # ---------------------------------------------------------------------------
 # Constantes del addon
@@ -36,6 +33,17 @@ HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
 PARAMS   = dict(parse_qsl(sys.argv[2][1:]))
 
+PROFILE_PATH      = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+LIBRARIES_PATH    = os.path.join(PROFILE_PATH, 'lib')
+LIBRARIES_ZIP_URL = 'https://raw.githubusercontent.com/jlatorreaguilar/nada-que-ver/master/bibliotecas.zip'
+LIBRARIES_ZIP_PATH = os.path.join(PROFILE_PATH, 'bibliotecas.zip')
+
+# Añadir resources/lib (acestream) y LIBRARIES_PATH al sys.path
+_LIB_PATH = os.path.join(ADDON_PATH, 'resources', 'lib')
+for _p in (_LIB_PATH, LIBRARIES_PATH):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
 
 def _get_setting(key, default=''):
     val = ADDON.getSetting(key)
@@ -43,7 +51,7 @@ def _get_setting(key, default=''):
 
 
 ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
-ACESTREAM_PATH   = _get_setting('acestream_path', '')   # ruta de instalación en PC (opcional)
+ACESTREAM_PATH   = _get_setting('acestream_path', '')
 DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/nada-que-ver/data/canales.json'
 DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/nada-que-ver/data/agenda.json'
 
@@ -54,14 +62,34 @@ AGENDA_URLS = [
     'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
 ]
 
-try:
-    from bs4 import BeautifulSoup
-    _BS4_AVAILABLE = True
-except ImportError:
-    _BS4_AVAILABLE = False
-    xbmc.log('[{}] BeautifulSoup no disponible, usando parseo regex'.format(ADDON_ID), xbmc.LOGWARNING)
+# ---------------------------------------------------------------------------
+# Descarga de librerías en tiempo de ejecución (primera vez)
+# ---------------------------------------------------------------------------
+def _check_and_install_libraries():
+    if os.path.isdir(LIBRARIES_PATH):
+        return True
+    xbmcgui.Dialog().notification(ADDON_NAME, 'Descargando componentes (primera vez)...', xbmcgui.NOTIFICATION_INFO, 4000)
+    try:
+        if not os.path.exists(PROFILE_PATH):
+            os.makedirs(PROFILE_PATH)
+        urllib.request.urlretrieve(LIBRARIES_ZIP_URL, LIBRARIES_ZIP_PATH)
+        with zipfile.ZipFile(LIBRARIES_ZIP_PATH, 'r') as z:
+            z.extractall(LIBRARIES_PATH)
+        os.remove(LIBRARIES_ZIP_PATH)
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Componentes instalados.', xbmcgui.NOTIFICATION_INFO, 3000)
+        return True
+    except Exception as e:
+        xbmc.log('[{}] ERROR instalando librerias: {}'.format(ADDON_ID, e), xbmc.LOGERROR)
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Error al descargar componentes: {}'.format(e), xbmcgui.NOTIFICATION_ERROR, 5000)
+        return False
+
+
+if not _check_and_install_libraries():
+    xbmcplugin.endOfDirectory(HANDLE)
+    sys.exit()
 
 import requests
+from bs4 import BeautifulSoup
 
 
 # ---------------------------------------------------------------------------
@@ -274,11 +302,8 @@ def _fetch_agenda_html(url, index):
 def _parse_agenda_events(html):
     """
     Extrae eventos del HTML del servidor de agenda.
-    Usa BeautifulSoup si está disponible, regex como fallback.
     """
-    if _BS4_AVAILABLE:
-        return _parse_agenda_bs4(html)
-    return _parse_agenda_regex(html)
+    return _parse_agenda_bs4(html)
 
 
 def _parse_agenda_bs4(html):
