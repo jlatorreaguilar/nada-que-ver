@@ -9,12 +9,13 @@ import re
 import datetime
 
 from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
+from urllib.request import urlopen, Request
+from urllib.error import URLError, HTTPError
 
 import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
-import xbmcvfs
 
 # ---------------------------------------------------------------------------
 # Constantes del addon
@@ -31,13 +32,28 @@ HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
 PARAMS   = dict(parse_qsl(sys.argv[2][1:]))
 
-# Añadir resources/lib al sys.path (contiene acestream, requests, bs4, etc.)
+# Añadir resources/lib al path para las libs de acestream integradas
 _LIB_PATH = os.path.join(ADDON_PATH, 'resources', 'lib')
 if _LIB_PATH not in sys.path:
     sys.path.insert(0, _LIB_PATH)
 
-import requests
-from bs4 import BeautifulSoup
+
+def _get_setting(key, default=''):
+    val = ADDON.getSetting(key)
+    return val if val else default
+
+
+ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
+ACESTREAM_PATH   = _get_setting('acestream_path', '')
+DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/nada-que-ver/data/canales.json'
+DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/nada-que-ver/data/agenda.json'
+
+AGENDA_URLS = [
+    'https://deportes-live.vercel.app/index.html',
+    'https://ciriaco.netlify.app/',
+    'https://eventos-eight-dun.vercel.app/',
+    'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
+]
 
 
 # ---------------------------------------------------------------------------
@@ -54,13 +70,19 @@ def build_url(params):
 def fetch_url(url):
     """Realiza una petición HTTP y devuelve el contenido como texto."""
     try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-        r = requests.get(url, headers=headers, timeout=15)
-        if r.status_code == 200:
-            return r.text
-        log('fetch_url HTTP {}: {}'.format(r.status_code, url), xbmc.LOGERROR)
-        return None
-    except Exception as e:
+        headers = {
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/120.0.0.0 Safari/537.36'
+            )
+        }
+        req      = Request(url, headers=headers)
+        response = urlopen(req, timeout=15)
+        data     = response.read().decode('utf-8', errors='ignore')
+        response.close()
+        return data
+    except (URLError, HTTPError) as e:
         log('Error fetching {}: {}'.format(url, str(e)), xbmc.LOGERROR)
         xbmcgui.Dialog().notification(
             ADDON_NAME, 'Error de conexión: {}'.format(str(e)), ICON, 5000
@@ -217,6 +239,13 @@ def _strip_html(raw):
 
 
 def _fetch_agenda_html(url, index):
+    try:
+        import requests
+    except ImportError:
+        xbmcgui.Dialog().ok(ADDON_NAME,
+            'Componentes no disponibles.\nVe a la Agenda para instalarlos.')
+        return None
+
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     xbmcgui.Dialog().notification(
         'Agenda', 'Probando servidor {}...'.format(index + 1),
@@ -265,6 +294,7 @@ def _parse_agenda_events(html):
 
 def _parse_agenda_bs4(html):
     """Parseo robusto con BeautifulSoup."""
+    from bs4 import BeautifulSoup
     today = datetime.datetime.now().strftime('%d/%m/%Y')
     soup  = BeautifulSoup(html, 'html.parser')
 

@@ -62,15 +62,10 @@ def play(acestream_id, title='', port=6878, ace_path='', timeout=30):
 # ---------------------------------------------------------------------------
 
 def _play_android(acestream_id):
-    """Lanza la app Acestream de Android mediante StartAndroidActivity.
-
-    Formato: StartAndroidActivity(package, action, mime, data)
-    - mime = 'video/*' es obligatorio para que Android despache el intent.
-    - package vacio = Android resuelve automaticamente que app maneja acestream://
-    """
+    """Lanza la app Acestream de Android mediante StartAndroidActivity."""
     builtin = (
-        'StartAndroidActivity("","android.intent.action.VIEW","video/*",'
-        '"acestream://{}")'.format(acestream_id)
+        'StartAndroidActivity("","org.acestream.action.start_content","",'
+        '"acestream:?content_id={}")'.format(acestream_id)
     )
     xbmc.log('[AcestreamPlayer] Android Intent: ' + builtin, xbmc.LOGDEBUG)
     xbmc.executebuiltin(builtin)
