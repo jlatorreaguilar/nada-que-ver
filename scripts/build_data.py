@@ -16,25 +16,35 @@ import urllib.request
 # ---------------------------------------------------------------------------
 # Fuentes (por orden de preferencia)
 # ---------------------------------------------------------------------------
-BASE_SHICKAT = (
-    "https://dweb.link/ipns/k2k4r8oqlcjxsritt5mczkcn4mmvcmymbqw7113fz2flkrerfwfps004"
-    "/data/listas"
-)
+_IPNS_SHICKAT = "k2k4r8oqlcjxsritt5mczkcn4mmvcmymbqw7113fz2flkrerfwfps004"
+_IPNS_ELCANO  = "k51qzi5uqu5di462t7j4vu4akwfhvtjhy88qbupktvoacqfqe9uforjvhyi4wr"
+
+# Gateways IPFS públicos, en orden de preferencia
+_GATEWAYS = [
+    "https://dweb.link",
+    "https://ipfs.io",
+    "https://cloudflare-ipfs.com",
+    "https://gateway.pinata.cloud",
+]
+
+def _ipns_urls(ipns_key, path):
+    """Genera URLs para un mismo recurso IPNS en todos los gateways disponibles."""
+    urls = []
+    for gw in _GATEWAYS:
+        urls.append(f"{gw}/ipns/{ipns_key}{path}")
+    return urls
+
 # Lista completa con todas las fuentes (ELCANO, NEW ERA, NEW LOOP, SPORT TV…)
 # en formato Kodi: plugin://script.module.horus?action=play&id=<acestream_id>
-URL_CANALES_KODI  = f"{BASE_SHICKAT}/lista_kodi.m3u"
+URLS_CANALES_KODI  = _ipns_urls(_IPNS_SHICKAT, "/data/listas/lista_kodi.m3u")
 # Fallback con formato acestream://
-URL_CANALES_FUERA = f"{BASE_SHICKAT}/lista_fuera_iptv.m3u"
+URLS_CANALES_FUERA = _ipns_urls(_IPNS_SHICKAT, "/data/listas/lista_fuera_iptv.m3u")
 
-BASE_ELCANO = (
-    "https://k51qzi5uqu5di462t7j4vu4akwfhvtjhy88qbupktvoacqfqe9uforjvhyi4wr"
-    ".ipns.dweb.link"
-)
 URL_AGENDA = (
     "https://raw.githubusercontent.com/ezdakit/zukzeuk_listas/refs/heads/main"
     "/zz_eventos/zz_eventos_all_ott.m3u"
 )
-URL_AGENDA_ALT = f"{BASE_ELCANO}/hashes_acestream.m3u"
+URLS_AGENDA_ALT = _ipns_urls(_IPNS_ELCANO, "/hashes_acestream.m3u")
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -48,6 +58,15 @@ def fetch(url, timeout=20):
     except Exception as e:
         print(f"  WARN: no se pudo descargar {url}: {e}", file=sys.stderr)
         return None
+
+
+def fetch_any(urls, timeout=20):
+    """Intenta descargar de cada URL en orden, devuelve el primer resultado exitoso."""
+    for url in urls:
+        result = fetch(url, timeout=timeout)
+        if result:
+            return result
+    return None
 
 
 def inferir_fuente(nombre):
@@ -163,6 +182,56 @@ def build_agenda(text):
 
 
 # ---------------------------------------------------------------------------
+# Merge: fusiona canales nuevos con los existentes sin perder ninguno
+# ---------------------------------------------------------------------------
+
+def merge_canales(existentes, nuevos):
+    """
+    Combina dos listas de categorías.
+    - Conserva todos los canales ya existentes (identificados por acestream_id).
+    - Añade canales nuevos que no estuvieran presentes.
+    - Nunca elimina canales existentes.
+    Devuelve la lista fusionada y el número de canales añadidos.
+    """
+    # Índice: acestream_id -> True para todos los existentes
+    ids_existentes = {
+        canal["acestream_id"]
+        for cat in existentes
+        for canal in cat["canales"]
+    }
+
+    # Índice de categorías existentes por nombre para poder añadir canales a ellas
+    cat_index = {cat["nombre"]: cat["canales"] for cat in existentes}
+
+    añadidos = 0
+    for cat_nueva in nuevos:
+        nombre_cat = cat_nueva["nombre"]
+        for canal in cat_nueva["canales"]:
+            if canal["acestream_id"] not in ids_existentes:
+                if nombre_cat not in cat_index:
+                    nueva_cat = {"nombre": nombre_cat, "canales": []}
+                    existentes.append(nueva_cat)
+                    cat_index[nombre_cat] = nueva_cat["canales"]
+                cat_index[nombre_cat].append(canal)
+                ids_existentes.add(canal["acestream_id"])
+                añadidos += 1
+
+    return existentes, añadidos
+
+
+def _load_canales_existentes():
+    """Carga data/canales.json si existe, o devuelve lista vacía."""
+    path = "data/canales.json"
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f).get("categorias", [])
+        except Exception:
+            pass
+    return []
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -170,32 +239,44 @@ def main():
     os.makedirs("data", exist_ok=True)
 
     # --- Canales ---
-    print("Descargando lista_kodi.m3u desde shickat.me/IPFS...")
-    texto_canales = fetch(URL_CANALES_KODI, timeout=60)
+    print("Descargando lista_kodi.m3u desde IPFS...")
+    texto_canales = fetch_any(URLS_CANALES_KODI, timeout=60)
     if texto_canales:
-        categorias, total = build_canales_from_m3u(texto_canales)
-        print(f"  lista_kodi.m3u: {total} canales en {len(categorias)} categorías")
+        categorias_nuevas, total = build_canales_from_m3u(texto_canales)
+        print(f"  lista_kodi.m3u: {total} canales en {len(categorias_nuevas)} categorías")
     else:
         print("  Fallback → lista_fuera_iptv.m3u...")
-        texto_canales = fetch(URL_CANALES_FUERA, timeout=60)
+        texto_canales = fetch_any(URLS_CANALES_FUERA, timeout=60)
         if texto_canales:
-            categorias, total = build_canales_from_m3u(texto_canales)
-            print(f"  lista_fuera_iptv.m3u: {total} canales en {len(categorias)} categorías")
+            categorias_nuevas, total = build_canales_from_m3u(texto_canales)
+            print(f"  lista_fuera_iptv.m3u: {total} canales en {len(categorias_nuevas)} categorías")
         else:
             print("  ✗ No se pudo obtener ninguna lista de canales", file=sys.stderr)
-            sys.exit(1)
+            categorias_nuevas = None
 
-    total_final = sum(len(c["canales"]) for c in categorias)
+    existentes = _load_canales_existentes()
+    if categorias_nuevas is not None:
+        categorias_finales, añadidos = merge_canales(existentes, categorias_nuevas)
+        print(f"  + {añadidos} canales nuevos añadidos")
+    else:
+        categorias_finales = existentes
+        print("  → Conservando canales existentes sin cambios", file=sys.stderr)
+
+    if not categorias_finales:
+        print("  ✗ No hay datos de canales disponibles, abortando", file=sys.stderr)
+        sys.exit(1)
+
+    total_final = sum(len(c["canales"]) for c in categorias_finales)
     with open("data/canales.json", "w", encoding="utf-8") as f:
-        json.dump({"categorias": categorias}, f, ensure_ascii=False, indent=2)
-    print(f"  ✓ {total_final} canales en {len(categorias)} categorías → data/canales.json")
+        json.dump({"categorias": categorias_finales}, f, ensure_ascii=False, indent=2)
+    print(f"  ✓ {total_final} canales en {len(categorias_finales)} categorías → data/canales.json")
 
     # --- Agenda ---
     print("Descargando agenda de eventos...")
     texto_agenda = fetch(URL_AGENDA, timeout=20)
     if not texto_agenda:
         print("Intentando agenda alternativa...")
-        texto_agenda = fetch(URL_AGENDA_ALT, timeout=20)
+        texto_agenda = fetch_any(URLS_AGENDA_ALT, timeout=20)
 
     if texto_agenda:
         eventos = build_agenda(texto_agenda)
