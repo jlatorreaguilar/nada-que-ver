@@ -7,6 +7,18 @@
       "acestream_id": "a116ce3ff95c41c60e987e2b1aa247007f707884"
     },
     {
+      "titulo": "DAZN 1 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "78124d96a1a4601e7910f50e36a16e35efcfb398"
+    },
+    {
+      "titulo": "LaLiga TV Hypermotion 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "4636ed75106cb00e9c70cc2029edf0a4df7ad73f"
+    },
+    {
       "titulo": "LaLiga TV Hypermotion 1080p **",
       "fecha": "",
       "hora": "",
@@ -28,13 +40,13 @@
       "titulo": "M+ Liga de Campeones 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "2c7043173b83cd5c55a34dc066b63e3997bdede8"
+      "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9"
     },
     {
       "titulo": "M+ Liga de Campeones 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9"
+      "acestream_id": "2c7043173b83cd5c55a34dc066b63e3997bdede8"
     },
     {
       "titulo": "Disney Junior 1080p *",
@@ -85,5 +97,5 @@
       "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
     }
   ],
-  "total": 14
+  "total": 16
 }
