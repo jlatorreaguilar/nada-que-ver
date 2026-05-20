@@ -1,46 +1,28 @@
 {
   "eventos": [
     {
-      "titulo": "DAZN 1 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "a116ce3ff95c41c60e987e2b1aa247007f707884"
-    },
-    {
-      "titulo": "DAZN 1 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "f9c6a0e04cb062098571c6cbaa6fa4b60cc7e0cb"
-    },
-    {
-      "titulo": "DAZN 1 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "78124d96a1a4601e7910f50e36a16e35efcfb398"
-    },
-    {
-      "titulo": "DAZN 2 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "01ce89b571b6c89bc19ccaafc913d483ac65c61d"
-    },
-    {
-      "titulo": "DAZN 2 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "d60b8c154828cb990b7bb1570764b215bd979e74"
-    },
-    {
-      "titulo": "Eurosport 1 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153"
-    },
-    {
       "titulo": "Eurosport 1 1080p **",
       "fecha": "",
       "hora": "",
       "acestream_id": "8522af51ae7189b12effabbb448dcb707195ce1a"
+    },
+    {
+      "titulo": "M+ Liga de Campeones 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "63e4713e8379f2ebf5e6ed9aa00fbf78ebae7439"
+    },
+    {
+      "titulo": "M+ Liga de Campeones 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "91af434b0bb521189286f8cbbab1aed39d7536fe"
+    },
+    {
+      "titulo": "M+ Liga de Campeones 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9"
     },
     {
       "titulo": "Disney Junior 1080p *",
@@ -61,10 +43,16 @@
       "acestream_id": "6b15368775693c33c49fab02e7900c1976a5da90"
     },
     {
-      "titulo": "M+ Deportes 2 1080p **",
+      "titulo": "M+ Vamos 720p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "8cd8fd69c6755ec452e9e74b33a0d1a653452191"
+      "acestream_id": "8686522bd5d0b123cbc94ad4a12f2d3a18492479"
+    },
+    {
+      "titulo": "M+ Vamos 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "7e4f6eb38e0d5ef52b7f8b96eb80c1d8c87dad16"
     },
     {
       "titulo": "M+ VAMOS 2 1080p *",
@@ -97,5 +85,5 @@
       "acestream_id": "536c879d8a914e43141d778b3567fa017c9f5eeb"
     }
   ],
-  "total": 16
+  "total": 14
 }
