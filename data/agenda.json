@@ -19,12 +19,6 @@
       "acestream_id": "cc108ae39f92c48f6c946763047bd1c9b7b7d889"
     },
     {
-      "titulo": "M+ Deportes 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "7f8b4f57bf234510d3f607492508d68167d4b0ab"
-    },
-    {
       "titulo": "M+ Deportes 1080p **",
       "fecha": "",
       "hora": "",
@@ -43,29 +37,11 @@
       "acestream_id": "765f6a743bcfde948418aaf0de6e66de6a9fbaa6"
     },
     {
-      "titulo": "M+ Deportes 8 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "f5c100695175ba52099664ddb4c5fc4ae0ebe99a"
-    },
-    {
       "titulo": "M+ Deportes 8 1080p *",
       "fecha": "",
       "hora": "",
       "acestream_id": "abe6834b6e2509d2ff5b5b04f7ecb1db6e81083a"
-    },
-    {
-      "titulo": "Teledeporte 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "b35b3eb8e22365bf3469efd6d1f3b82618a6e18a"
-    },
-    {
-      "titulo": "Teledeporte 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     }
   ],
-  "total": 11
+  "total": 7
 }
