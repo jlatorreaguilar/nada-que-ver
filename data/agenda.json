@@ -25,6 +25,12 @@
       "acestream_id": "48a589dbeab3544662fafd79888aada7d834cfe9"
     },
     {
+      "titulo": "Eurosport 1 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "8522af51ae7189b12effabbb448dcb707195ce1a"
+    },
+    {
       "titulo": "LALIGA TV HYPERMOTION 720p *",
       "fecha": "",
       "hora": "",
@@ -47,6 +53,18 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "e4cbd1a425120b1f44b523a55bd1a98c31cad9fe"
+    },
+    {
+      "titulo": "M+ Liga de Campeones 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "91af434b0bb521189286f8cbbab1aed39d7536fe"
+    },
+    {
+      "titulo": "M+ Liga de Campeones 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "97df5b7824948972d041d8ca2a4d29c90b641bc9"
     },
     {
       "titulo": "MOVISTAR PLUS 1080p **",
@@ -79,16 +97,16 @@
       "acestream_id": "b80cd193286a7df788c07649667c1e6f64fc9dc7"
     },
     {
+      "titulo": "M LIGA DE CAMPEONES 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "63e4713e8379f2ebf5e6ed9aa00fbf78ebae7439"
+    },
+    {
       "titulo": "Esport3 720p **",
       "fecha": "",
       "hora": "",
       "acestream_id": "ed6524f8f73c30cf102fde66f2cb520f4b5842e3"
-    },
-    {
-      "titulo": "Teledeporte 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "b0d1489c9f3239349665ad5ab423363f2b02e5ae"
     },
     {
       "titulo": "Teledeporte 1080p **",
@@ -121,5 +139,5 @@
       "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
     }
   ],
-  "total": 20
+  "total": 23
 }
