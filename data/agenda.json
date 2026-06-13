@@ -1,239 +1,113 @@
 {
   "eventos": [
     {
-      "titulo": "DAZN Baloncesto 720p **",
+      "titulo": "DAZN 1 720p",
       "fecha": "",
       "hora": "",
-      "acestream_id": "9dd9cd78f0b08097a0ad290606dbbee999709fa5"
+      "acestream_id": "a116ce3ff95c41c60e987e2b1aa247007f707884"
     },
     {
-      "titulo": "DAZN Baloncesto 1080p **",
+      "titulo": "DAZN 1 1080p",
       "fecha": "",
       "hora": "",
-      "acestream_id": "6fbd92735502bdebbf1ea58f4298e49759c0cf07"
+      "acestream_id": "dddff67edfa7061f643ec5ae0be110169850363d"
     },
     {
-      "titulo": "Eurosport 1 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153"
-    },
-    {
-      "titulo": "Eurosport 1 1080p *",
+      "titulo": "Eurosport 1 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "48a589dbeab3544662fafd79888aada7d834cfe9"
     },
     {
-      "titulo": "Eurosport 1 1080p **",
+      "titulo": "Eurosport 2 1080p",
       "fecha": "",
       "hora": "",
-      "acestream_id": "8522af51ae7189b12effabbb448dcb707195ce1a"
+      "acestream_id": "3ebcfc00921a4a9307dec97e078f8dc12eee27e7"
     },
     {
-      "titulo": "DAZN F1 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "27d11bbeb3026231d52de16b1fac48da7a099247"
-    },
-    {
-      "titulo": "DAZN F1 1080p *",
+      "titulo": "DAZN F1 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "d719181097d256073844390b3e094fbcb1bceaa4"
     },
     {
-      "titulo": "DAZN F1 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "0a81ba020d498aca1248e0591d8ffab99eb80bd4"
-    },
-    {
-      "titulo": "DAZN F1 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
-    },
-    {
-      "titulo": "LaLiga TV Hypermotion 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "2c54a4def58f41fc0d2163450a63f12955b656aa"
-    },
-    {
-      "titulo": "M+ Liga de Campeones 720p *",
+      "titulo": "M+ Liga de Campeones 720p",
       "fecha": "",
       "hora": "",
       "acestream_id": "63e4713e8379f2ebf5e6ed9aa00fbf78ebae7439"
     },
     {
-      "titulo": "M+ Liga de Campeones 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "91af434b0bb521189286f8cbbab1aed39d7536fe"
-    },
-    {
-      "titulo": "MOVISTAR PLUS 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "1ab443f5b4beb6d586f19e8b25b9f9646cf2ab78"
-    },
-    {
-      "titulo": "M+ Deportes 720p *",
+      "titulo": "M+ Deportes 720p",
       "fecha": "",
       "hora": "",
       "acestream_id": "6e031aed136bf97d8667fcd5fc49c73256928281"
     },
     {
-      "titulo": "M+ Deportes 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "cf5327fe9c962a29dfff3868f4349ff2b0b4662f"
-    },
-    {
-      "titulo": "M+ Deportes 2 720p *",
+      "titulo": "M+ Deportes 2 720p",
       "fecha": "",
       "hora": "",
       "acestream_id": "6b15368775693c33c49fab02e7900c1976a5da90"
     },
     {
-      "titulo": "M+ Deportes 2 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "fd2aea1aa8fcddebfda1644118c6806230a1d539"
-    },
-    {
-      "titulo": "M+ Deportes 2 1080p *",
+      "titulo": "M+ Deportes 2 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "3774d8feab016ca766b35ea8488e7514ca30e0ee"
     },
     {
-      "titulo": "M+ Deportes 3 720p *",
+      "titulo": "M+ Deportes 3 720p",
       "fecha": "",
       "hora": "",
       "acestream_id": "e9ce6e62ff97f1da7f10fd449a3c8e8ee90b253d"
     },
     {
-      "titulo": "M+ Deportes 3 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "84aed52c5deb78f58595d88250e7a2bd04dfd810"
-    },
-    {
-      "titulo": "M+ Deportes 4 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "7bede102385c65a545db531af476ef18c31f6258"
-    },
-    {
-      "titulo": "M+ Golf 1080p *",
+      "titulo": "M+ Golf 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "9bb2a7dc6c6a296609df8cc50e742a78194f7530"
     },
     {
-      "titulo": "M+ Vamos 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "7e4f6eb38e0d5ef52b7f8b96eb80c1d8c87dad16"
-    },
-    {
-      "titulo": "M+ VAMOS 3 1080p *",
+      "titulo": "M+ VAMOS 3 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "b46a524780cf0ac5e533491fe79389d6198acf2c"
     },
     {
-      "titulo": "Disney Junior 1080p *",
+      "titulo": "RFEF TV 1080p",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "177796041773be99b489dd3ce86144f243e7355f"
+    },
+    {
+      "titulo": "Disney Junior 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "a722bc25dfa16d1112fde83cb79501b9756586d1"
     },
     {
-      "titulo": "La 1 TVE 4K **",
+      "titulo": "La 1 TVE 4K",
       "fecha": "",
       "hora": "",
-      "acestream_id": "23c952c5b375715db822f2783803c6e28fab0e34"
+      "acestream_id": "da38a21a9509be8c03b0fdb539cb1485843330c3"
     },
     {
-      "titulo": "La 1 TVE **",
+      "titulo": "Real Madrid TV 1080p",
       "fecha": "",
       "hora": "",
-      "acestream_id": "379192c3ee5a15570e2c685179bc53cb7133cc6c"
+      "acestream_id": "ac353757b626cedc6461d8eb73bfffa15fbb7be7"
     },
     {
-      "titulo": "La 1 TVE **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "979d3b873871a5a9a56d3eb481ca77b707e01102"
-    },
-    {
-      "titulo": "La 2 TVE 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "b80cd193286a7df788c07649667c1e6f64fc9dc7"
-    },
-    {
-      "titulo": "Telecinco 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "3d376333ee90d6db3d413fc5764ef635882076f5"
-    },
-    {
-      "titulo": "Direct Sport 1 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "1b25b195b1b84d4b96830410657718e9e275ad49"
-    },
-    {
-      "titulo": "Esport3 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "ed6524f8f73c30cf102fde66f2cb520f4b5842e3"
-    },
-    {
-      "titulo": "RALLY TV 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "64eb19dccf5e60f121a4c1f7c69489af6b1c9ca9"
-    },
-    {
-      "titulo": "RALLY TV **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9"
-    },
-    {
-      "titulo": "Teledeporte 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
-    },
-    {
-      "titulo": "Dazn Mundial 1 *",
+      "titulo": "Dazn Mundial 1",
       "fecha": "",
       "hora": "",
       "acestream_id": "ccfde4bc75d14c79dd09af72434568a0e732d507"
     },
     {
-      "titulo": "Dazn Mundial 1 **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "414222dc7b69a626f29eb964450dae44b3bc9b36"
-    },
-    {
-      "titulo": "Tennis Channel 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
-    },
-    {
-      "titulo": "Onetoro TV 1080p *",
+      "titulo": "Onetoro TV 1080p",
       "fecha": "",
       "hora": "",
       "acestream_id": "536c879d8a914e43141d778b3567fa017c9f5eeb"
     }
   ],
-  "total": 39
+  "total": 18
 }
