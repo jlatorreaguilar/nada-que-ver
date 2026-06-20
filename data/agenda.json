@@ -31,12 +31,6 @@
       "acestream_id": "78124d96a1a4601e7910f50e36a16e35efcfb398"
     },
     {
-      "titulo": "Eurosport 1 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153"
-    },
-    {
       "titulo": "Eurosport 1 1080p *",
       "fecha": "",
       "hora": "",
@@ -139,12 +133,6 @@
       "acestream_id": "646a1ed4ece843de1979f7888cbdd4d937506a28"
     },
     {
-      "titulo": "M+ Deportes 5 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "15ec214bb10925dadd16a1716bb2042af6008a93"
-    },
-    {
       "titulo": "M+ Golf 1080p *",
       "fecha": "",
       "hora": "",
@@ -238,19 +226,19 @@
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6"
+      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     },
     {
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
+      "acestream_id": "3b50a1dca0977e3761d016edd79314ab797f74f6"
     },
     {
-      "titulo": "TV5Monde Europe *",
+      "titulo": "TV5Monde Europe **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "59f2d0e15869d73f19d7ac441d5aedffb6c4ebb8"
+      "acestream_id": "ba61b7a4f51c8547ca47978fbd567bc46427bb95"
     },
     {
       "titulo": "Dazn MotoGP 720p **",
@@ -265,10 +253,10 @@
       "acestream_id": "20d4b3586bb822c3618cf8fb665a304869c5e1a5"
     },
     {
-      "titulo": "Dazn MotoGP 1080p *",
+      "titulo": "Dazn MotoGP 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "e18b79bce27f6ee8eef9a1fc811bb5f80e4b558c"
+      "acestream_id": "342ca6975a4884d81f9fec5c4085a47060bd2028"
     },
     {
       "titulo": "Dazn MotoGP 1080p **",
@@ -277,10 +265,16 @@
       "acestream_id": "c53bdb3be55d12c5188d25085f1bb16911c15cea"
     },
     {
-      "titulo": "Dazn MotoGP 1080p **",
+      "titulo": "Sky Sport MotoGP 1080p *",
       "fecha": "",
       "hora": "",
-      "acestream_id": "342ca6975a4884d81f9fec5c4085a47060bd2028"
+      "acestream_id": "063ee4ffa4676940f14a85e24f928cc1c9d6ae2d"
+    },
+    {
+      "titulo": "Sky Sport MotoGP 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "ea1b773caf164fd1ac87b11342cf178478f830ea"
     },
     {
       "titulo": "CANAL 5 MX 1080p **",
@@ -355,12 +349,6 @@
       "acestream_id": "e8670925c3bfd0ceafa54192772a6b8a482bd94b"
     },
     {
-      "titulo": "FOX ONE 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "523086274e5c250bd188833ad63ff0b7c332e760"
-    },
-    {
       "titulo": "Fox Sport 1080p **",
       "fecha": "",
       "hora": "",
@@ -385,5 +373,5 @@
       "acestream_id": "536c879d8a914e43141d778b3567fa017c9f5eeb"
     }
   ],
-  "total": 64
+  "total": 62
 }
