@@ -13,6 +13,24 @@
       "acestream_id": "6fbd92735502bdebbf1ea58f4298e49759c0cf07"
     },
     {
+      "titulo": "DAZN 1 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "a116ce3ff95c41c60e987e2b1aa247007f707884"
+    },
+    {
+      "titulo": "DAZN 1 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "dddff67edfa7061f643ec5ae0be110169850363d"
+    },
+    {
+      "titulo": "DAZN 1 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "78124d96a1a4601e7910f50e36a16e35efcfb398"
+    },
+    {
       "titulo": "Eurosport 1 720p **",
       "fecha": "",
       "hora": "",
@@ -41,6 +59,18 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "c6180a86440004748e2abe34d6f31eed8a218a3a"
+    },
+    {
+      "titulo": "LaLiga TV Hypermotion 720p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "2c54a4def58f41fc0d2163450a63f12955b656aa"
+    },
+    {
+      "titulo": "LaLiga TV Hypermotion 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "e4cbd1a425120b1f44b523a55bd1a98c31cad9fe"
     },
     {
       "titulo": "MOVISTAR PLUS 1080p **",
@@ -97,10 +127,22 @@
       "acestream_id": "84aed52c5deb78f58595d88250e7a2bd04dfd810"
     },
     {
-      "titulo": "M+ Golf 720p *",
+      "titulo": "M+ Deportes 4 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "f60535a458b3c114283e2f433379144345beddd6"
+      "acestream_id": "7bede102385c65a545db531af476ef18c31f6258"
+    },
+    {
+      "titulo": "M+ Deportes 5 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "646a1ed4ece843de1979f7888cbdd4d937506a28"
+    },
+    {
+      "titulo": "M+ Deportes 5 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "15ec214bb10925dadd16a1716bb2042af6008a93"
     },
     {
       "titulo": "M+ Golf 1080p *",
@@ -148,13 +190,13 @@
       "titulo": "RFEF TV 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "3fbc1b7dc316f19b77e7f7cfc775a0af67adcc7f"
+      "acestream_id": "854ff9c607101791346111cd2366a392c3b8c351"
     },
     {
       "titulo": "RFEF TV 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "854ff9c607101791346111cd2366a392c3b8c351"
+      "acestream_id": "3fbc1b7dc316f19b77e7f7cfc775a0af67adcc7f"
     },
     {
       "titulo": "Disney Junior 1080p *",
@@ -241,10 +283,58 @@
       "acestream_id": "342ca6975a4884d81f9fec5c4085a47060bd2028"
     },
     {
+      "titulo": "CANAL 5 MX 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "2f632f8996f1dc4ac00fe4e08e4f9ac90ea80fc9"
+    },
+    {
+      "titulo": "Dazn Mundial 1 *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "ccfde4bc75d14c79dd09af72434568a0e732d507"
+    },
+    {
       "titulo": "Dazn Mundial 1 **",
       "fecha": "",
       "hora": "",
       "acestream_id": "414222dc7b69a626f29eb964450dae44b3bc9b36"
+    },
+    {
+      "titulo": "Dazn Mundial 2 *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "dac18df259f44258d81aa8f31cb343bb837f5ac7"
+    },
+    {
+      "titulo": "Dazn Mundial 2 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "63b1933154919d116f08e33ffcb31a23f9483989"
+    },
+    {
+      "titulo": "Dazn Mundial 3 *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "f28f558a7699237cb4ec1e0075db4073ffc3a415"
+    },
+    {
+      "titulo": "Dazn Mundial 3 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "7cf306fc097deca7005b220b1f6206bd654b5ca5"
+    },
+    {
+      "titulo": "Dazn Mundial 4 *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "584e20154750a15d14cb59953bb9cdd923c331bb"
+    },
+    {
+      "titulo": "Dazn Mundial 4 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "aab0be9632ef2f53e99f2e596a8e6a30ed34a29c"
     },
     {
       "titulo": "Direct Sport 1080p **",
@@ -259,6 +349,30 @@
       "acestream_id": "0d780c1fb5fdf2121d9544f1a6892cb1053dd061"
     },
     {
+      "titulo": "FIFA World Cup 1 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "e8670925c3bfd0ceafa54192772a6b8a482bd94b"
+    },
+    {
+      "titulo": "FOX ONE 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "523086274e5c250bd188833ad63ff0b7c332e760"
+    },
+    {
+      "titulo": "Fox Sport 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "ea17dcd0ff2234f634f8855118712bd394bb784a"
+    },
+    {
+      "titulo": "TNT Sport 1 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "7030f82a081ed0a32f75a2d16ba0c995cbf4e686"
+    },
+    {
       "titulo": "Tennis Channel 1080p **",
       "fecha": "",
       "hora": "",
@@ -271,5 +385,5 @@
       "acestream_id": "536c879d8a914e43141d778b3567fa017c9f5eeb"
     }
   ],
-  "total": 45
+  "total": 64
 }
