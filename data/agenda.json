@@ -1,30 +1,6 @@
 {
   "eventos": [
     {
-      "titulo": "DAZN Baloncesto 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "9dd9cd78f0b08097a0ad290606dbbee999709fa5"
-    },
-    {
-      "titulo": "DAZN Baloncesto 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "6fbd92735502bdebbf1ea58f4298e49759c0cf07"
-    },
-    {
-      "titulo": "DAZN Baloncesto 2 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "fc912a111ea5a88e02b858b5014d2358b11c84ac"
-    },
-    {
-      "titulo": "DAZN Baloncesto 3 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "13d68ecb392251a81489ce75be90388498ecfb91"
-    },
-    {
       "titulo": "La 1 TVE 720p *",
       "fecha": "",
       "hora": "",
@@ -34,7 +10,25 @@
       "titulo": "La 1 TVE **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "979d3b873871a5a9a56d3eb481ca77b707e01102"
+      "acestream_id": "379192c3ee5a15570e2c685179bc53cb7133cc6c"
+    },
+    {
+      "titulo": "COMBATE 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "bcc8472d683a81f08cf244b89b1cbffa87398441"
+    },
+    {
+      "titulo": "RALLY TV 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "64eb19dccf5e60f121a4c1f7c69489af6b1c9ca9"
+    },
+    {
+      "titulo": "RALLY TV **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9"
     },
     {
       "titulo": "Teledeporte 720p **",
@@ -107,6 +101,12 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "3b73feccf6e835b6c4a5a10c3f0425643091cfca"
+    },
+    {
+      "titulo": "TNT Sport 1 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "7030f82a081ed0a32f75a2d16ba0c995cbf4e686"
     },
     {
       "titulo": "Tennis Channel 1080p *",
