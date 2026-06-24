@@ -1,6 +1,60 @@
 {
   "eventos": [
     {
+      "titulo": "DAZN Baloncesto 720p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "9dd9cd78f0b08097a0ad290606dbbee999709fa5"
+    },
+    {
+      "titulo": "DAZN Baloncesto 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "6fbd92735502bdebbf1ea58f4298e49759c0cf07"
+    },
+    {
+      "titulo": "DAZN Baloncesto 2 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "fc912a111ea5a88e02b858b5014d2358b11c84ac"
+    },
+    {
+      "titulo": "DAZN Baloncesto 3 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "95125f755562c0ffcb44abd94e338bd65472afea"
+    },
+    {
+      "titulo": "DAZN Baloncesto 3 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "13d68ecb392251a81489ce75be90388498ecfb91"
+    },
+    {
+      "titulo": "M+ Baloncesto 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "e3816fbc661fbc8b2b656aee9483d0a55a1608b6"
+    },
+    {
+      "titulo": "M+ Baloncesto 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "34b91125bd752462f1eca2d8d52f5f40fa761aa0"
+    },
+    {
+      "titulo": "M+ Baloncesto 2 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "c8c33b2673efe7f386790c5966643820578f3535"
+    },
+    {
+      "titulo": "MOVISTAR PLUS 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "1ab443f5b4beb6d586f19e8b25b9f9646cf2ab78"
+    },
+    {
       "titulo": "La 1 TVE 720p *",
       "fecha": "",
       "hora": "",
@@ -17,6 +71,12 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "bcc8472d683a81f08cf244b89b1cbffa87398441"
+    },
+    {
+      "titulo": "Esport3 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "739792a3225e5eb3056f4faa7b1137c7f161f23c"
     },
     {
       "titulo": "RALLY TV 1080p *",
@@ -97,6 +157,24 @@
       "acestream_id": "e8670925c3bfd0ceafa54192772a6b8a482bd94b"
     },
     {
+      "titulo": "FIFA World Cup 1 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "961cb142fb97d1307a4c5637d525bad6d534ec94"
+    },
+    {
+      "titulo": "FIFA World Cup 2 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "0e6ba5e9872838a8740f4b2679d522f896b3448c"
+    },
+    {
+      "titulo": "FIFA World Cup 3 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "d07816dade862339446b6c2a16d131617a3a9389"
+    },
+    {
       "titulo": "FUSSBALL TV 4k 4K **",
       "fecha": "",
       "hora": "",
@@ -109,10 +187,16 @@
       "acestream_id": "7030f82a081ed0a32f75a2d16ba0c995cbf4e686"
     },
     {
-      "titulo": "Tennis Channel 1080p *",
+      "titulo": "NBA ESPN 720p *",
       "fecha": "",
       "hora": "",
-      "acestream_id": "a4cbadd19442b800727be713270fa9c917cc8582"
+      "acestream_id": "bf3773e7f5e53c11347c70c18bd085322efbc90f"
+    },
+    {
+      "titulo": "NBA ESPN 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "812726de17b7fdc6c0b5139b012fe336a049903a"
     },
     {
       "titulo": "Tennis Channel 1080p **",
@@ -121,5 +205,5 @@
       "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
     }
   ],
-  "total": 20
+  "total": 34
 }
