@@ -31,6 +31,12 @@
       "acestream_id": "da38a21a9509be8c03b0fdb539cb1485843330c3"
     },
     {
+      "titulo": "La 1 TVE 4K **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "23c952c5b375715db822f2783803c6e28fab0e34"
+    },
+    {
       "titulo": "RALLY TV 1080p *",
       "fecha": "",
       "hora": "",
@@ -41,12 +47,6 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "12404b00d2787995d639ccf71a80da5d39d153f9"
-    },
-    {
-      "titulo": "Teledeporte 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "b0d1489c9f3239349665ad5ab423363f2b02e5ae"
     },
     {
       "titulo": "Teledeporte 1080p *",
@@ -79,6 +79,12 @@
       "acestream_id": "dac18df259f44258d81aa8f31cb343bb837f5ac7"
     },
     {
+      "titulo": "Dazn Mundial 2 **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "63b1933154919d116f08e33ffcb31a23f9483989"
+    },
+    {
       "titulo": "Dazn Mundial 3 *",
       "fecha": "",
       "hora": "",
@@ -109,18 +115,6 @@
       "acestream_id": "1b25b195b1b84d4b96830410657718e9e275ad49"
     },
     {
-      "titulo": "FIFA World Cup 3 **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "d07816dade862339446b6c2a16d131617a3a9389"
-    },
-    {
-      "titulo": "FOX ONE 4K **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "f1e6e441e398910e77eb51ff452dba0a733dd27d"
-    },
-    {
       "titulo": "Tennis Channel 1080p **",
       "fecha": "",
       "hora": "",
@@ -139,5 +133,5 @@
       "acestream_id": "8374a313823bbaa3140ca510a172cbc1830f609c"
     }
   ],
-  "total": 23
+  "total": 22
 }
