@@ -16,13 +16,37 @@
       "titulo": "DAZN F1 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
+      "acestream_id": "f8b0eae8fda973cf426311541d1668aa592f0a8c"
     },
     {
       "titulo": "DAZN F1 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "f8b0eae8fda973cf426311541d1668aa592f0a8c"
+      "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
+    },
+    {
+      "titulo": "M+ Golf 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "9bb2a7dc6c6a296609df8cc50e742a78194f7530"
+    },
+    {
+      "titulo": "M+ Golf 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "8121478d3d3e563ad6b98018bc1c0aeb2f6166eb"
+    },
+    {
+      "titulo": "M+ Golf 2 1080p **",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "882074140fca664e119a43294afa2fb4a64917ef"
+    },
+    {
+      "titulo": "M+ Golf 2 *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "ac321484243571f59e077f2a2521e648dc0c7b03"
     },
     {
       "titulo": "La 1 TVE 4K *",
@@ -127,5 +151,5 @@
       "acestream_id": "8374a313823bbaa3140ca510a172cbc1830f609c"
     }
   ],
-  "total": 21
+  "total": 25
 }
