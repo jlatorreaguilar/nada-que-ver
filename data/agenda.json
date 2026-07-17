@@ -10,13 +10,13 @@
       "titulo": "DAZN F1 1080p *",
       "fecha": "",
       "hora": "",
-      "acestream_id": "895d08633bb22c2573281655cf3ca44de476cc73"
+      "acestream_id": "d719181097d256073844390b3e094fbcb1bceaa4"
     },
     {
       "titulo": "DAZN F1 1080p *",
       "fecha": "",
       "hora": "",
-      "acestream_id": "d719181097d256073844390b3e094fbcb1bceaa4"
+      "acestream_id": "895d08633bb22c2573281655cf3ca44de476cc73"
     },
     {
       "titulo": "DAZN F1 1080p **",
@@ -209,13 +209,7 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "536c879d8a914e43141d778b3567fa017c9f5eeb"
-    },
-    {
-      "titulo": "TSN+ *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "8374a313823bbaa3140ca510a172cbc1830f609c"
     }
   ],
-  "total": 36
+  "total": 35
 }
