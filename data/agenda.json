@@ -31,12 +31,6 @@
       "acestream_id": "3d376333ee90d6db3d413fc5764ef635882076f5"
     },
     {
-      "titulo": "Esport3 720p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "739792a3225e5eb3056f4faa7b1137c7f161f23c"
-    },
-    {
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
@@ -49,5 +43,5 @@
       "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
     }
   ],
-  "total": 8
+  "total": 7
 }
