@@ -37,12 +37,6 @@
       "acestream_id": "739792a3225e5eb3056f4faa7b1137c7f161f23c"
     },
     {
-      "titulo": "Teledeporte 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "b35b3eb8e22365bf3469efd6d1f3b82618a6e18a"
-    },
-    {
       "titulo": "Teledeporte 1080p **",
       "fecha": "",
       "hora": "",
@@ -55,5 +49,5 @@
       "acestream_id": "43c549e5781f5a923b76f8f29cde122b5be164eb"
     }
   ],
-  "total": 9
+  "total": 8
 }
