@@ -43,12 +43,6 @@
       "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
     },
     {
-      "titulo": "DAZN F1 1080p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "0a81ba020d498aca1248e0591d8ffab99eb80bd4"
-    },
-    {
       "titulo": "M+ Liga de Campeones 2 1080p *",
       "fecha": "",
       "hora": "",
@@ -163,5 +157,5 @@
       "acestream_id": "a4cbadd19442b800727be713270fa9c917cc8582"
     }
   ],
-  "total": 27
+  "total": 26
 }
