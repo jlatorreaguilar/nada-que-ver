@@ -34,19 +34,13 @@
       "titulo": "DAZN F1 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
+      "acestream_id": "f8b0eae8fda973cf426311541d1668aa592f0a8c"
     },
     {
       "titulo": "DAZN F1 1080p **",
       "fecha": "",
       "hora": "",
-      "acestream_id": "f8b0eae8fda973cf426311541d1668aa592f0a8c"
-    },
-    {
-      "titulo": "M+ Liga de Campeones 2 1080p *",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "8156912ae14f6174a19c8a4efcf36a06e847f632"
+      "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
     },
     {
       "titulo": "M+ Deportes 2 720p *",
@@ -145,5 +139,5 @@
       "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     }
   ],
-  "total": 24
+  "total": 23
 }
