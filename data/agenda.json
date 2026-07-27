@@ -43,6 +43,18 @@
       "acestream_id": "02be332ebead0484a5354fa25e97b6833b8b129e"
     },
     {
+      "titulo": "M+ Deportes 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "6e031aed136bf97d8667fcd5fc49c73256928281"
+    },
+    {
+      "titulo": "M+ Deportes 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "c6a824a81b36f6c3529826477caf2ad94b45776d"
+    },
+    {
       "titulo": "M+ Deportes 2 720p *",
       "fecha": "",
       "hora": "",
@@ -65,6 +77,18 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "3ee6a0b0e3cacea68107f61bf398f651d8159eed"
+    },
+    {
+      "titulo": "M+ Deportes 3 720p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "e9ce6e62ff97f1da7f10fd449a3c8e8ee90b253d"
+    },
+    {
+      "titulo": "M+ Deportes 3 1080p *",
+      "fecha": "",
+      "hora": "",
+      "acestream_id": "f4d9011721fad5098febbe4d7c078a582e176a01"
     },
     {
       "titulo": "M+ Golf 1080p *",
@@ -139,5 +163,5 @@
       "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     }
   ],
-  "total": 23
+  "total": 27
 }
