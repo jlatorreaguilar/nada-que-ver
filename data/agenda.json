@@ -1,12 +1,6 @@
 {
   "eventos": [
     {
-      "titulo": "Eurosport 1 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153"
-    },
-    {
       "titulo": "MOVISTAR PLUS 1080p *",
       "fecha": "",
       "hora": "",
@@ -23,12 +17,6 @@
       "fecha": "",
       "hora": "",
       "acestream_id": "6e031aed136bf97d8667fcd5fc49c73256928281"
-    },
-    {
-      "titulo": "M+ Deportes 720p **",
-      "fecha": "",
-      "hora": "",
-      "acestream_id": "7f8b4f57bf234510d3f607492508d68167d4b0ab"
     },
     {
       "titulo": "M+ Deportes 1080p *",
@@ -133,5 +121,5 @@
       "acestream_id": "77cf022557c56cdf8d8115f50e61f846ad72ee05"
     }
   ],
-  "total": 22
+  "total": 20
 }
