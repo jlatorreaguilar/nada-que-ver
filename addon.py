@@ -16,6 +16,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
+import xbmcvfs
 
 # ---------------------------------------------------------------------------
 # Constantes del addon
@@ -27,6 +28,8 @@ ADDON_VERSION = ADDON.getAddonInfo('version')
 ADDON_PATH    = ADDON.getAddonInfo('path')
 ICON          = os.path.join(ADDON_PATH, 'icon.png')
 FANART        = os.path.join(ADDON_PATH, 'fanart.jpg')
+PROFILE_PATH  = xbmcvfs.translatePath(ADDON.getAddonInfo('profile'))
+FAVORITOS_PATH = os.path.join(PROFILE_PATH, 'favoritos.json')
 
 HANDLE   = int(sys.argv[1])
 BASE_URL = sys.argv[0]
@@ -121,6 +124,11 @@ def main_menu():
         mode        = 'buscar',
         description = 'Busca un canal por sus 4 dígitos (ej: dda5)'
     )
+    add_menu_item(
+        label       = '[COLOR FFFF00FF]Favoritos[/COLOR]',
+        mode        = 'favoritos',
+        description = 'Tus canales favoritos'
+    )
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -168,6 +176,93 @@ def _get_categorias():
 
 
 # ---------------------------------------------------------------------------
+# Favoritos — almacenados en el perfil del addon (favoritos.json)
+# ---------------------------------------------------------------------------
+def _load_favoritos():
+    try:
+        with open(FAVORITOS_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def _save_favoritos(favoritos):
+    try:
+        if not os.path.exists(PROFILE_PATH):
+            os.makedirs(PROFILE_PATH)
+        with open(FAVORITOS_PATH, 'w', encoding='utf-8') as f:
+            json.dump(favoritos, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        log('Error guardando favoritos: {}'.format(str(e)), xbmc.LOGERROR)
+
+
+def toggle_favorito(acestream_id, nombre, short_id, fuente, cat_nombre):
+    favoritos = _load_favoritos()
+    existente = next((f for f in favoritos if f.get('acestream_id') == acestream_id), None)
+    if existente:
+        favoritos.remove(existente)
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Eliminado de favoritos', ICON, 2000)
+    else:
+        favoritos.append({
+            'nombre'      : nombre,
+            'acestream_id': acestream_id,
+            'short_id'    : short_id,
+            'fuente'      : fuente,
+            'cat_nombre'  : cat_nombre,
+        })
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Añadido a favoritos', ICON, 2000)
+    _save_favoritos(favoritos)
+    xbmc.executebuiltin('Container.Refresh')
+
+
+def _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, es_favorito):
+    """Genera la entrada de menú contextual para añadir/quitar de favoritos."""
+    label = 'Quitar de favoritos' if es_favorito else 'Añadir a favoritos'
+    url = build_url({
+        'mode'        : 'toggle_favorito',
+        'acestream_id': acestream_id,
+        'nombre'      : nombre,
+        'short_id'    : short_id,
+        'fuente'      : fuente,
+        'cat_nombre'  : cat_nombre,
+    })
+    return [(label, 'RunPlugin({})'.format(url))]
+
+
+def show_favoritos():
+    xbmcplugin.setPluginCategory(HANDLE, 'Favoritos')
+    xbmcplugin.setContent(HANDLE, 'videos')
+
+    favoritos = _load_favoritos()
+    if not favoritos:
+        xbmcgui.Dialog().notification(ADDON_NAME, 'Aún no tienes canales favoritos', ICON, 3000)
+        xbmcplugin.endOfDirectory(HANDLE)
+        return
+
+    for fav in favoritos:
+        nombre       = fav.get('nombre', '')
+        acestream_id = fav.get('acestream_id', '')
+        short_id     = fav.get('short_id', acestream_id[:4] if acestream_id else '')
+        fuente       = fav.get('fuente', 'ELCANO')
+        cat_nombre   = fav.get('cat_nombre', '')
+
+        label = '{} {} --> {}  [COLOR FF888888][{}][/COLOR]'.format(nombre, short_id, fuente, cat_nombre)
+
+        li = xbmcgui.ListItem(label)
+        li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+        li.setInfo('video', {'title': label, 'genre': cat_nombre, 'mediatype': 'video'})
+        li.setProperty('IsPlayable', 'true')
+        li.addContextMenuItems(
+            _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, es_favorito=True)
+        )
+
+        ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
+        xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
+
+    xbmcplugin.endOfDirectory(HANDLE)
+
+
+# ---------------------------------------------------------------------------
 # Sección CANALES  → muestra las subcategorías
 # ---------------------------------------------------------------------------
 def show_canales():
@@ -209,6 +304,8 @@ def show_categoria(cat_nombre):
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
+    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
+
     for canal in canales:
         nombre       = canal.get('nombre', '')
         acestream_id = canal.get('acestream_id', '')
@@ -222,6 +319,9 @@ def show_categoria(cat_nombre):
         li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
         li.setInfo('video', {'title': label, 'genre': cat_nombre, 'mediatype': 'video'})
         li.setProperty('IsPlayable', 'true')
+        li.addContextMenuItems(
+            _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, acestream_id in fav_ids)
+        )
 
         ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
         xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
@@ -451,6 +551,8 @@ def show_buscar():
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
+    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
+
     for cat_nombre, canal in resultados:
         nombre       = canal.get('nombre', '')
         acestream_id = canal.get('acestream_id', '')
@@ -465,6 +567,9 @@ def show_buscar():
         li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
         li.setInfo('video', {'title': label, 'genre': cat_nombre, 'mediatype': 'video'})
         li.setProperty('IsPlayable', 'true')
+        li.addContextMenuItems(
+            _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, acestream_id in fav_ids)
+        )
 
         ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
         xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
@@ -504,6 +609,8 @@ def show_agenda():
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
+    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
+
     for ev in events:
         time_val    = ev['time']
         sport       = ev['sport']
@@ -520,6 +627,12 @@ def show_agenda():
             li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
             li.setInfo('video', {'title': event_name, 'plot': competition, 'mediatype': 'video'})
             li.setProperty('IsPlayable', 'true')
+            li.addContextMenuItems(
+                _context_menu_favorito(
+                    links[0]['id'], event_name, links[0]['id'][:4], 'AGENDA', 'Agenda',
+                    links[0]['id'] in fav_ids
+                )
+            )
             url_item = build_url({'mode': 'play', 'acestream_id': links[0]['id'], 'title': label})
             xbmcplugin.addDirectoryItem(HANDLE, url_item, li, False)
         else:
@@ -548,6 +661,8 @@ def show_event_links(links_json, title):
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
+    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
+
     for link in links:
         name   = link.get('name', 'Ver')
         ace_id = link.get('id', '')
@@ -556,6 +671,9 @@ def show_event_links(links_json, title):
         li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
         li.setInfo('video', {'title': title, 'mediatype': 'video'})
         li.setProperty('IsPlayable', 'true')
+        li.addContextMenuItems(
+            _context_menu_favorito(ace_id, name, ace_id[:4], 'AGENDA', title, ace_id in fav_ids)
+        )
         url_item = build_url({'mode': 'play', 'acestream_id': ace_id, 'title': title})
         xbmcplugin.addDirectoryItem(HANDLE, url_item, li, False)
 
@@ -586,6 +704,16 @@ def router():
         show_agenda()
     elif mode == 'buscar':
         show_buscar()
+    elif mode == 'favoritos':
+        show_favoritos()
+    elif mode == 'toggle_favorito':
+        toggle_favorito(
+            PARAMS.get('acestream_id', ''),
+            unquote_plus(PARAMS.get('nombre', '')),
+            PARAMS.get('short_id', ''),
+            unquote_plus(PARAMS.get('fuente', '')),
+            unquote_plus(PARAMS.get('cat_nombre', '')),
+        )
     elif mode == 'event_links':
         show_event_links(PARAMS.get('links', '[]'), PARAMS.get('title', ''))
     elif mode == 'play':
