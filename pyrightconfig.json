@@ -1,0 +1,4 @@
+{
+    "extraPaths": ["resources/lib"],
+    "reportMissingImports": false
+}

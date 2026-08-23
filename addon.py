@@ -440,7 +440,7 @@ def _parse_agenda_bs4(html):
 
         links = []
         for a in links_col.find_all('a'):
-            href = a.get('href', '')
+            href = str(a.get('href', '') or '')
             m = re.search(r'acestream://([a-f0-9]{40})', href)
             if m:
                 name = a.get_text(strip=True).replace('\u25b6', '').strip() or 'Ver'
