@@ -304,6 +304,8 @@ def show_categoria(cat_nombre):
         xbmcplugin.endOfDirectory(HANDLE)
         return
 
+    canales = sorted(canales, key=lambda c: c.get('nombre', '').upper())
+
     fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
 
     for canal in canales:
