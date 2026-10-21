@@ -17,6 +17,7 @@ files = [
     ('addon.xml',),
     ('resources/settings.xml',),
     ('resources/data/canales.json',),
+    ('resources/data/ezdakit.json',),
     ('resources/lib/horus_player.py',),
     ('resources/lib/acestream/__init__.py',),
     ('resources/lib/acestream/engine.py',),

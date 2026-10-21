@@ -118,6 +118,11 @@ def main_menu():
         description = 'Canales de televisión en directo'
     )
     add_menu_item(
+        label       = '[COLOR FF55CC55]Ezdakit[/COLOR]',
+        mode        = 'ezdakit',
+        description = 'Lista completa de Ezdakit (canales y eventos)'
+    )
+    add_menu_item(
         label       = '[COLOR FFFF7700]Buscar canal[/COLOR]',
         mode        = 'buscar',
         description = 'Busca en el buscador oficial de Acestream y en tu lista de canales'
@@ -132,31 +137,24 @@ def main_menu():
 
 
 # ---------------------------------------------------------------------------
-# Ruta del canales.json local empaquetado en el addon (copia de seguridad)
-_CANALES_LOCAL = os.path.join(ADDON_PATH, 'resources', 'data', 'canales.json')
-
-
+# Listas de canales empaquetadas en el addon (resources/data/<lista>.json)
 # ---------------------------------------------------------------------------
-# Cache en memoria para no descargar canales.json en cada apertura de carpeta
-# ---------------------------------------------------------------------------
-_canales_cache = None
+_listas_cache = {}
 
 
-def _get_categorias():
-    """Lee el canales.json empaquetado con el addon (sin conexión al repo). Usa caché."""
-    global _canales_cache
-    if _canales_cache is not None:
-        return _canales_cache
+def _get_categorias(lista='canales'):
+    """Lee la lista empaquetada con el addon (sin conexión al repo). Usa caché."""
+    if lista in _listas_cache:
+        return _listas_cache[lista]
 
+    ruta = os.path.join(ADDON_PATH, 'resources', 'data', '{}.json'.format(lista))
     try:
-        with open(_CANALES_LOCAL, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        cats = data.get('categorias', [])
-        if cats:
-            _canales_cache = cats
-            return cats
+        with open(ruta, 'r', encoding='utf-8') as f:
+            cats = json.load(f).get('categorias', [])
+        _listas_cache[lista] = cats
+        return cats
     except Exception as e:
-        log('Error leyendo canales.json local: {}'.format(str(e)), xbmc.LOGERROR)
+        log('Error leyendo {}.json local: {}'.format(lista, e), xbmc.LOGERROR)
     return []
 
 
@@ -252,11 +250,11 @@ def show_favoritos():
 # ---------------------------------------------------------------------------
 # Sección CANALES  → muestra las subcategorías
 # ---------------------------------------------------------------------------
-def show_canales():
-    xbmcplugin.setPluginCategory(HANDLE, 'Canales')
+def show_canales(lista='canales'):
+    xbmcplugin.setPluginCategory(HANDLE, 'Ezdakit' if lista == 'ezdakit' else 'Canales')
     xbmcplugin.setContent(HANDLE, 'files')
 
-    categorias = _get_categorias()
+    categorias = _get_categorias(lista)
     for cat in categorias:
         nombre = cat['nombre']
         total  = len(cat.get('canales', []))
@@ -265,7 +263,7 @@ def show_canales():
         li = xbmcgui.ListItem(label)
         li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
         li.setInfo('video', {'title': nombre})
-        url = build_url({'mode': 'categoria', 'cat': nombre})
+        url = build_url({'mode': 'categoria', 'cat': nombre, 'lista': lista})
         xbmcplugin.addDirectoryItem(HANDLE, url, li, True)
 
     xbmcplugin.endOfDirectory(HANDLE)
@@ -275,11 +273,11 @@ def show_canales():
 # Sección de CATEGORÍA  → muestra todos los enlaces de esa categoría
 # formato: "NOMBRE short_id --> FUENTE"  (igual que KodispainTV)
 # ---------------------------------------------------------------------------
-def show_categoria(cat_nombre):
+def show_categoria(cat_nombre, lista='canales'):
     xbmcplugin.setPluginCategory(HANDLE, cat_nombre)
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    categorias = _get_categorias()
+    categorias = _get_categorias(lista)
     canales = []
     for cat in categorias:
         if cat['nombre'].upper() == cat_nombre.upper():
@@ -616,7 +614,8 @@ def show_buscar():
 
     # 2) Lista propia (por nombre o por los 4 dígitos del short_id)
     propios = 0
-    for cat in _get_categorias():
+    categorias = _get_categorias('canales') + _get_categorias('ezdakit')
+    for cat in categorias:
         for canal in cat.get('canales', []):
             acestream_id = canal.get('acestream_id', '')
             short_id     = canal.get('short_id', acestream_id[:4])
@@ -625,6 +624,7 @@ def show_buscar():
                 continue
             if query not in short_id.lower() and query not in nombre.lower():
                 continue
+            mostrados.add(acestream_id)
             propios += 1
             fuente = canal.get('fuente', 'ELCANO')
             label  = '{} {} --> {}  [COLOR FF888888][{}][/COLOR]'.format(
@@ -771,8 +771,10 @@ def router():
         main_menu()
     elif mode == 'canales':
         show_canales()
+    elif mode == 'ezdakit':
+        show_canales('ezdakit')
     elif mode == 'categoria':
-        show_categoria(PARAMS.get('cat', ''))
+        show_categoria(PARAMS.get('cat', ''), PARAMS.get('lista', 'canales'))
     elif mode == 'agenda':
         show_agenda()
     elif mode == 'buscar':
