@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 build_data.py
-Descarga las listas del IPFS de shickat.me y genera:
+Descarga las listas de canales (GitHub, con IPFS de alternativa) y genera:
   - data/canales.json  → canales acestream organizados por categoría
   - data/agenda.json   → eventos deportivos del día
 """
@@ -39,6 +39,14 @@ def _ipns_urls(ipns_key, path):
 URLS_CANALES_KODI  = _ipns_urls(_IPNS_SHICKAT, "/data/listas/lista_kodi.m3u")
 # Fallback con formato acestream://
 URLS_CANALES_FUERA = _ipns_urls(_IPNS_SHICKAT, "/data/listas/lista_fuera_iptv.m3u")
+
+# Listas en GitHub (ezdakit/zukzeuk_listas): accesibles desde GitHub Actions, a diferencia
+# de las pasarelas IPFS públicas, que ahora bloquean ese contenido. (fuente, URL)
+_GH_LISTAS = "https://raw.githubusercontent.com/ezdakit/zukzeuk_listas/refs/heads/main"
+URLS_CANALES_GITHUB = [
+    ("ELCANO",   f"{_GH_LISTAS}/elcano.m3u"),
+    ("NEW ERA",  f"{_GH_LISTAS}/new_era.m3u"),
+]
 
 URL_AGENDA = (
     "https://raw.githubusercontent.com/ezdakit/zukzeuk_listas/refs/heads/main"
@@ -86,7 +94,7 @@ def inferir_fuente(nombre):
 # Devuelve lista de categorías con todos sus canales
 # ---------------------------------------------------------------------------
 
-def build_canales_from_m3u(text):
+def build_canales_from_m3u(text, fuente_fija=None):
     categorias = []
     cat_index = {}   # nombre_cat -> lista canales
 
@@ -110,7 +118,7 @@ def build_canales_from_m3u(text):
                         ace = re.search(r'acestream://([a-f0-9]{40})', url_line)
                     if ace:
                         ace_id = ace.group(1)
-                        fuente = inferir_fuente(nombre)
+                        fuente = fuente_fija or inferir_fuente(nombre)
                         if cat not in cat_index:
                             cat_index[cat] = []
                             categorias.append({"nombre": cat, "canales": cat_index[cat]})
@@ -239,21 +247,36 @@ def main():
     os.makedirs("data", exist_ok=True)
 
     # --- Canales ---
-    print("Descargando lista_kodi.m3u desde IPFS...")
-    texto_canales = fetch_any(URLS_CANALES_KODI, timeout=60)
-    if texto_canales:
-        categorias_nuevas, total = build_canales_from_m3u(texto_canales)
-        print(f"  lista_kodi.m3u: {total} canales en {len(categorias_nuevas)} categorías")
-    else:
-        print("  Fallback → lista_fuera_iptv.m3u...")
-        texto_canales = fetch_any(URLS_CANALES_FUERA, timeout=60)
+    categorias_nuevas = None
+
+    # 1) Listas en GitHub (fiables desde Actions)
+    print("Descargando listas de canales desde GitHub...")
+    desde_github = []
+    for fuente, url in URLS_CANALES_GITHUB:
+        texto = fetch(url, timeout=30)
+        if texto:
+            cats, total = build_canales_from_m3u(texto, fuente_fija=fuente)
+            print(f"  {fuente}: {total} canales en {len(cats)} categorías")
+            desde_github.append(cats)
+    if desde_github:
+        categorias_nuevas = []
+        for cats in desde_github:
+            categorias_nuevas, _ = merge_canales(categorias_nuevas, cats)
+
+    # 2) IPFS (los gateways públicos suelen bloquearlo; solo como alternativa)
+    if categorias_nuevas is None:
+        print("Descargando lista_kodi.m3u desde IPFS...")
+        texto_canales = fetch_any(URLS_CANALES_KODI, timeout=60)
+        if not texto_canales:
+            print("  Fallback → lista_fuera_iptv.m3u...")
+            texto_canales = fetch_any(URLS_CANALES_FUERA, timeout=60)
         if texto_canales:
             categorias_nuevas, total = build_canales_from_m3u(texto_canales)
-            print(f"  lista_fuera_iptv.m3u: {total} canales en {len(categorias_nuevas)} categorías")
+            print(f"  IPFS: {total} canales en {len(categorias_nuevas)} categorías")
         else:
             print("  ✗ No se pudo obtener ninguna lista de canales", file=sys.stderr)
-            categorias_nuevas = None
 
+    sin_fuentes = categorias_nuevas is None
     existentes = _load_canales_existentes()
     if categorias_nuevas is not None:
         categorias_finales, añadidos = merge_canales(existentes, categorias_nuevas)
@@ -288,6 +311,10 @@ def main():
         print("  WARN: No se encontraron eventos de agenda", file=sys.stderr)
         with open("data/agenda.json", "w", encoding="utf-8") as f:
             json.dump({"eventos": [], "total": 0}, f)
+
+    # Que el workflow se vea en rojo si ninguna fuente de canales respondió
+    if sin_fuentes:
+        sys.exit(2)
 
 
 if __name__ == "__main__":
