@@ -32,7 +32,7 @@ def _platform():
 # Punto de entrada público
 # ---------------------------------------------------------------------------
 
-def play(acestream_id, title='', port=6878, ace_path='', timeout=30):
+def play(acestream_id, title='', port=6878, ace_path='', timeout=30, es_infohash=False):
     """
     Reproduce un canal acestream de forma nativa y sin depedencias externas.
 
@@ -48,24 +48,25 @@ def play(acestream_id, title='', port=6878, ace_path='', timeout=30):
     port         : int   Puerto del Acestream Engine (por defecto 6878).
     ace_path     : str   Carpeta de instalación de Acestream en PC (opcional).
     timeout      : int   Segundos máximos de espera al engine / prebuffering.
+    es_infohash  : bool  True si el ID viene del buscador (infohash) y no es un content_id.
     """
     platform = _platform()
 
     if platform == 'android':
-        _play_android(acestream_id)
+        _play_android(acestream_id, es_infohash)
     else:
-        _play_desktop(acestream_id, title, int(port), ace_path, int(timeout))
+        _play_desktop(acestream_id, title, int(port), ace_path, int(timeout), es_infohash)
 
 
 # ---------------------------------------------------------------------------
 # Android
 # ---------------------------------------------------------------------------
 
-def _play_android(acestream_id):
+def _play_android(acestream_id, es_infohash=False):
     """Lanza la app Acestream de Android mediante StartAndroidActivity."""
     builtin = (
         'StartAndroidActivity("","org.acestream.action.start_content","",'
-        '"acestream:?content_id={}")'.format(acestream_id)
+        '"acestream:?{}={}")'.format('infohash' if es_infohash else 'content_id', acestream_id)
     )
     xbmc.log('[AcestreamPlayer] Android Intent: ' + builtin, xbmc.LOGDEBUG)
     xbmc.executebuiltin(builtin)
@@ -75,7 +76,7 @@ def _play_android(acestream_id):
 # PC (Windows / Linux)
 # ---------------------------------------------------------------------------
 
-def _play_desktop(acestream_id, title, port, ace_path, timeout):
+def _play_desktop(acestream_id, title, port, ace_path, timeout, es_infohash=False):
     from acestream.server import Server
     from acestream.stream import Stream
     from acestream.engine import Engine
@@ -126,7 +127,10 @@ def _play_desktop(acestream_id, title, port, ace_path, timeout):
 
     # --- Iniciar el stream ---
     try:
-        stream = Stream(server, id=acestream_id)
+        if es_infohash:
+            stream = Stream(server, infohash=acestream_id)
+        else:
+            stream = Stream(server, id=acestream_id)
         stream.start()
     except Exception as exc:
         xbmc.log('[AcestreamPlayer] Error iniciando stream: ' + str(exc), xbmc.LOGERROR)

@@ -7,8 +7,9 @@ import os
 import json
 import re
 import datetime
+import time
 
-from urllib.parse import urlencode, parse_qsl, unquote_plus, quote
+from urllib.parse import urlencode, parse_qsl, quote
 from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
 
@@ -48,11 +49,8 @@ def _get_setting(key, default=''):
 
 ACESTREAM_PORT   = _get_setting('acestream_port', '6878')
 ACESTREAM_PATH   = _get_setting('acestream_path', '')
-DATA_URL_CANALES = 'https://jlatorreaguilar.github.io/nada-que-ver/data/canales.json'
-DATA_URL_AGENDA  = 'https://jlatorreaguilar.github.io/nada-que-ver/data/agenda.json'
 
 AGENDA_URLS = [
-    'https://deportes-live.vercel.app/index.html',
     'https://ciriaco.netlify.app/',
     'https://eventos-eight-dun.vercel.app/',
     'https://uk.4everproxy.com/secure/KpUm_WoxDYiMMqOAdEZifdMMb0AJKLdAbBX9Yf65kU_CCoqpUvCnHfFaTVnwEkBz',
@@ -122,7 +120,7 @@ def main_menu():
     add_menu_item(
         label       = '[COLOR FFFF7700]Buscar canal[/COLOR]',
         mode        = 'buscar',
-        description = 'Busca un canal por sus 4 dígitos (ej: dda5)'
+        description = 'Busca en el buscador oficial de Acestream y en tu lista de canales'
     )
     add_menu_item(
         label       = '[COLOR FFFF00FF]Favoritos[/COLOR]',
@@ -145,24 +143,11 @@ _canales_cache = None
 
 
 def _get_categorias():
-    """Descarga canales.json y devuelve la lista de categorías. Usa caché."""
+    """Lee el canales.json empaquetado con el addon (sin conexión al repo). Usa caché."""
     global _canales_cache
     if _canales_cache is not None:
         return _canales_cache
 
-    data_text = fetch_url(DATA_URL_CANALES)
-    if data_text:
-        try:
-            data = json.loads(data_text)
-            cats = data.get('categorias', [])
-            if cats:
-                _canales_cache = cats
-                return cats
-        except (ValueError, KeyError) as e:
-            log('Error parsing canales.json: {}'.format(str(e)), xbmc.LOGERROR)
-
-    # Fallback: leer el canales.json local empaquetado con el addon
-    log('Descarga remota fallida, usando canales.json local', xbmc.LOGWARNING)
     try:
         with open(_CANALES_LOCAL, 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -256,8 +241,10 @@ def show_favoritos():
             _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, es_favorito=True)
         )
 
-        ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
-        xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
+        params = {'mode': 'play', 'acestream_id': acestream_id, 'title': label}
+        if fuente == 'ACESTREAM':
+            params['infohash'] = '1'
+        xbmcplugin.addDirectoryItem(HANDLE, build_url(params), li, False)
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -528,8 +515,64 @@ def _parse_agenda_regex(html):
 # ---------------------------------------------------------------------------
 # Sección BUSCAR
 # ---------------------------------------------------------------------------
+def _consulta_motor(query):
+    """Una consulta al motor local; devuelve el JSON o None si no responde."""
+    url = 'http://127.0.0.1:{}/search?{}'.format(
+        ACESTREAM_PORT, urlencode({'query': query, 'page_size': 50})
+    )
+    try:
+        resp = urlopen(Request(url, headers={'User-Agent': 'Mozilla/5.0'}), timeout=8)
+        data = json.loads(resp.read().decode('utf-8', errors='ignore'))
+        resp.close()
+        return data
+    except Exception as e:
+        log('Búsqueda fallida en {}: {}'.format(url, e))
+        return None
+
+
+def _arrancar_motor_android(query, espera=25):
+    """Abre la app Ace Stream para que arranque el motor y espera a que responda."""
+    for paquete in ('org.acestream.media.atv', 'org.acestream.media'):
+        xbmc.executebuiltin(
+            'StartAndroidActivity("{}","android.intent.action.MAIN","","")'.format(paquete)
+        )
+        dlg = xbmcgui.DialogProgress()
+        dlg.create('Acestream', 'Iniciando motor...')
+        fin = time.time() + espera / 2.0
+        data = None
+        while not dlg.iscanceled() and time.time() < fin:
+            dlg.update(int((1 - (fin - time.time()) / (espera / 2.0)) * 100), 'Esperando Ace Stream...')
+            xbmc.sleep(1000)
+            data = _consulta_motor(query)
+            if data is not None:
+                break
+        cancelado = dlg.iscanceled()
+        dlg.close()
+        if data is not None:
+            # La app de Ace Stream pasa a primer plano: devolver Kodi al frente
+            xbmc.executebuiltin('StartAndroidActivity("org.xbmc.kodi")')
+            return data
+        if cancelado:
+            break
+    return None
+
+
+def _buscar_en_motor(query):
+    """Busca en el índice oficial de Acestream a través del motor local (None si no responde)."""
+    data = _consulta_motor(query)
+    if data is None and xbmc.getCondVisibility('System.Platform.Android'):
+        data = _arrancar_motor_android(query)
+    if data is None:
+        return None
+    items = []
+    for grupo in data.get('result', {}).get('results', []):
+        items.extend(it for it in grupo.get('items', []) if it.get('infohash'))
+    items.sort(key=lambda i: i.get('availability') or 0, reverse=True)
+    return items
+
+
 def show_buscar():
-    query = xbmcgui.Dialog().input('Buscar canal (4 dígitos)', type=xbmcgui.INPUT_ALPHANUM)
+    query = xbmcgui.Dialog().input('Buscar canal (nombre o 4 dígitos)', type=xbmcgui.INPUT_ALPHANUM)
     if not query:
         xbmcplugin.endOfDirectory(HANDLE)
         return
@@ -538,43 +581,70 @@ def show_buscar():
     xbmcplugin.setPluginCategory(HANDLE, 'Buscar: {}'.format(query))
     xbmcplugin.setContent(HANDLE, 'videos')
 
-    categorias = _get_categorias()
-    resultados = []
-    for cat in categorias:
-        for canal in cat.get('canales', []):
-            short_id = canal.get('short_id', canal.get('acestream_id', '')[:4]).lower()
-            if query in short_id:
-                resultados.append((cat['nombre'], canal))
+    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
+    mostrados = set()
 
-    if not resultados:
+    # 1) Índice oficial de Acestream (solo texto; los 4 dígitos son de la lista propia)
+    remotos = []
+    if len(query) > 2:
+        remotos = _buscar_en_motor(query)
+        if remotos is None:
+            xbmcgui.Dialog().notification(
+                ADDON_NAME, 'Buscador de Acestream no disponible (abre Ace Stream y reintenta)', ICON, 4000
+            )
+            remotos = []
+
+    for it in remotos:
+        infohash = it['infohash']
+        mostrados.add(infohash)
+        nombre = it.get('name', infohash[:8])
+        disp   = int(round((it.get('availability') or 0) * 100))
+        color  = 'FF55CC55' if disp >= 80 else ('FFDDAA33' if disp >= 40 else 'FFCC5555')
+        label  = '{}  [COLOR {}][{}%][/COLOR]  [COLOR FF888888]{} kb/s[/COLOR]'.format(
+            nombre, color, disp, int((it.get('bitrate') or 0) / 1000)
+        )
+        li = xbmcgui.ListItem(label)
+        li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+        li.setInfo('video', {'title': nombre, 'mediatype': 'video'})
+        li.setProperty('IsPlayable', 'true')
+        li.addContextMenuItems(
+            _context_menu_favorito(infohash, nombre, infohash[:4], 'ACESTREAM', 'Búsqueda', infohash in fav_ids)
+        )
+        xbmcplugin.addDirectoryItem(
+            HANDLE, build_url({'mode': 'play', 'acestream_id': infohash, 'title': nombre, 'infohash': '1'}), li, False
+        )
+
+    # 2) Lista propia (por nombre o por los 4 dígitos del short_id)
+    propios = 0
+    for cat in _get_categorias():
+        for canal in cat.get('canales', []):
+            acestream_id = canal.get('acestream_id', '')
+            short_id     = canal.get('short_id', acestream_id[:4])
+            nombre       = canal.get('nombre', '')
+            if acestream_id in mostrados:
+                continue
+            if query not in short_id.lower() and query not in nombre.lower():
+                continue
+            propios += 1
+            fuente = canal.get('fuente', 'ELCANO')
+            label  = '{} {} --> {}  [COLOR FF888888][{}][/COLOR]'.format(
+                nombre, short_id, fuente, cat['nombre']
+            )
+            li = xbmcgui.ListItem(label)
+            li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
+            li.setInfo('video', {'title': label, 'genre': cat['nombre'], 'mediatype': 'video'})
+            li.setProperty('IsPlayable', 'true')
+            li.addContextMenuItems(
+                _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat['nombre'], acestream_id in fav_ids)
+            )
+            xbmcplugin.addDirectoryItem(
+                HANDLE, build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label}), li, False
+            )
+
+    if not remotos and not propios:
         xbmcgui.Dialog().notification(
             ADDON_NAME, 'No se encontró ningún canal con "{}"'.format(query), ICON, 3000
         )
-        xbmcplugin.endOfDirectory(HANDLE)
-        return
-
-    fav_ids = {f.get('acestream_id') for f in _load_favoritos()}
-
-    for cat_nombre, canal in resultados:
-        nombre       = canal.get('nombre', '')
-        acestream_id = canal.get('acestream_id', '')
-        short_id     = canal.get('short_id', acestream_id[:4] if acestream_id else '')
-        fuente       = canal.get('fuente', 'ELCANO')
-
-        label = '{} {} --> {}  [COLOR FF888888][{}][/COLOR]'.format(
-            nombre, short_id, fuente, cat_nombre
-        )
-
-        li = xbmcgui.ListItem(label)
-        li.setArt({'icon': ICON, 'thumb': ICON, 'fanart': FANART})
-        li.setInfo('video', {'title': label, 'genre': cat_nombre, 'mediatype': 'video'})
-        li.setProperty('IsPlayable', 'true')
-        li.addContextMenuItems(
-            _context_menu_favorito(acestream_id, nombre, short_id, fuente, cat_nombre, acestream_id in fav_ids)
-        )
-
-        ace_url = build_url({'mode': 'play', 'acestream_id': acestream_id, 'title': label})
-        xbmcplugin.addDirectoryItem(HANDLE, ace_url, li, False)
 
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -685,9 +755,10 @@ def show_event_links(links_json, title):
 # ---------------------------------------------------------------------------
 # Reproducción vía Acestream — delegado en horus_player embebido
 # ---------------------------------------------------------------------------
-def play_acestream(acestream_id, title=''):
+def play_acestream(acestream_id, title='', es_infohash=False):
     from horus_player import play
-    play(acestream_id, title=title, port=int(ACESTREAM_PORT), ace_path=ACESTREAM_PATH)
+    play(acestream_id, title=title, port=int(ACESTREAM_PORT), ace_path=ACESTREAM_PATH,
+         es_infohash=es_infohash)
 
 
 # ---------------------------------------------------------------------------
@@ -711,18 +782,18 @@ def router():
     elif mode == 'toggle_favorito':
         toggle_favorito(
             PARAMS.get('acestream_id', ''),
-            unquote_plus(PARAMS.get('nombre', '')),
+            PARAMS.get('nombre', ''),
             PARAMS.get('short_id', ''),
-            unquote_plus(PARAMS.get('fuente', '')),
-            unquote_plus(PARAMS.get('cat_nombre', '')),
+            PARAMS.get('fuente', ''),
+            PARAMS.get('cat_nombre', ''),
         )
     elif mode == 'event_links':
         show_event_links(PARAMS.get('links', '[]'), PARAMS.get('title', ''))
     elif mode == 'play':
         acestream_id = PARAMS.get('acestream_id', '')
-        title        = unquote_plus(PARAMS.get('title', ''))
+        title        = PARAMS.get('title', '')
         if acestream_id:
-            play_acestream(acestream_id, title)
+            play_acestream(acestream_id, title, PARAMS.get('infohash') == '1')
         else:
             xbmcgui.Dialog().notification(ADDON_NAME, 'ID de Acestream no válido', ICON, 4000)
     else:
