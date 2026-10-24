@@ -523,7 +523,7 @@ def _consulta_motor(query):
         return None
 
 
-def _arrancar_motor_android(query, espera=60):
+def _arrancar_motor_android(query, espera=90):
     """Abre la app Ace Stream para que arranque el motor y espera a que responda."""
     # Solo se abre la variante instalada; las demás fallan sin mostrar nada
     for paquete in ('org.acestream.node', 'org.acestream.media.atv', 'org.acestream.media'):
