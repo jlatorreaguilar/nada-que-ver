@@ -48,9 +48,6 @@ URLS_CANALES_GITHUB = [
     ("NEW ERA",  f"{_GH_LISTAS}/new_era.m3u"),
 ]
 
-# Lista completa de Ezdakit: sección aparte (data/ezdakit.json), se reemplaza entera
-URL_EZDAKIT = f"{_GH_LISTAS}/ezdakit.m3u"
-
 URL_AGENDA = (
     "https://raw.githubusercontent.com/ezdakit/zukzeuk_listas/refs/heads/main"
     "/zz_eventos/zz_eventos_all_ott.m3u"
@@ -296,20 +293,6 @@ def main():
     with open("data/canales.json", "w", encoding="utf-8") as f:
         json.dump({"categorias": categorias_finales}, f, ensure_ascii=False, indent=2)
     print(f"  ✓ {total_final} canales en {len(categorias_finales)} categorías → data/canales.json")
-
-    # --- Ezdakit (sección aparte, lista completa) ---
-    print("Descargando lista de Ezdakit...")
-    texto_ez = fetch(URL_EZDAKIT, timeout=30)
-    if texto_ez:
-        cats_ez, total_ez = build_canales_from_m3u(texto_ez, fuente_fija="EZDAKIT")
-        if total_ez:
-            with open("data/ezdakit.json", "w", encoding="utf-8") as f:
-                json.dump({"categorias": cats_ez}, f, ensure_ascii=False, indent=2)
-            print(f"  ✓ {total_ez} canales en {len(cats_ez)} categorías → data/ezdakit.json")
-        else:
-            print("  WARN: lista de Ezdakit sin canales, se conserva la anterior", file=sys.stderr)
-    else:
-        print("  WARN: no se pudo descargar Ezdakit, se conserva la anterior", file=sys.stderr)
 
     # --- Agenda ---
     print("Descargando agenda de eventos...")

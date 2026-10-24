@@ -118,11 +118,6 @@ def main_menu():
         description = 'Canales de televisión en directo'
     )
     add_menu_item(
-        label       = '[COLOR FF55CC55]Ezdakit[/COLOR]',
-        mode        = 'ezdakit',
-        description = 'Lista completa de Ezdakit (canales y eventos)'
-    )
-    add_menu_item(
         label       = '[COLOR FFFF7700]Buscar canal[/COLOR]',
         mode        = 'buscar',
         description = 'Busca en el buscador oficial de Acestream y en tu lista de canales'
@@ -251,7 +246,7 @@ def show_favoritos():
 # Sección CANALES  → muestra las subcategorías
 # ---------------------------------------------------------------------------
 def show_canales(lista='canales'):
-    xbmcplugin.setPluginCategory(HANDLE, 'Ezdakit' if lista == 'ezdakit' else 'Canales')
+    xbmcplugin.setPluginCategory(HANDLE, 'Canales')
     xbmcplugin.setContent(HANDLE, 'files')
 
     categorias = _get_categorias(lista)
@@ -528,31 +523,31 @@ def _consulta_motor(query):
         return None
 
 
-def _arrancar_motor_android(query, espera=25):
+def _arrancar_motor_android(query, espera=60):
     """Abre la app Ace Stream para que arranque el motor y espera a que responda."""
-    for paquete in ('org.acestream.media.atv', 'org.acestream.media'):
+    # Solo se abre la variante instalada; las demás fallan sin mostrar nada
+    for paquete in ('org.acestream.node', 'org.acestream.media.atv', 'org.acestream.media'):
         xbmc.executebuiltin(
             'StartAndroidActivity("{}","android.intent.action.MAIN","","")'.format(paquete)
         )
-        dlg = xbmcgui.DialogProgress()
-        dlg.create('Acestream', 'Iniciando motor...')
-        fin = time.time() + espera / 2.0
-        data = None
-        while not dlg.iscanceled() and time.time() < fin:
-            dlg.update(int((1 - (fin - time.time()) / (espera / 2.0)) * 100), 'Esperando Ace Stream...')
-            xbmc.sleep(1000)
-            data = _consulta_motor(query)
-            if data is not None:
-                break
-        cancelado = dlg.iscanceled()
-        dlg.close()
+    # Volver a Kodi enseguida: Android 12 solo deja a Kodi recuperar el primer plano
+    # unos segundos después de abrir otra app. El motor sigue arrancando por debajo
+    # (en frío tarda ~40 s).
+    xbmc.sleep(2000)
+    xbmc.executebuiltin('StartAndroidActivity("org.xbmc.kodi")')
+
+    dlg = xbmcgui.DialogProgress()
+    dlg.create('Acestream', 'Iniciando motor...')
+    fin = time.time() + espera
+    data = None
+    while not dlg.iscanceled() and time.time() < fin:
+        dlg.update(int((1 - (fin - time.time()) / espera) * 100), 'Esperando Ace Stream...')
+        xbmc.sleep(1000)
+        data = _consulta_motor(query)
         if data is not None:
-            # La app de Ace Stream pasa a primer plano: devolver Kodi al frente
-            xbmc.executebuiltin('StartAndroidActivity("org.xbmc.kodi")')
-            return data
-        if cancelado:
             break
-    return None
+    dlg.close()
+    return data
 
 
 def _buscar_en_motor(query):
@@ -614,7 +609,7 @@ def show_buscar():
 
     # 2) Lista propia (por nombre o por los 4 dígitos del short_id)
     propios = 0
-    categorias = _get_categorias('canales') + _get_categorias('ezdakit')
+    categorias = _get_categorias('canales')
     for cat in categorias:
         for canal in cat.get('canales', []):
             acestream_id = canal.get('acestream_id', '')
@@ -771,8 +766,6 @@ def router():
         main_menu()
     elif mode == 'canales':
         show_canales()
-    elif mode == 'ezdakit':
-        show_canales('ezdakit')
     elif mode == 'categoria':
         show_categoria(PARAMS.get('cat', ''), PARAMS.get('lista', 'canales'))
     elif mode == 'agenda':
